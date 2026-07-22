@@ -7,13 +7,15 @@ lognormal / Gaussian / Poisson / geometric. The lognormal and Gaussian continuou
 are discretized via  P(W=k)=F(k+0.5)-F(k-0.5), conditioned on W>=threshold. Without this the
 cross-family numbers are on different measures and meaningless (reviewer P1 #4).
 
-FOLD (PROVISIONAL -- pending the Gate A-1 feasibility probe): the current fold removes test
-edges before fitting (so the partition is leak-free) and scores only their conditional weight.
-That is neither the plan's "pure weight prediction" (which keeps adjacency, masks only the
-weight) nor the "joint edge prediction" fallback (which also scores edge existence with
-non-edge sampling + importance weighting). Which of those we implement is decided by the A-1
-probe (can graph-tool mask a weight without leaking it?). Until then, treat the fold's output
-as a leak-freedom / plumbing check, NOT as an E2b model-selection result.
+FOLD (RESOLVED by the Gate A-1 probe, probe_a1.py): graph-tool 3.0 has NO per-edge covariate
+mask, and leaving a held-out weight in the property map leaks into the partition whenever
+weights matter (probe: ARI 0.34 between fits under true vs corrupted held-out weights, on a
+weight-defined graph). So "pure weight prediction" (keep adjacency, mask only the weight) is
+not achievable leak-free. The fold therefore REMOVES held-out edges before fitting (leak-free:
+probe ARI 1.0) and scores their weights from TRAIN-only block-pair params. This is
+"edge-removed held-out weight prediction": it also hides test-edge adjacency, but that confound
+is COMMON to every weight model, so the RELATIVE weight-model comparison (E2b) stays fair. It
+targets weight prediction -- what distinguishes the likelihoods -- not edge existence.
 """
 import numpy as np
 from scipy.stats import norm, poisson, geom
@@ -94,7 +96,8 @@ def predictive_logscore(state, node_ids, pre, post, weight, test_idx, train_mask
 
 def run_fold(pre, post, weight, directed, model, threshold, test_frac=0.1, seed=0,
              fit_seconds=1800, nested=True):
-    """One provisional leak-free fold end-to-end (plumbing/leak check, not an E2b result)."""
+    """One leak-free edge-removed held-out weight-prediction fold, end-to-end (the fold
+    resolved by the A-1 probe; valid for relative weight-model comparison in E2b)."""
     train_mask, test_idx = split_edges(len(weight), test_frac, seed)
     g_tr, node_ids, _ = train_graph(pre, post, weight, train_mask, directed)
     assert g_tr.num_edges() == int(train_mask.sum()), "train graph leaked held-out edges"
