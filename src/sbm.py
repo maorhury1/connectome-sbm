@@ -11,11 +11,12 @@ import numpy as np
 from graph import finest_blocks
 
 WEIGHT_MODELS = {
-    "lognormal":  ("logw", "real-normal"),
-    "gaussian":   ("w",    "real-normal"),
-    "poisson":    ("w",    "discrete-poisson"),
-    "geometric":  ("w",    "discrete-geometric"),
-    "unweighted": (None,   None),
+    "lognormal":   ("logw", "real-normal"),
+    "gaussian":    ("w",    "real-normal"),
+    "poisson":     ("w",    "discrete-poisson"),
+    "geometric":   ("w",    "discrete-geometric"),
+    "exponential": ("w",    "real-exponential"),
+    "unweighted":  (None,   None),
 }
 
 
