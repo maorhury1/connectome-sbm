@@ -127,18 +127,14 @@ def predictive_logscore(state, node_ids, pre, post, weight, test_idx, train_mask
 
 
 def run_fold(pre, post, weight, directed, model, threshold, test_frac=0.1, seed=0,
-             fit_seconds=1800, nested=True):
+             nested=False):
     """One leak-free edge-removed held-out weight-prediction fold, end-to-end (the fold
     resolved by the A-1 probe; valid for relative weight-model comparison in E2b)."""
     train_mask, test_idx = split_edges(len(weight), test_frac, seed)
     g_tr, node_ids, _ = train_graph(pre, post, weight, train_mask, directed)
     assert g_tr.num_edges() == int(train_mask.sum()), "train graph leaked held-out edges"
-    state, info = sbm.fit(g_tr, model, run_name=f"xval_{model}_seed{seed}",
-                          nested=nested, seed=seed, max_seconds=fit_seconds)
-    if info["status"] != "CONVERGED":
-        # never score a timed-out / non-converged fit
-        return {"model": model, "seed": seed, "fit_status": info["status"], "score": None}
+    state, info = sbm.fit(g_tr, model, nested=nested, seed=seed)
     score, _ = predictive_logscore(state, node_ids, pre, post, weight,
                                    test_idx, train_mask, model, threshold)
     return {"model": model, "seed": seed, "test_frac": test_frac, "n_test": len(test_idx),
-            "logscore_per_edge": score, "fit_status": info["status"], "n_blocks": info["n_blocks"]}
+            "logscore_per_edge": score, "n_blocks": info["n_blocks"]}

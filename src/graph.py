@@ -3,7 +3,6 @@ Build a graph-tool graph from edge arrays, with raw-weight and log-weight edge
 properties. Keeps an explicit neuron-id <-> vertex-index mapping (needed to align
 partitions with labels) and a cheap content checksum (for checkpoint validation).
 """
-import hashlib
 import numpy as np
 import graph_tool.all as gt
 
@@ -46,10 +45,3 @@ def finest_blocks(state):
     return all_blocks(state)[0]
 
 
-def graph_checksum(g):
-    """Cheap order-invariant checksum of (structure + weights) for checkpoint validation."""
-    h = hashlib.sha1()
-    h.update(np.asarray(g.get_edges()).tobytes())
-    h.update(np.asarray(g.ep["w"].a).tobytes())
-    h.update(str(g.is_directed()).encode())
-    return h.hexdigest()[:16]
