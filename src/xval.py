@@ -19,6 +19,7 @@ targets weight prediction -- what distinguishes the likelihoods -- not edge exis
 """
 import numpy as np
 from scipy.stats import norm, poisson, geom
+from scipy.optimize import minimize, minimize_scalar
 import graph as G
 import sbm
 
@@ -38,35 +39,66 @@ def train_graph(pre, post, weight, train_mask, directed):
 
 
 # ---- common-support scorer ---------------------------------------------------
-def _fit_params(model, w_train):
+# Weights are observed only for W>=threshold, so parameters must be fit by TRUNCATED MLE
+# (maximizing the same truncated likelihood used for scoring); fitting on the truncated sample
+# as if untruncated biases each family differently and corrupts the comparison. Tail
+# probabilities are computed on the numerically stable side (CDF vs survival) with a
+# log-difference, so deep-tail weights get their true tiny score instead of an artificial floor.
+def _fit_params(model, w_train, threshold):
     x = np.asarray(w_train, dtype=float)
-    if model == "lognormal":
-        lx = np.log(x); return {"mu": lx.mean(), "sigma": max(lx.std(ddof=0), 1e-6)}
-    if model == "gaussian":
-        return {"mu": x.mean(), "sigma": max(x.std(ddof=0), 1e-6)}
-    if model == "poisson":
-        return {"lam": max(x.mean(), 1e-9)}
-    if model == "geometric":                       # support k>=1
-        return {"p": min(max(1.0 / max(x.mean(), 1.0), 1e-6), 1 - 1e-6)}
-    raise ValueError(model)
+    if model == "geometric":            # k>=1 geometric truncated at k>=t -> closed form
+        p = 1.0 / max(x.mean() - threshold + 1.0, 1.0)
+        return {"p": float(min(max(p, 1e-6), 1 - 1e-6))}
+    if model == "poisson":              # 1-D bounded truncated MLE
+        def nll(lam):
+            lam = max(lam, 1e-9)
+            return -(poisson.logpmf(x, lam).sum() - len(x) * poisson.logsf(threshold - 1, lam))
+        r = minimize_scalar(nll, bounds=(1e-3, max(x.max(), 3 * x.mean()) + 1.0), method="bounded")
+        return {"lam": float(max(r.x, 1e-9))}
+    # lognormal / gaussian: 2-D truncated-normal MLE, init at moments, log-sigma keeps sigma>0
+    y = np.log(x) if model == "lognormal" else x
+    c = np.log(threshold - 0.5) if model == "lognormal" else (threshold - 0.5)
+    mu0, s0 = float(y.mean()), float(max(y.std(ddof=0), 1e-3))
+    def nll(th):
+        mu, s = th[0], np.exp(th[1])
+        return -(np.sum(norm.logpdf(y, mu, s)) - len(y) * norm.logsf((c - mu) / s))
+    try:
+        r = minimize(nll, [mu0, np.log(s0)], method="Nelder-Mead",
+                     options=dict(maxiter=300, xatol=1e-3, fatol=1e-2))
+        mu, s = float(r.x[0]), float(np.exp(r.x[1]))
+        if not (np.isfinite(mu) and np.isfinite(s) and s > 1e-6):
+            mu, s = mu0, s0                          # fall back to moments if the optimizer misbehaves
+    except Exception:
+        mu, s = mu0, s0
+    return {"mu": mu, "sigma": max(s, 1e-6)}
+
+
+def _logdiff(a, b):
+    """log(exp(a) - exp(b)) for a >= b, numerically stable."""
+    return a + np.log(-np.expm1(b - a))
 
 
 def _log_trunc_pmf(model, k, p, threshold):
-    """log P(W=k) - log P(W>=threshold), integer support, common across families."""
+    """log P(W=k) - log P(W>=threshold): common integer support, stable in both tails."""
     if model in ("lognormal", "gaussian"):
+        mu, s = p["mu"], p["sigma"]
         if model == "lognormal":
-            z = lambda x: norm.cdf((np.log(x) - p["mu"]) / p["sigma"])
+            lo, hi, mid, c = np.log(k - 0.5), np.log(k + 0.5), np.log(k), np.log(threshold - 0.5)
         else:
-            z = lambda x: norm.cdf((x - p["mu"]) / p["sigma"])
-        pk = z(k + 0.5) - z(k - 0.5)
-        tail = 1.0 - z(threshold - 0.5)
+            lo, hi, mid, c = k - 0.5, k + 0.5, float(k), threshold - 0.5
+        zlo, zhi, zmid = (lo - mu) / s, (hi - mu) / s, (mid - mu) / s
+        if zmid <= 0:                                # lower tail: CDF side is stable
+            log_pk = _logdiff(norm.logcdf(zhi), norm.logcdf(zlo))
+        else:                                        # upper tail: F(hi)-F(lo) = sf(lo)-sf(hi)
+            log_pk = _logdiff(norm.logsf(zlo), norm.logsf(zhi))
+        log_tail = norm.logsf((c - mu) / s)
     elif model == "poisson":
-        pk = poisson.pmf(k, p["lam"]); tail = poisson.sf(threshold - 1, p["lam"])
+        log_pk = poisson.logpmf(k, p["lam"]); log_tail = poisson.logsf(threshold - 1, p["lam"])
     elif model == "geometric":
-        pk = geom.pmf(k, p["p"]); tail = geom.sf(threshold - 1, p["p"])
+        log_pk = geom.logpmf(k, p["p"]); log_tail = geom.logsf(threshold - 1, p["p"])
     else:
         raise ValueError(model)
-    return float(np.log(max(pk, 1e-300)) - np.log(max(tail, 1e-300)))
+    return float(log_pk - log_tail)
 
 
 def predictive_logscore(state, node_ids, pre, post, weight, test_idx, train_mask,
@@ -83,8 +115,8 @@ def predictive_logscore(state, node_ids, pre, post, weight, test_idx, train_mask
         a, b = blk.get(int(pre[i])), blk.get(int(post[i]))
         if a is not None and b is not None:
             pair_w[(a, b)].append(w[i])
-    global_p = _fit_params(model, w[train_mask])
-    pair_p = {k: _fit_params(model, v) for k, v in pair_w.items() if len(v) >= 5}
+    global_p = _fit_params(model, w[train_mask], threshold)
+    pair_p = {k: _fit_params(model, v, threshold) for k, v in pair_w.items() if len(v) >= 5}
 
     scores = []
     for i in test_idx:

@@ -12,7 +12,7 @@ def check(name, cond):
 print("== #4 scorer: common truncated-discrete support, comparable across families ==")
 w_train = np.array([1,1,2,2,3,5,8,13,21,34], float)
 for model in ["lognormal","gaussian","poisson","geometric"]:
-    p = xval._fit_params(model, w_train)
+    p = xval._fit_params(model, w_train, 1)
     vals = [xval._log_trunc_pmf(model, k, p, threshold=1) for k in [1,2,5,20]]
     check(f"{model}: finite log-pmf on integer support", all(np.isfinite(vals)) and all(v<=0 for v in vals))
 

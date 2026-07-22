@@ -31,7 +31,17 @@ into the partition whenever weights matter. Fold = **edge-removed held-out weigh
 (leak-free; the removed-adjacency confound is common to all weight models, so relative
 weight-model selection in E2b stays fair). This is what `xval.py` implements.
 
+### Scorer correctness (two further issues raised on xval.py; both fixed)
+- Truncation-inconsistent fitting: params now fit by **truncated MLE** (consistent with the
+  truncated scoring). Verified recovery on synthetic truncated data (e.g. lognormal mu 2.01 vs
+  true 2.0 where the naive fit gives biased 2.22); geometric closed-form, Poisson 1-D,
+  lognormal/Gaussian 2-D Nelder-Mead with moment init + fallback.
+- Unstable tail probabilities: discretized pmf now computed on the stable CDF/survival side via
+  a log-difference; deep-tail example goes from the artificial -691 floor to the true -108.
+- `verify_scorer.py` (all pass) + `smoke_test.py` (all pass).
+
 ### Status
-All 5 reviewer P1s resolved (4 fixed + #3 decided by A-1). Remaining Gate A item: **A-2**
+All 5 reviewer P1s resolved (4 fixed + #3 decided by A-1); scorer truncation + tail-stability
+also fixed. Remaining Gate A item: **A-2**
 (profile one full-brain nested fit for time/memory + confirm observability/interruptibility on
 the real path) — the first connectome run. Not yet run.
