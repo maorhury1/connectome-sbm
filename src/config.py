@@ -8,8 +8,8 @@ LOCAL disk. Only code and small human-readable results live in the repo (REPO_DI
 """
 from pathlib import Path
 
-# --- environment (graph-tool 3.0 lives on local disk; see README) ---
-ENV_PYTHON = "/var/tmp/gt3/bin/python"
+# --- environment: graph-tool 2.98 (proven on this workload; 3.0/3.1 crash/NaN for us) ---
+ENV_PYTHON = "/home/gamir/maorhury/miniconda3/envs/env_C/bin/python"
 
 # --- inputs: FlyWire codex_2025 ---
 DATA_DIR = Path("/home/gamir/maorhury/Projects/Research_Project_2026/Data/network/codex_2025")

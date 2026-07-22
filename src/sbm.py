@@ -1,7 +1,8 @@
 """
-Degree-corrected SBM inference using graph-tool's OWN minimizer. No homemade search.
+Degree-corrected SBM inference using graph-tool's OWN minimizer (graph-tool 2.98). No
+homemade search.
 
-Weight likelihoods via WeightedBlockState(rec=[prop], rec_types=[name]):
+Weight likelihoods are edge covariates passed as recs on BlockState (the 2.x API):
   lognormal = real-normal on log-weights ; gaussian = real-normal on raw weights ;
   poisson / geometric = discrete on raw weights.
 """
@@ -25,13 +26,11 @@ def fit(g, model, nested=False, deg_corr=True, seed=0):
     prop_name, rec_type = WEIGHT_MODELS[model]
     sargs = dict(deg_corr=deg_corr)
     if prop_name is not None:
-        sargs.update(rec=[g.ep[prop_name]], rec_types=[rec_type])
+        sargs.update(recs=[g.ep[prop_name]], rec_types=[rec_type])
     if nested:
-        state = gt.minimize_nested_blockmodel_dl(
-            g, base_state=gt.WeightedBlockState, base_state_args=sargs)
+        state = gt.minimize_nested_blockmodel_dl(g, state_args=sargs)
     else:
-        state = gt.minimize_blockmodel_dl(
-            g, state=gt.WeightedBlockState, state_args=sargs)
+        state = gt.minimize_blockmodel_dl(g, state=gt.BlockState, state_args=sargs)
     info = dict(model=model, nested=nested, deg_corr=deg_corr, seed=seed,
                 entropy=float(state.entropy()),
                 n_blocks=int(len(np.unique(finest_blocks(state)))))
