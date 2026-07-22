@@ -22,12 +22,13 @@ class Timeout(Exception):
 
 
 class Monitor:
-    def __init__(self, run_name, seed, max_seconds, checkpoint_s=600, heartbeat_s=15,
-                 conv_window=10, conv_entropy_tol=1e-4, conv_accept_tol=1e-3):
+    def __init__(self, run_name, seed, max_seconds, model_config=None, checkpoint_s=600,
+                 heartbeat_s=15, conv_window=10, conv_entropy_tol=1e-4, conv_accept_tol=1e-3):
         self.dir = config.RUNS_DIR / run_name
         self.dir.mkdir(parents=True, exist_ok=True)
         self.progress = self.dir / "progress.jsonl"
         self.state_path = self.dir / "state.pkl"
+        self.model_config = model_config or {}   # {model, nested, deg_corr, ...} -> enables resume
         self.seed = seed
         self.max_seconds = max_seconds
         self.checkpoint_s = checkpoint_s
@@ -74,11 +75,14 @@ class Monitor:
         from graph import graph_checksum
         payload = {
             "graph_checksum": graph_checksum(state.g),
-            "blocks": _blocks(state),
+            "model_config": self.model_config,     # needed to rebuild the state on resume
+            "blocks": _blocks(state),               # per-level partition; params are derived from it
             "entropy": float(S),
             "seed": self.seed,
             "iter": self._iter,
             "elapsed_s": time.time() - self.t0,
+            # numpy/python RNG only; graph-tool has no get/set-rng-state, so resume is
+            # "continue from partition", NOT bit-identical continuation.
             "rng": {"numpy": np.random.get_state(), "python": random.getstate()},
         }
         tmp = self.state_path.with_suffix(".pkl.tmp")
@@ -105,14 +109,48 @@ class Monitor:
 
 
 def _blocks(state):
-    if hasattr(state, "get_bs"):        # NestedBlockState
-        return [np.asarray(b.a).copy() for b in state.get_bs()]
-    return np.asarray(state.get_blocks().a).copy()
+    from graph import all_blocks           # robust to gt3's mixed PropertyArray/VertexPropertyMap
+    return all_blocks(state)
 
 
 def _nblocks(state):
-    b = _blocks(state)
-    return int(len(np.unique(b[0] if isinstance(b, list) else b)))
+    from graph import finest_blocks
+    return int(len(np.unique(finest_blocks(state))))
+
+
+def load_checkpoint(run_name):
+    """Load a run's last atomic checkpoint (or None). Used by sbm.fit(resume=True)."""
+    p = config.RUNS_DIR / run_name / "state.pkl"
+    if not p.exists():
+        return None
+    with open(p, "rb") as f:
+        return pickle.load(f)
+
+
+def run_supervised(argv, hard_timeout, grace=20):
+    """
+    External watchdog (fix for the "stuck mid-sweep" failure): run `argv` as a child
+    process and enforce a wall-clock cap the in-process loop cannot. On breach, SIGTERM
+    (let it checkpoint) then, after `grace`, SIGKILL. The child checkpoints periodically,
+    so a kill loses at most one checkpoint interval, not the whole run.
+    Returns {"returncode", "killed", "elapsed_s"}.
+    """
+    import subprocess
+    import signal
+    t0 = time.time()
+    proc = subprocess.Popen(argv)
+    killed = False
+    try:
+        proc.wait(timeout=hard_timeout)
+    except subprocess.TimeoutExpired:
+        killed = True
+        proc.send_signal(signal.SIGTERM)          # graceful: child can checkpoint + mark TIMED_OUT
+        try:
+            proc.wait(timeout=grace)
+        except subprocess.TimeoutExpired:
+            proc.kill()                            # hard: works even during a hung C++ sweep
+            proc.wait()
+    return {"returncode": proc.returncode, "killed": killed, "elapsed_s": round(time.time() - t0, 1)}
 
 
 def status():

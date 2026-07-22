@@ -28,6 +28,24 @@ def build_graph(pre, post, weight, directed=True):
     return g, node_ids, idx_of
 
 
+def _arr(b):
+    """Normalize a block container to a numpy array. graph-tool 3.0's get_bs() returns a
+    MIX of VertexPropertyMap (has .a) and PropertyArray (no .a), so we must handle both."""
+    return np.asarray(b.a if hasattr(b, "a") else b)
+
+
+def all_blocks(state):
+    """Per-level block arrays for a NestedBlockState, or a 1-element list for a flat state."""
+    if hasattr(state, "get_bs"):
+        return [_arr(b).copy() for b in state.get_bs()]
+    return [_arr(state.get_blocks()).copy()]
+
+
+def finest_blocks(state):
+    """The finest-level (per-vertex) block assignment as a numpy array."""
+    return all_blocks(state)[0]
+
+
 def graph_checksum(g):
     """Cheap order-invariant checksum of (structure + weights) for checkpoint validation."""
     h = hashlib.sha1()
