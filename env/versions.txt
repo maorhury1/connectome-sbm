@@ -1,0 +1,9 @@
+graph-tool: 3.0 (commit 1a3c1a29, Thu Jul 16 10:43:13 2026 +0200)
+python    : 3.14.6
+openmp    : True threads: 80
+numpy     : 2.5.1
+scipy     : 1.18.0
+pandas    : 3.0.3
+sklearn   : 1.9.0
+pyarrow   : 25.0.0
+env_prefix: /var/tmp/gt3

@@ -1,0 +1,6 @@
+__pycache__/
+*.pyc
+*.pkl
+*.tmp
+.DS_Store
+# heavy run outputs live on local disk (/var/tmp/csbm_work), not in the repo

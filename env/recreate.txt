@@ -1,0 +1,1 @@
+recreate: conda create -p /var/tmp/gt3 -c conda-forge "graph-tool>=3" pandas scikit-learn pyarrow tqdm -y
