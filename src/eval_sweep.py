@@ -137,9 +137,12 @@ def main():
     def ms(cfg, col, nd=3):                                     # "mean±std" over seeds
         return f"{gm.loc[cfg, col]:.{nd}f}±{gsd.loc[cfg, col]:.{nd}f}"
 
+    def mdl_ms(cfg):                                            # MDL in millions of nats, ±std
+        return f"{gm.loc[cfg, 'mdl']/1e6:.2f}±{gsd.loc[cfg, 'mdl']/1e6:.2f}"
+
     vlevels = [f"v_{l}" for l in levels]
     header = ["model", "dir", "dc", "blocks"] + [f"V:{l}" for l in levels] \
-        + ["homog", "compl", "AMI", "stability", "MDL"]
+        + ["homog", "compl", "AMI", "stability", "MDL(M nats)"]
     disp_rows = []
     for r in agg.itertuples(index=False):
         cfg = (r.model, r.dir, r.dc)
@@ -147,7 +150,7 @@ def main():
                          + [ms(cfg, v) for v in vlevels]
                          + [ms(cfg, "h_primary_type"), ms(cfg, "c_primary_type"),
                             ms(cfg, "ami_primary_type"), f"{r.stability_ami:.3f}",
-                            f"{gm.loc[cfg, 'mdl']:.2e}"])
+                            mdl_ms(cfg)])
     disp = pd.DataFrame(disp_rows, columns=header)
 
     # ---- console ----
