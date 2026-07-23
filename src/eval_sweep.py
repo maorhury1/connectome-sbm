@@ -49,48 +49,62 @@ def score_fit(run_dir, lab, levels):
         b = s.to_numpy()[keep]
         h, c, v = homogeneity_completeness_v_measure(yt, b)
         out[f"h_{lvl}"], out[f"c_{lvl}"], out[f"v_{lvl}"] = h, c, v
-        out[f"ami_{lvl}"] = adjusted_mutual_info_score(yt, b)
-        out[f"ari_{lvl}"] = adjusted_rand_score(yt, b)
+        if lvl == "primary_type":                       # AMI/ARI only where reported (speed)
+            out[f"ami_{lvl}"] = adjusted_mutual_info_score(yt, b)
+            out[f"ari_{lvl}"] = adjusted_rand_score(yt, b)
     import json
     out.update(json.loads((run_dir / "summary.json").read_text())["config"])
     out["mdl"] = json.loads((run_dir / "summary.json").read_text())["mdl_entropy"]
     return out
 
 
-def stability(partitions):
-    """mean pairwise AMI between seed partitions on their shared node set."""
+def stability(partitions, max_nodes=30000, seed=0):
+    """mean pairwise AMI between seed partitions (estimated on a node subsample)."""
     if len(partitions) < 2:
         return np.nan
+    rng = np.random.default_rng(seed)
     amis = []
     for a, b in itertools.combinations(partitions, 2):
         common = a.index.intersection(b.index)
+        if len(common) > max_nodes:
+            common = common[rng.choice(len(common), max_nodes, replace=False)]
         amis.append(adjusted_mutual_info_score(a.loc[common].to_numpy(),
                                                b.loc[common].to_numpy()))
     return float(np.mean(amis))
 
 
 def main():
+    import time
     lab = load_labels()
     levels = config.LABEL_LEVELS
     rows, parts_by_cfg = [], defaultdict(list)
     # use the >=5 fits (the >=1 fits are byte-identical: source pre-floored at 5)
-    for run_dir in sorted(RESULTS.glob("*_t5_*")):
+    run_dirs = [d for d in sorted(RESULTS.glob("*_t5_*"))
+                if RUN_RE.match(d.name) and (d / "partition.npz").exists()]
+    n = len(run_dirs)
+    print(f"[eval] scoring {n} fits x {len(levels)} label levels ...", flush=True)
+    t0 = time.time()
+    for i, run_dir in enumerate(run_dirs, 1):
         m = RUN_RE.match(run_dir.name)
-        if not m or not (run_dir / "partition.npz").exists():
-            continue
         r = score_fit(run_dir, lab, levels)
         r.update(model=m["model"], dir=m["dir"], dc=m["dc"], seed=int(m["seed"]))
         rows.append(r)
         d = np.load(run_dir / "partition.npz")
         parts_by_cfg[(m["model"], m["dir"], m["dc"])].append(
             pd.Series(d["blocks"], index=d["node_ids"]))
+        print(f"  [{i}/{n}] {run_dir.name}  ({time.time()-t0:.0f}s)", flush=True)
     df = pd.DataFrame(rows)
+    print(f"[eval] scoring done in {time.time()-t0:.0f}s; computing stability ...", flush=True)
 
     metric_cols = ["n_blocks", "mdl"] + [f"v_{l}" for l in levels] \
         + ["h_primary_type", "c_primary_type", "ami_primary_type", "ari_primary_type"]
     agg = df.groupby(["model", "dir", "dc"])[metric_cols].mean().reset_index()
-    agg["stability_ami"] = [stability(parts_by_cfg[(r.model, r.dir, r.dc)])
-                            for r in agg.itertuples()]
+    print(f"[eval] computing seed-stability for {len(agg)} configs (30k-node subsample) ...", flush=True)
+    t1, stab = time.time(), []
+    for j, r in enumerate(agg.itertuples(), 1):
+        stab.append(stability(parts_by_cfg[(r.model, r.dir, r.dc)]))
+        print(f"  stability [{j}/{len(agg)}] {r.model}-{r.dir}-{r.dc}  ({time.time()-t1:.0f}s)", flush=True)
+    agg["stability_ami"] = stab
     agg = agg.sort_values("v_primary_type", ascending=False).round(3)
 
     # ---- console ----
@@ -105,7 +119,8 @@ def main():
     md = ["\n\n## CP-3 — Overnight sweep evaluation (aggregated)\n",
           "*Scope: >=5-synapse, FLAT fits (the plan's **sensitivity** regime, not canonical "
           ">=1/nested). MDL comparable only within a weight family. Mean over 5 seeds; "
-          "stability = mean pairwise AMI between seeds. Ranked by V(primary_type).*\n",
+          "stability = mean pairwise AMI between seeds (30k-node subsample). "
+          "Ranked by V(primary_type).*\n",
           "| model | dir | dc | blocks | V super | V class | V subcl | V type | homog(type) | compl(type) | AMI(type) | stability | MDL |",
           "|---|---|---|---|---|---|---|---|---|---|---|---|---|"]
     for r in agg[show].itertuples(index=False):
