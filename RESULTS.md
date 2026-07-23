@@ -73,3 +73,30 @@ the real path) — the first connectome run. Not yet run.
 | exponential | und | dc | 689±76 | 0.240±0.002 | 0.260±0.002 | 0.354±0.005 | 0.529±0.007 | 0.526±0.011 | 0.532±0.003 | 0.374±0.004 | 0.748 | 29.41±0.02 |
 | geometric | und | dc | 686±58 | 0.239±0.002 | 0.258±0.002 | 0.349±0.003 | 0.525±0.004 | 0.523±0.007 | 0.528±0.001 | 0.369±0.001 | 0.750 | 29.55±0.01 |
 | lognormal | dir | ndc | 12157±971 | 0.072±0.003 | 0.096±0.002 | 0.204±0.005 | 0.498±0.006 | 0.603±0.011 | 0.424±0.004 | 0.054±0.001 | 0.004 | 36.54±0.02 |
+
+
+## Jacobian audit — lognormal vs Gaussian MDL
+
+*Correction: `DL_on_w = DL_on_log_w + sum_e log(w_e)`. Audit = the corrected gap must be invariant to rescaling the weights.*
+
+- Audit spread across scales x1..x100: **150.358 nats** -> **PASS**
+
+
+| model | dir | dc | MDL raw (M) | **MDL corrected (M)** | V type |
+|---|---|---|---|---|---|
+| gaussian | dir | dc | 33.40 | **33.40±0.05** | 0.661 |
+| gaussian | dir | ndc | 33.77 | **33.77±0.09** | 0.727 |
+| gaussian | und | dc | 29.81 | **29.81±0.03** | 0.600 |
+| gaussian | und | ndc | 30.17 | **30.17±0.04** | 0.665 |
+| lognormal | dir | dc | 25.25 | **33.81±0.08** | 0.773 |
+| lognormal | dir | ndc | 36.54 | **45.10±0.02** | 0.498 |
+| lognormal | und | dc | 21.81 | **29.83±0.17** | 0.731 |
+| lognormal | und | ndc | 29.90 | **37.92±4.42** | 0.567 |
+
+- **dir/dc:** MDL picks **gaussian** (33.81 vs 33.40 M); biology (V) picks **lognormal** -> **DISAGREE**
+
+- **dir/ndc:** MDL picks **gaussian** (45.10 vs 33.77 M); biology (V) picks **gaussian** -> **AGREE**
+
+- **und/dc:** MDL picks **gaussian** (29.83 vs 29.81 M); biology (V) picks **lognormal** -> **DISAGREE**
+
+- **und/ndc:** MDL picks **gaussian** (37.92 vs 30.17 M); biology (V) picks **gaussian** -> **AGREE**
