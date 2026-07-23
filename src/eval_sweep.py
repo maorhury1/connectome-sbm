@@ -24,6 +24,8 @@ from sklearn.metrics import (homogeneity_completeness_v_measure,
 import config
 
 RESULTS = config.WORK_DIR / "results"
+SCORES_CACHE = config.WORK_DIR / "eval_scores.csv"      # per-fit scores (slow to compute; cached)
+STAB_CACHE = config.WORK_DIR / "eval_stability.csv"     # per-config seed-stability (cached)
 RUN_RE = re.compile(r"(?P<model>[a-z]+)_t(?P<thr>\d+)_(?P<dir>dir|und)_(?P<dc>dc|ndc)_s(?P<seed>\d+)$")
 
 
@@ -73,7 +75,8 @@ def stability(partitions, max_nodes=30000, seed=0):
     return float(np.mean(amis))
 
 
-def main():
+def compute_and_cache():
+    """Score every fit + stability once, write both caches, return (df, stab_df)."""
     import time
     lab = load_labels()
     levels = config.LABEL_LEVELS
@@ -94,42 +97,80 @@ def main():
             pd.Series(d["blocks"], index=d["node_ids"]))
         print(f"  [{i}/{n}] {run_dir.name}  ({time.time()-t0:.0f}s)", flush=True)
     df = pd.DataFrame(rows)
-    print(f"[eval] scoring done in {time.time()-t0:.0f}s; computing stability ...", flush=True)
+    df.to_csv(SCORES_CACHE, index=False)
+    print(f"[eval] scored in {time.time()-t0:.0f}s -> cached {SCORES_CACHE.name}. Stability ...", flush=True)
 
+    t1, stab = time.time(), []
+    cfgs = list(df[["model", "dir", "dc"]].drop_duplicates().itertuples(index=False))
+    for j, c in enumerate(cfgs, 1):
+        s = stability(parts_by_cfg[(c.model, c.dir, c.dc)])
+        stab.append((c.model, c.dir, c.dc, s))
+        print(f"  stability [{j}/{len(cfgs)}] {c.model}-{c.dir}-{c.dc}  ({time.time()-t1:.0f}s)", flush=True)
+    stab_df = pd.DataFrame(stab, columns=["model", "dir", "dc", "stability_ami"])
+    stab_df.to_csv(STAB_CACHE, index=False)
+    print(f"[eval] stability cached -> {STAB_CACHE.name}.", flush=True)
+    return df, stab_df
+
+
+def main():
+    import argparse
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--refresh", action="store_true",
+                    help="recompute scores/stability, ignoring the cache")
+    a = ap.parse_args()
+    levels = config.LABEL_LEVELS
     metric_cols = ["n_blocks", "mdl"] + [f"v_{l}" for l in levels] \
         + ["h_primary_type", "c_primary_type", "ami_primary_type", "ari_primary_type"]
-    agg = df.groupby(["model", "dir", "dc"])[metric_cols].mean().reset_index()
-    print(f"[eval] computing seed-stability for {len(agg)} configs (30k-node subsample) ...", flush=True)
-    t1, stab = time.time(), []
-    for j, r in enumerate(agg.itertuples(), 1):
-        stab.append(stability(parts_by_cfg[(r.model, r.dir, r.dc)]))
-        print(f"  stability [{j}/{len(agg)}] {r.model}-{r.dir}-{r.dc}  ({time.time()-t1:.0f}s)", flush=True)
-    agg["stability_ami"] = stab
-    agg = agg.sort_values("v_primary_type", ascending=False).round(3)
+
+    if not a.refresh and SCORES_CACHE.exists() and STAB_CACHE.exists():
+        df, stab_df = pd.read_csv(SCORES_CACHE), pd.read_csv(STAB_CACHE)
+        print(f"[eval] loaded cache: {len(df)} fit-scores + {len(stab_df)} stabilities "
+              f"(instant; use --refresh to recompute).", flush=True)
+    else:
+        df, stab_df = compute_and_cache()
+
+    grp = df.groupby(["model", "dir", "dc"])
+    gm, gsd = grp[metric_cols].mean(), grp[metric_cols].std().fillna(0.0)
+    agg = gm.reset_index().merge(stab_df, on=["model", "dir", "dc"])
+    agg = agg.sort_values("v_primary_type", ascending=False)
+
+    def ms(cfg, col, nd=3):                                     # "mean±std" over seeds
+        return f"{gm.loc[cfg, col]:.{nd}f}±{gsd.loc[cfg, col]:.{nd}f}"
+
+    vlevels = [f"v_{l}" for l in levels]
+    header = ["model", "dir", "dc", "blocks"] + [f"V:{l}" for l in levels] \
+        + ["homog", "compl", "AMI", "stability", "MDL"]
+    disp_rows = []
+    for r in agg.itertuples(index=False):
+        cfg = (r.model, r.dir, r.dc)
+        disp_rows.append([r.model, r.dir, r.dc, ms(cfg, "n_blocks", 0)]
+                         + [ms(cfg, v) for v in vlevels]
+                         + [ms(cfg, "h_primary_type"), ms(cfg, "c_primary_type"),
+                            ms(cfg, "ami_primary_type"), f"{r.stability_ami:.3f}",
+                            f"{gm.loc[cfg, 'mdl']:.2e}"])
+    disp = pd.DataFrame(disp_rows, columns=header)
 
     # ---- console ----
-    pd.set_option("display.width", 220, "display.max_columns", 40)
-    show = ["model", "dir", "dc", "n_blocks", "v_super_class", "v_class",
-            "v_sub_class", "v_primary_type", "h_primary_type", "c_primary_type",
-            "ami_primary_type", "stability_ami", "mdl"]
-    print("CP-3 sweep evaluation (>=5, flat = SENSITIVITY regime; mean over 5 seeds):\n")
-    print(agg[show].to_string(index=False))
+    pd.set_option("display.width", 260, "display.max_columns", 40)
+    print("CP-3 sweep evaluation (>=5, flat = SENSITIVITY regime; mean±std over 5 seeds):\n")
+    print(disp.to_string(index=False))
 
     # ---- append aggregated form to RESULTS.md ----
-    md = ["\n\n## CP-3 — Overnight sweep evaluation (aggregated)\n",
+    md = ["\n\n## CP-3 — Overnight sweep evaluation (aggregated, mean±std over 5 seeds)\n",
           "*Scope: >=5-synapse, FLAT fits (the plan's **sensitivity** regime, not canonical "
-          ">=1/nested). MDL comparable only within a weight family. Mean over 5 seeds; "
+          ">=1/nested). MDL comparable only within a weight family. "
           "stability = mean pairwise AMI between seeds (30k-node subsample). "
           "Ranked by V(primary_type).*\n",
-          "| model | dir | dc | blocks | V super | V class | V subcl | V type | homog(type) | compl(type) | AMI(type) | stability | MDL |",
-          "|---|---|---|---|---|---|---|---|---|---|---|---|---|"]
-    for r in agg[show].itertuples(index=False):
-        md.append("| " + " | ".join(
-            [str(r.model), r.dir, r.dc, f"{r.n_blocks:.0f}",
-             f"{r.v_super_class:.3f}", f"{r.v_class:.3f}", f"{r.v_sub_class:.3f}",
-             f"{r.v_primary_type:.3f}", f"{r.h_primary_type:.3f}", f"{r.c_primary_type:.3f}",
-             f"{r.ami_primary_type:.3f}", f"{r.stability_ami:.3f}", f"{r.mdl:.3e}"]) + " |")
-    (config.REPO_DIR / "RESULTS.md").open("a").write("\n".join(md) + "\n")
+          "| " + " | ".join(header) + " |",
+          "|" + "---|" * len(header)]
+    for _, r in disp.iterrows():
+        md.append("| " + " | ".join(str(x) for x in r) + " |")
+    rp = config.REPO_DIR / "RESULTS.md"
+    marker = "\n\n## CP-3 — Overnight sweep evaluation"
+    txt = rp.read_text()
+    if marker in txt:                                   # replace prior CP-3 section, don't duplicate
+        txt = txt[:txt.index(marker)]
+    rp.write_text(txt + "\n".join(md) + "\n")
     print("\n[gated] wrote aggregated table to RESULTS.md. STOP — awaiting sign-off before E2b.")
 
 
