@@ -33,6 +33,57 @@ def split_edges(m, test_frac, seed):
     return train_mask, test_idx
 
 
+FOLD_SEED = 12345           # fixed: every model/seed sees the SAME folds (paired comparison)
+
+
+def make_folds(weight, test_frac, n_folds, method, seed=FOLD_SEED):
+    """n_folds DISJOINT held-out sets over the edge arrays.
+
+    method='random'     -- uniform over edges.
+    method='stratified' -- equal share drawn from each weight decile, so every fold covers
+                           the heavy tail evenly (same estimand, lower fold-to-fold variance).
+    Folds are built from a FIXED seed so all weight models are scored on identical held-out
+    edges; the SBM inference seed is a separate argument.
+    """
+    m = len(weight)
+    rng = np.random.default_rng(seed)
+    if method == "random":
+        perm = rng.permutation(m)
+        size = int(round(test_frac * m))
+        tests = [np.sort(perm[i * size:(i + 1) * size]) for i in range(n_folds)]
+    elif method == "stratified":
+        edges = np.quantile(weight, np.linspace(0, 1, 11))[1:-1]
+        bins = np.searchsorted(edges, weight, side="right")
+        tests = [[] for _ in range(n_folds)]
+        for b in np.unique(bins):
+            idx = np.nonzero(bins == b)[0]
+            idx = idx[rng.permutation(len(idx))]
+            per = int(round(test_frac * len(idx)))
+            for f in range(n_folds):
+                tests[f].extend(idx[f * per:(f + 1) * per])
+        tests = [np.sort(np.asarray(t, dtype=np.int64)) for t in tests]
+    else:
+        raise ValueError(f"unknown fold method: {method}")
+    folds = []
+    for t in tests:
+        tm = np.ones(m, dtype=bool)
+        tm[t] = False
+        folds.append((tm, t))
+    return folds
+
+
+def run_fold_spec(pre, post, weight, directed, model, threshold, train_mask, test_idx,
+                  deg_corr=True, seed=0, nested=False):
+    """One leak-free fold with a PRE-BUILT split (so folds are shared across models)."""
+    g_tr, node_ids, _ = train_graph(pre, post, weight, train_mask, directed)
+    assert g_tr.num_edges() == int(train_mask.sum()), "train graph leaked held-out edges"
+    state, info = sbm.fit(g_tr, model, nested=nested, deg_corr=deg_corr, seed=seed)
+    score, _ = predictive_logscore(state, node_ids, pre, post, weight,
+                                   test_idx, train_mask, model, threshold)
+    return {"logscore_per_edge": score, "n_test": int(len(test_idx)),
+            "n_blocks": info["n_blocks"], "n_train_edges": int(train_mask.sum())}
+
+
 def train_graph(pre, post, weight, train_mask, directed):
     """Graph from TRAINING edges only (held-out edges physically absent -> leak-free partition)."""
     return G.build_graph(pre[train_mask], post[train_mask], weight[train_mask], directed=directed)
