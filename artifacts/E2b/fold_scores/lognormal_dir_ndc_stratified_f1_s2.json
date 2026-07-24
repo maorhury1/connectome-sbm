@@ -1,0 +1,15 @@
+{
+  "logscore_per_edge": -3.0397492517574833,
+  "n_test": 186622,
+  "n_blocks": 10850,
+  "n_train_edges": 3545838,
+  "model": "lognormal",
+  "method": "stratified",
+  "fold": 1,
+  "seed": 2,
+  "directed": true,
+  "deg_corr": false,
+  "test_frac": 0.05,
+  "threshold": 5,
+  "elapsed_s": 23178.9
+}

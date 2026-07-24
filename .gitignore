@@ -4,3 +4,7 @@ __pycache__/
 *.tmp
 .DS_Store
 # heavy run outputs live on local disk (/var/tmp/csbm_work), not in the repo
+
+# heavy binary SBM fits: kept on disk (netapp-backed), not in git
+artifacts/sbm_fits/
+artifacts/gateA_misc/

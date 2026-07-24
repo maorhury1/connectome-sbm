@@ -1,0 +1,763 @@
+{
+  "done": 189,
+  "total": 288,
+  "elapsed_s": 0.2,
+  "results": {
+    "lognormal_und_dc_random_f0_s1": {
+      "cell": "lognormal_und_dc_random_f0_s1",
+      "status": "CACHED"
+    },
+    "poisson_dir_dc_random_f0_s0": {
+      "cell": "poisson_dir_dc_random_f0_s0",
+      "status": "CACHED"
+    },
+    "poisson_dir_ndc_stratified_f1_s1": {
+      "cell": "poisson_dir_ndc_stratified_f1_s1",
+      "status": "CACHED"
+    },
+    "gaussian_und_dc_random_f0_s1": {
+      "cell": "gaussian_und_dc_random_f0_s1",
+      "status": "CACHED"
+    },
+    "lognormal_dir_ndc_stratified_f2_s1": {
+      "cell": "lognormal_dir_ndc_stratified_f2_s1",
+      "status": "CACHED"
+    },
+    "poisson_dir_dc_random_f1_s0": {
+      "cell": "poisson_dir_dc_random_f1_s0",
+      "status": "CACHED"
+    },
+    "gaussian_und_dc_random_f0_s0": {
+      "cell": "gaussian_und_dc_random_f0_s0",
+      "status": "CACHED"
+    },
+    "gaussian_und_dc_random_f0_s2": {
+      "cell": "gaussian_und_dc_random_f0_s2",
+      "status": "CACHED"
+    },
+    "lognormal_dir_ndc_stratified_f2_s0": {
+      "cell": "lognormal_dir_ndc_stratified_f2_s0",
+      "status": "CACHED"
+    },
+    "lognormal_und_dc_random_f0_s2": {
+      "cell": "lognormal_und_dc_random_f0_s2",
+      "status": "CACHED"
+    },
+    "gaussian_dir_ndc_stratified_f2_s2": {
+      "cell": "gaussian_dir_ndc_stratified_f2_s2",
+      "status": "CACHED"
+    },
+    "gaussian_dir_dc_random_f0_s1": {
+      "cell": "gaussian_dir_dc_random_f0_s1",
+      "status": "CACHED"
+    },
+    "gaussian_und_dc_random_f1_s2": {
+      "cell": "gaussian_und_dc_random_f1_s2",
+      "status": "CACHED"
+    },
+    "gaussian_dir_ndc_stratified_f2_s1": {
+      "cell": "gaussian_dir_ndc_stratified_f2_s1",
+      "status": "CACHED"
+    },
+    "lognormal_dir_ndc_stratified_f1_s2": {
+      "cell": "lognormal_dir_ndc_stratified_f1_s2",
+      "status": "CACHED"
+    },
+    "lognormal_und_ndc_stratified_f2_s1": {
+      "cell": "lognormal_und_ndc_stratified_f2_s1",
+      "status": "CACHED"
+    },
+    "gaussian_und_ndc_stratified_f2_s2": {
+      "cell": "gaussian_und_ndc_stratified_f2_s2",
+      "status": "CACHED"
+    },
+    "gaussian_dir_dc_random_f2_s0": {
+      "cell": "gaussian_dir_dc_random_f2_s0",
+      "status": "CACHED"
+    },
+    "gaussian_und_ndc_stratified_f1_s2": {
+      "cell": "gaussian_und_ndc_stratified_f1_s2",
+      "status": "CACHED"
+    },
+    "lognormal_und_ndc_stratified_f2_s0": {
+      "cell": "lognormal_und_ndc_stratified_f2_s0",
+      "status": "CACHED"
+    },
+    "gaussian_und_ndc_stratified_f2_s0": {
+      "cell": "gaussian_und_ndc_stratified_f2_s0",
+      "status": "CACHED"
+    },
+    "gaussian_und_ndc_stratified_f1_s0": {
+      "cell": "gaussian_und_ndc_stratified_f1_s0",
+      "status": "CACHED"
+    },
+    "gaussian_und_ndc_stratified_f1_s1": {
+      "cell": "gaussian_und_ndc_stratified_f1_s1",
+      "status": "CACHED"
+    },
+    "gaussian_dir_dc_random_f1_s2": {
+      "cell": "gaussian_dir_dc_random_f1_s2",
+      "status": "CACHED"
+    },
+    "poisson_dir_ndc_stratified_f0_s0": {
+      "cell": "poisson_dir_ndc_stratified_f0_s0",
+      "status": "CACHED"
+    },
+    "lognormal_und_dc_random_f0_s0": {
+      "cell": "lognormal_und_dc_random_f0_s0",
+      "status": "CACHED"
+    },
+    "gaussian_und_dc_random_f1_s1": {
+      "cell": "gaussian_und_dc_random_f1_s1",
+      "status": "CACHED"
+    },
+    "poisson_dir_ndc_random_f2_s2": {
+      "cell": "poisson_dir_ndc_random_f2_s2",
+      "status": "CACHED"
+    },
+    "poisson_dir_ndc_stratified_f0_s1": {
+      "cell": "poisson_dir_ndc_stratified_f0_s1",
+      "status": "CACHED"
+    },
+    "gaussian_und_ndc_random_f2_s0": {
+      "cell": "gaussian_und_ndc_random_f2_s0",
+      "status": "CACHED"
+    },
+    "lognormal_dir_ndc_stratified_f0_s2": {
+      "cell": "lognormal_dir_ndc_stratified_f0_s2",
+      "status": "CACHED"
+    },
+    "poisson_und_dc_random_f0_s0": {
+      "cell": "poisson_und_dc_random_f0_s0",
+      "status": "CACHED"
+    },
+    "lognormal_dir_ndc_stratified_f0_s1": {
+      "cell": "lognormal_dir_ndc_stratified_f0_s1",
+      "status": "CACHED"
+    },
+    "poisson_dir_ndc_random_f2_s1": {
+      "cell": "poisson_dir_ndc_random_f2_s1",
+      "status": "CACHED"
+    },
+    "gaussian_dir_ndc_stratified_f1_s2": {
+      "cell": "gaussian_dir_ndc_stratified_f1_s2",
+      "status": "CACHED"
+    },
+    "lognormal_dir_ndc_stratified_f1_s0": {
+      "cell": "lognormal_dir_ndc_stratified_f1_s0",
+      "status": "CACHED"
+    },
+    "poisson_und_dc_random_f0_s1": {
+      "cell": "poisson_und_dc_random_f0_s1",
+      "status": "CACHED"
+    },
+    "lognormal_dir_ndc_stratified_f1_s1": {
+      "cell": "lognormal_dir_ndc_stratified_f1_s1",
+      "status": "CACHED"
+    },
+    "lognormal_dir_ndc_stratified_f0_s0": {
+      "cell": "lognormal_dir_ndc_stratified_f0_s0",
+      "status": "CACHED"
+    },
+    "poisson_dir_ndc_random_f2_s0": {
+      "cell": "poisson_dir_ndc_random_f2_s0",
+      "status": "CACHED"
+    },
+    "gaussian_und_ndc_stratified_f0_s2": {
+      "cell": "gaussian_und_ndc_stratified_f0_s2",
+      "status": "CACHED"
+    },
+    "lognormal_dir_dc_random_f0_s1": {
+      "cell": "lognormal_dir_dc_random_f0_s1",
+      "status": "CACHED"
+    },
+    "gaussian_und_ndc_stratified_f0_s1": {
+      "cell": "gaussian_und_ndc_stratified_f0_s1",
+      "status": "CACHED"
+    },
+    "lognormal_dir_ndc_stratified_f2_s2": {
+      "cell": "lognormal_dir_ndc_stratified_f2_s2",
+      "status": "CACHED"
+    },
+    "poisson_dir_dc_random_f1_s2": {
+      "cell": "poisson_dir_dc_random_f1_s2",
+      "status": "CACHED"
+    },
+    "lognormal_dir_ndc_random_f2_s2": {
+      "cell": "lognormal_dir_ndc_random_f2_s2",
+      "status": "CACHED"
+    },
+    "lognormal_und_dc_random_f1_s0": {
+      "cell": "lognormal_und_dc_random_f1_s0",
+      "status": "CACHED"
+    },
+    "gaussian_dir_ndc_stratified_f0_s2": {
+      "cell": "gaussian_dir_ndc_stratified_f0_s2",
+      "status": "CACHED"
+    },
+    "lognormal_und_ndc_stratified_f1_s1": {
+      "cell": "lognormal_und_ndc_stratified_f1_s1",
+      "status": "CACHED"
+    },
+    "gaussian_dir_ndc_stratified_f0_s1": {
+      "cell": "gaussian_dir_ndc_stratified_f0_s1",
+      "status": "CACHED"
+    },
+    "lognormal_und_ndc_stratified_f0_s1": {
+      "cell": "lognormal_und_ndc_stratified_f0_s1",
+      "status": "CACHED"
+    },
+    "lognormal_und_ndc_stratified_f1_s0": {
+      "cell": "lognormal_und_ndc_stratified_f1_s0",
+      "status": "CACHED"
+    },
+    "poisson_dir_ndc_random_f0_s2": {
+      "cell": "poisson_dir_ndc_random_f0_s2",
+      "status": "CACHED"
+    },
+    "gaussian_dir_ndc_stratified_f0_s0": {
+      "cell": "gaussian_dir_ndc_stratified_f0_s0",
+      "status": "CACHED"
+    },
+    "gaussian_und_ndc_stratified_f2_s1": {
+      "cell": "gaussian_und_ndc_stratified_f2_s1",
+      "status": "CACHED"
+    },
+    "gaussian_dir_ndc_random_f2_s2": {
+      "cell": "gaussian_dir_ndc_random_f2_s2",
+      "status": "CACHED"
+    },
+    "lognormal_und_ndc_stratified_f0_s0": {
+      "cell": "lognormal_und_ndc_stratified_f0_s0",
+      "status": "CACHED"
+    },
+    "gaussian_dir_ndc_stratified_f2_s0": {
+      "cell": "gaussian_dir_ndc_stratified_f2_s0",
+      "status": "CACHED"
+    },
+    "lognormal_dir_ndc_random_f2_s0": {
+      "cell": "lognormal_dir_ndc_random_f2_s0",
+      "status": "CACHED"
+    },
+    "lognormal_und_ndc_stratified_f0_s2": {
+      "cell": "lognormal_und_ndc_stratified_f0_s2",
+      "status": "CACHED"
+    },
+    "lognormal_dir_ndc_random_f1_s2": {
+      "cell": "lognormal_dir_ndc_random_f1_s2",
+      "status": "CACHED"
+    },
+    "gaussian_und_ndc_random_f2_s1": {
+      "cell": "gaussian_und_ndc_random_f2_s1",
+      "status": "CACHED"
+    },
+    "lognormal_und_ndc_stratified_f2_s2": {
+      "cell": "lognormal_und_ndc_stratified_f2_s2",
+      "status": "CACHED"
+    },
+    "lognormal_dir_ndc_random_f1_s1": {
+      "cell": "lognormal_dir_ndc_random_f1_s1",
+      "status": "CACHED"
+    },
+    "lognormal_und_ndc_stratified_f1_s2": {
+      "cell": "lognormal_und_ndc_stratified_f1_s2",
+      "status": "CACHED"
+    },
+    "lognormal_dir_dc_random_f0_s2": {
+      "cell": "lognormal_dir_dc_random_f0_s2",
+      "status": "CACHED"
+    },
+    "poisson_dir_ndc_random_f1_s1": {
+      "cell": "poisson_dir_ndc_random_f1_s1",
+      "status": "CACHED"
+    },
+    "poisson_dir_ndc_stratified_f1_s0": {
+      "cell": "poisson_dir_ndc_stratified_f1_s0",
+      "status": "CACHED"
+    },
+    "poisson_dir_ndc_random_f0_s1": {
+      "cell": "poisson_dir_ndc_random_f0_s1",
+      "status": "CACHED"
+    },
+    "gaussian_dir_ndc_random_f2_s0": {
+      "cell": "gaussian_dir_ndc_random_f2_s0",
+      "status": "CACHED"
+    },
+    "lognormal_und_ndc_random_f2_s2": {
+      "cell": "lognormal_und_ndc_random_f2_s2",
+      "status": "CACHED"
+    },
+    "poisson_dir_ndc_stratified_f2_s0": {
+      "cell": "poisson_dir_ndc_stratified_f2_s0",
+      "status": "CACHED"
+    },
+    "gaussian_und_ndc_random_f1_s1": {
+      "cell": "gaussian_und_ndc_random_f1_s1",
+      "status": "CACHED"
+    },
+    "gaussian_dir_ndc_random_f1_s2": {
+      "cell": "gaussian_dir_ndc_random_f1_s2",
+      "status": "CACHED"
+    },
+    "lognormal_und_ndc_random_f1_s1": {
+      "cell": "lognormal_und_ndc_random_f1_s1",
+      "status": "CACHED"
+    },
+    "gaussian_und_ndc_stratified_f0_s0": {
+      "cell": "gaussian_und_ndc_stratified_f0_s0",
+      "status": "CACHED"
+    },
+    "poisson_dir_ndc_random_f0_s0": {
+      "cell": "poisson_dir_ndc_random_f0_s0",
+      "status": "CACHED"
+    },
+    "poisson_dir_ndc_stratified_f0_s2": {
+      "cell": "poisson_dir_ndc_stratified_f0_s2",
+      "status": "CACHED"
+    },
+    "gaussian_dir_ndc_stratified_f1_s1": {
+      "cell": "gaussian_dir_ndc_stratified_f1_s1",
+      "status": "CACHED"
+    },
+    "lognormal_dir_ndc_random_f0_s2": {
+      "cell": "lognormal_dir_ndc_random_f0_s2",
+      "status": "CACHED"
+    },
+    "gaussian_und_ndc_random_f1_s0": {
+      "cell": "gaussian_und_ndc_random_f1_s0",
+      "status": "CACHED"
+    },
+    "gaussian_und_ndc_random_f2_s2": {
+      "cell": "gaussian_und_ndc_random_f2_s2",
+      "status": "CACHED"
+    },
+    "poisson_dir_dc_stratified_f2_s2": {
+      "cell": "poisson_dir_dc_stratified_f2_s2",
+      "status": "CACHED"
+    },
+    "gaussian_dir_ndc_stratified_f1_s0": {
+      "cell": "gaussian_dir_ndc_stratified_f1_s0",
+      "status": "CACHED"
+    },
+    "lognormal_dir_ndc_random_f0_s1": {
+      "cell": "lognormal_dir_ndc_random_f0_s1",
+      "status": "CACHED"
+    },
+    "lognormal_dir_ndc_random_f0_s0": {
+      "cell": "lognormal_dir_ndc_random_f0_s0",
+      "status": "CACHED"
+    },
+    "lognormal_dir_ndc_random_f2_s1": {
+      "cell": "lognormal_dir_ndc_random_f2_s1",
+      "status": "CACHED"
+    },
+    "lognormal_und_ndc_random_f1_s2": {
+      "cell": "lognormal_und_ndc_random_f1_s2",
+      "status": "CACHED"
+    },
+    "gaussian_dir_ndc_random_f2_s1": {
+      "cell": "gaussian_dir_ndc_random_f2_s1",
+      "status": "CACHED"
+    },
+    "gaussian_dir_dc_random_f0_s0": {
+      "cell": "gaussian_dir_dc_random_f0_s0",
+      "status": "CACHED"
+    },
+    "gaussian_dir_ndc_random_f0_s2": {
+      "cell": "gaussian_dir_ndc_random_f0_s2",
+      "status": "CACHED"
+    },
+    "lognormal_und_ndc_random_f1_s0": {
+      "cell": "lognormal_und_ndc_random_f1_s0",
+      "status": "CACHED"
+    },
+    "poisson_dir_dc_stratified_f2_s0": {
+      "cell": "poisson_dir_dc_stratified_f2_s0",
+      "status": "CACHED"
+    },
+    "gaussian_dir_ndc_random_f0_s1": {
+      "cell": "gaussian_dir_ndc_random_f0_s1",
+      "status": "CACHED"
+    },
+    "gaussian_und_ndc_random_f0_s1": {
+      "cell": "gaussian_und_ndc_random_f0_s1",
+      "status": "CACHED"
+    },
+    "lognormal_und_ndc_random_f2_s1": {
+      "cell": "lognormal_und_ndc_random_f2_s1",
+      "status": "CACHED"
+    },
+    "lognormal_dir_dc_stratified_f2_s0": {
+      "cell": "lognormal_dir_dc_stratified_f2_s0",
+      "status": "CACHED"
+    },
+    "poisson_dir_dc_stratified_f1_s2": {
+      "cell": "poisson_dir_dc_stratified_f1_s2",
+      "status": "CACHED"
+    },
+    "poisson_dir_ndc_stratified_f1_s2": {
+      "cell": "poisson_dir_ndc_stratified_f1_s2",
+      "status": "CACHED"
+    },
+    "gaussian_dir_dc_stratified_f2_s2": {
+      "cell": "gaussian_dir_dc_stratified_f2_s2",
+      "status": "CACHED"
+    },
+    "lognormal_dir_dc_stratified_f1_s1": {
+      "cell": "lognormal_dir_dc_stratified_f1_s1",
+      "status": "CACHED"
+    },
+    "lognormal_dir_dc_stratified_f1_s2": {
+      "cell": "lognormal_dir_dc_stratified_f1_s2",
+      "status": "CACHED"
+    },
+    "poisson_und_dc_stratified_f1_s0": {
+      "cell": "poisson_und_dc_stratified_f1_s0",
+      "status": "CACHED"
+    },
+    "gaussian_dir_dc_random_f0_s2": {
+      "cell": "gaussian_dir_dc_random_f0_s2",
+      "status": "CACHED"
+    },
+    "gaussian_und_dc_stratified_f2_s1": {
+      "cell": "gaussian_und_dc_stratified_f2_s1",
+      "status": "CACHED"
+    },
+    "lognormal_und_ndc_random_f0_s0": {
+      "cell": "lognormal_und_ndc_random_f0_s0",
+      "status": "CACHED"
+    },
+    "gaussian_dir_dc_stratified_f2_s1": {
+      "cell": "gaussian_dir_dc_stratified_f2_s1",
+      "status": "CACHED"
+    },
+    "gaussian_und_dc_stratified_f2_s0": {
+      "cell": "gaussian_und_dc_stratified_f2_s0",
+      "status": "CACHED"
+    },
+    "lognormal_und_dc_stratified_f2_s2": {
+      "cell": "lognormal_und_dc_stratified_f2_s2",
+      "status": "CACHED"
+    },
+    "gaussian_dir_dc_stratified_f2_s0": {
+      "cell": "gaussian_dir_dc_stratified_f2_s0",
+      "status": "CACHED"
+    },
+    "lognormal_dir_dc_stratified_f1_s0": {
+      "cell": "lognormal_dir_dc_stratified_f1_s0",
+      "status": "CACHED"
+    },
+    "poisson_dir_dc_stratified_f2_s1": {
+      "cell": "poisson_dir_dc_stratified_f2_s1",
+      "status": "CACHED"
+    },
+    "gaussian_und_ndc_random_f1_s2": {
+      "cell": "gaussian_und_ndc_random_f1_s2",
+      "status": "CACHED"
+    },
+    "gaussian_und_dc_random_f1_s0": {
+      "cell": "gaussian_und_dc_random_f1_s0",
+      "status": "CACHED"
+    },
+    "lognormal_dir_dc_stratified_f0_s2": {
+      "cell": "lognormal_dir_dc_stratified_f0_s2",
+      "status": "CACHED"
+    },
+    "lognormal_dir_ndc_random_f1_s0": {
+      "cell": "lognormal_dir_ndc_random_f1_s0",
+      "status": "CACHED"
+    },
+    "poisson_dir_dc_stratified_f1_s1": {
+      "cell": "poisson_dir_dc_stratified_f1_s1",
+      "status": "CACHED"
+    },
+    "gaussian_und_ndc_random_f0_s0": {
+      "cell": "gaussian_und_ndc_random_f0_s0",
+      "status": "CACHED"
+    },
+    "lognormal_dir_dc_stratified_f2_s1": {
+      "cell": "lognormal_dir_dc_stratified_f2_s1",
+      "status": "CACHED"
+    },
+    "gaussian_und_ndc_random_f0_s2": {
+      "cell": "gaussian_und_ndc_random_f0_s2",
+      "status": "CACHED"
+    },
+    "lognormal_dir_dc_stratified_f0_s1": {
+      "cell": "lognormal_dir_dc_stratified_f0_s1",
+      "status": "CACHED"
+    },
+    "poisson_dir_ndc_random_f1_s2": {
+      "cell": "poisson_dir_ndc_random_f1_s2",
+      "status": "CACHED"
+    },
+    "lognormal_dir_dc_stratified_f0_s0": {
+      "cell": "lognormal_dir_dc_stratified_f0_s0",
+      "status": "CACHED"
+    },
+    "lognormal_dir_dc_random_f0_s0": {
+      "cell": "lognormal_dir_dc_random_f0_s0",
+      "status": "CACHED"
+    },
+    "poisson_dir_dc_stratified_f0_s2": {
+      "cell": "poisson_dir_dc_stratified_f0_s2",
+      "status": "CACHED"
+    },
+    "lognormal_und_ndc_random_f0_s2": {
+      "cell": "lognormal_und_ndc_random_f0_s2",
+      "status": "CACHED"
+    },
+    "gaussian_dir_dc_stratified_f1_s2": {
+      "cell": "gaussian_dir_dc_stratified_f1_s2",
+      "status": "CACHED"
+    },
+    "gaussian_und_dc_stratified_f1_s2": {
+      "cell": "gaussian_und_dc_stratified_f1_s2",
+      "status": "CACHED"
+    },
+    "lognormal_und_dc_stratified_f1_s2": {
+      "cell": "lognormal_und_dc_stratified_f1_s2",
+      "status": "CACHED"
+    },
+    "gaussian_und_dc_stratified_f1_s0": {
+      "cell": "gaussian_und_dc_stratified_f1_s0",
+      "status": "CACHED"
+    },
+    "gaussian_und_dc_stratified_f1_s1": {
+      "cell": "gaussian_und_dc_stratified_f1_s1",
+      "status": "CACHED"
+    },
+    "lognormal_und_dc_stratified_f1_s1": {
+      "cell": "lognormal_und_dc_stratified_f1_s1",
+      "status": "CACHED"
+    },
+    "gaussian_und_dc_stratified_f0_s2": {
+      "cell": "gaussian_und_dc_stratified_f0_s2",
+      "status": "CACHED"
+    },
+    "lognormal_dir_dc_random_f2_s2": {
+      "cell": "lognormal_dir_dc_random_f2_s2",
+      "status": "CACHED"
+    },
+    "lognormal_dir_dc_random_f2_s1": {
+      "cell": "lognormal_dir_dc_random_f2_s1",
+      "status": "CACHED"
+    },
+    "poisson_und_dc_random_f2_s1": {
+      "cell": "poisson_und_dc_random_f2_s1",
+      "status": "CACHED"
+    },
+    "poisson_und_dc_stratified_f0_s0": {
+      "cell": "poisson_und_dc_stratified_f0_s0",
+      "status": "CACHED"
+    },
+    "lognormal_dir_dc_random_f2_s0": {
+      "cell": "lognormal_dir_dc_random_f2_s0",
+      "status": "CACHED"
+    },
+    "gaussian_dir_dc_stratified_f0_s1": {
+      "cell": "gaussian_dir_dc_stratified_f0_s1",
+      "status": "CACHED"
+    },
+    "poisson_und_dc_random_f2_s0": {
+      "cell": "poisson_und_dc_random_f2_s0",
+      "status": "CACHED"
+    },
+    "lognormal_dir_dc_stratified_f2_s2": {
+      "cell": "lognormal_dir_dc_stratified_f2_s2",
+      "status": "CACHED"
+    },
+    "poisson_dir_ndc_random_f1_s0": {
+      "cell": "poisson_dir_ndc_random_f1_s0",
+      "status": "CACHED"
+    },
+    "poisson_und_dc_random_f1_s2": {
+      "cell": "poisson_und_dc_random_f1_s2",
+      "status": "CACHED"
+    },
+    "lognormal_und_dc_stratified_f0_s1": {
+      "cell": "lognormal_und_dc_stratified_f0_s1",
+      "status": "CACHED"
+    },
+    "gaussian_dir_dc_stratified_f0_s0": {
+      "cell": "gaussian_dir_dc_stratified_f0_s0",
+      "status": "CACHED"
+    },
+    "gaussian_dir_dc_stratified_f0_s2": {
+      "cell": "gaussian_dir_dc_stratified_f0_s2",
+      "status": "CACHED"
+    },
+    "lognormal_und_dc_stratified_f0_s0": {
+      "cell": "lognormal_und_dc_stratified_f0_s0",
+      "status": "CACHED"
+    },
+    "poisson_dir_dc_random_f2_s2": {
+      "cell": "poisson_dir_dc_random_f2_s2",
+      "status": "CACHED"
+    },
+    "gaussian_dir_dc_random_f2_s2": {
+      "cell": "gaussian_dir_dc_random_f2_s2",
+      "status": "CACHED"
+    },
+    "lognormal_und_ndc_random_f2_s0": {
+      "cell": "lognormal_und_ndc_random_f2_s0",
+      "status": "CACHED"
+    },
+    "gaussian_und_dc_stratified_f0_s1": {
+      "cell": "gaussian_und_dc_stratified_f0_s1",
+      "status": "CACHED"
+    },
+    "lognormal_und_dc_stratified_f1_s0": {
+      "cell": "lognormal_und_dc_stratified_f1_s0",
+      "status": "CACHED"
+    },
+    "gaussian_und_dc_stratified_f2_s2": {
+      "cell": "gaussian_und_dc_stratified_f2_s2",
+      "status": "CACHED"
+    },
+    "gaussian_und_dc_random_f2_s2": {
+      "cell": "gaussian_und_dc_random_f2_s2",
+      "status": "CACHED"
+    },
+    "gaussian_und_dc_stratified_f0_s0": {
+      "cell": "gaussian_und_dc_stratified_f0_s0",
+      "status": "CACHED"
+    },
+    "gaussian_dir_dc_stratified_f1_s0": {
+      "cell": "gaussian_dir_dc_stratified_f1_s0",
+      "status": "CACHED"
+    },
+    "gaussian_dir_ndc_random_f1_s1": {
+      "cell": "gaussian_dir_ndc_random_f1_s1",
+      "status": "CACHED"
+    },
+    "lognormal_dir_dc_random_f1_s2": {
+      "cell": "lognormal_dir_dc_random_f1_s2",
+      "status": "CACHED"
+    },
+    "poisson_und_dc_random_f1_s0": {
+      "cell": "poisson_und_dc_random_f1_s0",
+      "status": "CACHED"
+    },
+    "poisson_dir_dc_stratified_f0_s1": {
+      "cell": "poisson_dir_dc_stratified_f0_s1",
+      "status": "CACHED"
+    },
+    "lognormal_dir_dc_random_f1_s1": {
+      "cell": "lognormal_dir_dc_random_f1_s1",
+      "status": "CACHED"
+    },
+    "poisson_und_dc_random_f0_s2": {
+      "cell": "poisson_und_dc_random_f0_s2",
+      "status": "CACHED"
+    },
+    "lognormal_und_dc_random_f2_s2": {
+      "cell": "lognormal_und_dc_random_f2_s2",
+      "status": "CACHED"
+    },
+    "poisson_dir_dc_random_f1_s1": {
+      "cell": "poisson_dir_dc_random_f1_s1",
+      "status": "CACHED"
+    },
+    "lognormal_und_dc_random_f1_s2": {
+      "cell": "lognormal_und_dc_random_f1_s2",
+      "status": "CACHED"
+    },
+    "poisson_dir_dc_stratified_f0_s0": {
+      "cell": "poisson_dir_dc_stratified_f0_s0",
+      "status": "CACHED"
+    },
+    "lognormal_und_dc_random_f1_s1": {
+      "cell": "lognormal_und_dc_random_f1_s1",
+      "status": "CACHED"
+    },
+    "lognormal_und_dc_stratified_f2_s0": {
+      "cell": "lognormal_und_dc_stratified_f2_s0",
+      "status": "CACHED"
+    },
+    "lognormal_und_ndc_random_f0_s1": {
+      "cell": "lognormal_und_ndc_random_f0_s1",
+      "status": "CACHED"
+    },
+    "gaussian_dir_ndc_random_f0_s0": {
+      "cell": "gaussian_dir_ndc_random_f0_s0",
+      "status": "CACHED"
+    },
+    "gaussian_und_dc_random_f2_s0": {
+      "cell": "gaussian_und_dc_random_f2_s0",
+      "status": "CACHED"
+    },
+    "lognormal_und_dc_stratified_f2_s1": {
+      "cell": "lognormal_und_dc_stratified_f2_s1",
+      "status": "CACHED"
+    },
+    "gaussian_dir_dc_random_f2_s1": {
+      "cell": "gaussian_dir_dc_random_f2_s1",
+      "status": "CACHED"
+    },
+    "gaussian_dir_dc_random_f1_s1": {
+      "cell": "gaussian_dir_dc_random_f1_s1",
+      "status": "CACHED"
+    },
+    "gaussian_dir_ndc_random_f1_s0": {
+      "cell": "gaussian_dir_ndc_random_f1_s0",
+      "status": "CACHED"
+    },
+    "poisson_dir_ndc_stratified_f2_s2": {
+      "cell": "poisson_dir_ndc_stratified_f2_s2",
+      "status": "CACHED"
+    },
+    "poisson_dir_dc_random_f0_s2": {
+      "cell": "poisson_dir_dc_random_f0_s2",
+      "status": "CACHED"
+    },
+    "gaussian_dir_dc_random_f1_s0": {
+      "cell": "gaussian_dir_dc_random_f1_s0",
+      "status": "CACHED"
+    },
+    "poisson_dir_ndc_stratified_f2_s1": {
+      "cell": "poisson_dir_ndc_stratified_f2_s1",
+      "status": "CACHED"
+    },
+    "gaussian_dir_dc_stratified_f1_s1": {
+      "cell": "gaussian_dir_dc_stratified_f1_s1",
+      "status": "CACHED"
+    },
+    "poisson_dir_dc_random_f2_s1": {
+      "cell": "poisson_dir_dc_random_f2_s1",
+      "status": "CACHED"
+    },
+    "poisson_und_dc_random_f1_s1": {
+      "cell": "poisson_und_dc_random_f1_s1",
+      "status": "CACHED"
+    },
+    "poisson_dir_dc_random_f2_s0": {
+      "cell": "poisson_dir_dc_random_f2_s0",
+      "status": "CACHED"
+    },
+    "lognormal_und_dc_random_f2_s0": {
+      "cell": "lognormal_und_dc_random_f2_s0",
+      "status": "CACHED"
+    },
+    "poisson_dir_dc_random_f0_s1": {
+      "cell": "poisson_dir_dc_random_f0_s1",
+      "status": "CACHED"
+    },
+    "poisson_und_dc_stratified_f0_s2": {
+      "cell": "poisson_und_dc_stratified_f0_s2",
+      "status": "CACHED"
+    },
+    "lognormal_und_dc_random_f2_s1": {
+      "cell": "lognormal_und_dc_random_f2_s1",
+      "status": "CACHED"
+    },
+    "lognormal_und_dc_stratified_f0_s2": {
+      "cell": "lognormal_und_dc_stratified_f0_s2",
+      "status": "CACHED"
+    },
+    "poisson_und_dc_stratified_f2_s1": {
+      "cell": "poisson_und_dc_stratified_f2_s1",
+      "status": "CACHED"
+    }
+  }
+}

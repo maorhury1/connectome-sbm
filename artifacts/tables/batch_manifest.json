@@ -1,0 +1,3215 @@
+{
+  "done": 200,
+  "total": 200,
+  "elapsed_s": 56014.7,
+  "results": {
+    "poisson_t1_und_dc_s1": {
+      "cell": "poisson_t1_und_dc_s1",
+      "status": "OK",
+      "used_seed": 1,
+      "run_name": "poisson_t1_und_dc_s1",
+      "attempts": [
+        {
+          "seed": 1,
+          "run_name": "poisson_t1_und_dc_s1",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 9098.9
+        }
+      ]
+    },
+    "poisson_t1_und_ndc_s1": {
+      "cell": "poisson_t1_und_ndc_s1",
+      "status": "OK",
+      "used_seed": 1,
+      "run_name": "poisson_t1_und_ndc_s1",
+      "attempts": [
+        {
+          "seed": 1,
+          "run_name": "poisson_t1_und_ndc_s1",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 10020.8
+        }
+      ]
+    },
+    "poisson_t1_und_dc_s4": {
+      "cell": "poisson_t1_und_dc_s4",
+      "status": "OK",
+      "used_seed": 4,
+      "run_name": "poisson_t1_und_dc_s4",
+      "attempts": [
+        {
+          "seed": 4,
+          "run_name": "poisson_t1_und_dc_s4",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 10279.3
+        }
+      ]
+    },
+    "poisson_t1_und_dc_s0": {
+      "cell": "poisson_t1_und_dc_s0",
+      "status": "OK",
+      "used_seed": 0,
+      "run_name": "poisson_t1_und_dc_s0",
+      "attempts": [
+        {
+          "seed": 0,
+          "run_name": "poisson_t1_und_dc_s0",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 10793.2
+        }
+      ]
+    },
+    "poisson_t1_und_dc_s2": {
+      "cell": "poisson_t1_und_dc_s2",
+      "status": "OK",
+      "used_seed": 2,
+      "run_name": "poisson_t1_und_dc_s2",
+      "attempts": [
+        {
+          "seed": 2,
+          "run_name": "poisson_t1_und_dc_s2",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 11093.7
+        }
+      ]
+    },
+    "poisson_t1_und_ndc_s2": {
+      "cell": "poisson_t1_und_ndc_s2",
+      "status": "OK",
+      "used_seed": 2,
+      "run_name": "poisson_t1_und_ndc_s2",
+      "attempts": [
+        {
+          "seed": 2,
+          "run_name": "poisson_t1_und_ndc_s2",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 11593.1
+        }
+      ]
+    },
+    "poisson_t1_und_ndc_s3": {
+      "cell": "poisson_t1_und_ndc_s3",
+      "status": "OK",
+      "used_seed": 3,
+      "run_name": "poisson_t1_und_ndc_s3",
+      "attempts": [
+        {
+          "seed": 3,
+          "run_name": "poisson_t1_und_ndc_s3",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 11673.2
+        }
+      ]
+    },
+    "poisson_t1_dir_ndc_s4": {
+      "cell": "poisson_t1_dir_ndc_s4",
+      "status": "OK",
+      "used_seed": 4,
+      "run_name": "poisson_t1_dir_ndc_s4",
+      "attempts": [
+        {
+          "seed": 4,
+          "run_name": "poisson_t1_dir_ndc_s4",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 11678.4
+        }
+      ]
+    },
+    "poisson_t1_und_ndc_s4": {
+      "cell": "poisson_t1_und_ndc_s4",
+      "status": "OK",
+      "used_seed": 4,
+      "run_name": "poisson_t1_und_ndc_s4",
+      "attempts": [
+        {
+          "seed": 4,
+          "run_name": "poisson_t1_und_ndc_s4",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 11895.8
+        }
+      ]
+    },
+    "poisson_t1_und_dc_s3": {
+      "cell": "poisson_t1_und_dc_s3",
+      "status": "OK",
+      "used_seed": 3,
+      "run_name": "poisson_t1_und_dc_s3",
+      "attempts": [
+        {
+          "seed": 3,
+          "run_name": "poisson_t1_und_dc_s3",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 12047.4
+        }
+      ]
+    },
+    "poisson_t1_dir_ndc_s2": {
+      "cell": "poisson_t1_dir_ndc_s2",
+      "status": "OK",
+      "used_seed": 2,
+      "run_name": "poisson_t1_dir_ndc_s2",
+      "attempts": [
+        {
+          "seed": 2,
+          "run_name": "poisson_t1_dir_ndc_s2",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 12980.5
+        }
+      ]
+    },
+    "poisson_t1_dir_dc_s0": {
+      "cell": "poisson_t1_dir_dc_s0",
+      "status": "OK",
+      "used_seed": 0,
+      "run_name": "poisson_t1_dir_dc_s0",
+      "attempts": [
+        {
+          "seed": 0,
+          "run_name": "poisson_t1_dir_dc_s0",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 13066.0
+        }
+      ]
+    },
+    "lognormal_t1_und_ndc_s0": {
+      "cell": "lognormal_t1_und_ndc_s0",
+      "status": "OK",
+      "used_seed": 0,
+      "run_name": "lognormal_t1_und_ndc_s0",
+      "attempts": [
+        {
+          "seed": 0,
+          "run_name": "lognormal_t1_und_ndc_s0",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 13963.8
+        }
+      ]
+    },
+    "poisson_t1_dir_ndc_s3": {
+      "cell": "poisson_t1_dir_ndc_s3",
+      "status": "OK",
+      "used_seed": 3,
+      "run_name": "poisson_t1_dir_ndc_s3",
+      "attempts": [
+        {
+          "seed": 3,
+          "run_name": "poisson_t1_dir_ndc_s3",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 14228.6
+        }
+      ]
+    },
+    "poisson_t1_dir_ndc_s1": {
+      "cell": "poisson_t1_dir_ndc_s1",
+      "status": "OK",
+      "used_seed": 1,
+      "run_name": "poisson_t1_dir_ndc_s1",
+      "attempts": [
+        {
+          "seed": 1,
+          "run_name": "poisson_t1_dir_ndc_s1",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 14306.6
+        }
+      ]
+    },
+    "lognormal_t1_und_ndc_s4": {
+      "cell": "lognormal_t1_und_ndc_s4",
+      "status": "OK",
+      "used_seed": 4,
+      "run_name": "lognormal_t1_und_ndc_s4",
+      "attempts": [
+        {
+          "seed": 4,
+          "run_name": "lognormal_t1_und_ndc_s4",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 14864.9
+        }
+      ]
+    },
+    "poisson_t1_dir_dc_s4": {
+      "cell": "poisson_t1_dir_dc_s4",
+      "status": "OK",
+      "used_seed": 4,
+      "run_name": "poisson_t1_dir_dc_s4",
+      "attempts": [
+        {
+          "seed": 4,
+          "run_name": "poisson_t1_dir_dc_s4",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 14943.8
+        }
+      ]
+    },
+    "poisson_t1_und_ndc_s0": {
+      "cell": "poisson_t1_und_ndc_s0",
+      "status": "OK",
+      "used_seed": 0,
+      "run_name": "poisson_t1_und_ndc_s0",
+      "attempts": [
+        {
+          "seed": 0,
+          "run_name": "poisson_t1_und_ndc_s0",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 15016.5
+        }
+      ]
+    },
+    "lognormal_t5_und_ndc_s4": {
+      "cell": "lognormal_t5_und_ndc_s4",
+      "status": "OK",
+      "used_seed": 4,
+      "run_name": "lognormal_t5_und_ndc_s4",
+      "attempts": [
+        {
+          "seed": 4,
+          "run_name": "lognormal_t5_und_ndc_s4",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 15019.4
+        }
+      ]
+    },
+    "poisson_t1_dir_dc_s2": {
+      "cell": "poisson_t1_dir_dc_s2",
+      "status": "OK",
+      "used_seed": 2,
+      "run_name": "poisson_t1_dir_dc_s2",
+      "attempts": [
+        {
+          "seed": 2,
+          "run_name": "poisson_t1_dir_dc_s2",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 15719.9
+        }
+      ]
+    },
+    "lognormal_t5_und_ndc_s1": {
+      "cell": "lognormal_t5_und_ndc_s1",
+      "status": "OK",
+      "used_seed": 1,
+      "run_name": "lognormal_t5_und_ndc_s1",
+      "attempts": [
+        {
+          "seed": 1,
+          "run_name": "lognormal_t5_und_ndc_s1",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 16232.8
+        }
+      ]
+    },
+    "lognormal_t1_und_ndc_s1": {
+      "cell": "lognormal_t1_und_ndc_s1",
+      "status": "OK",
+      "used_seed": 1,
+      "run_name": "lognormal_t1_und_ndc_s1",
+      "attempts": [
+        {
+          "seed": 1,
+          "run_name": "lognormal_t1_und_ndc_s1",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 16710.9
+        }
+      ]
+    },
+    "poisson_t1_dir_dc_s3": {
+      "cell": "poisson_t1_dir_dc_s3",
+      "status": "OK",
+      "used_seed": 3,
+      "run_name": "poisson_t1_dir_dc_s3",
+      "attempts": [
+        {
+          "seed": 3,
+          "run_name": "poisson_t1_dir_dc_s3",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 16958.1
+        }
+      ]
+    },
+    "poisson_t1_dir_ndc_s0": {
+      "cell": "poisson_t1_dir_ndc_s0",
+      "status": "OK",
+      "used_seed": 0,
+      "run_name": "poisson_t1_dir_ndc_s0",
+      "attempts": [
+        {
+          "seed": 0,
+          "run_name": "poisson_t1_dir_ndc_s0",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 17404.8
+        }
+      ]
+    },
+    "lognormal_t5_und_ndc_s2": {
+      "cell": "lognormal_t5_und_ndc_s2",
+      "status": "OK",
+      "used_seed": 2,
+      "run_name": "lognormal_t5_und_ndc_s2",
+      "attempts": [
+        {
+          "seed": 2,
+          "run_name": "lognormal_t5_und_ndc_s2",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 18535.2
+        }
+      ]
+    },
+    "lognormal_t5_dir_ndc_s0": {
+      "cell": "lognormal_t5_dir_ndc_s0",
+      "status": "OK",
+      "used_seed": 0,
+      "run_name": "lognormal_t5_dir_ndc_s0",
+      "attempts": [
+        {
+          "seed": 0,
+          "run_name": "lognormal_t5_dir_ndc_s0",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 19515.2
+        }
+      ]
+    },
+    "lognormal_t1_und_ndc_s2": {
+      "cell": "lognormal_t1_und_ndc_s2",
+      "status": "OK",
+      "used_seed": 2,
+      "run_name": "lognormal_t1_und_ndc_s2",
+      "attempts": [
+        {
+          "seed": 2,
+          "run_name": "lognormal_t1_und_ndc_s2",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 19558.8
+        }
+      ]
+    },
+    "lognormal_t1_dir_ndc_s3": {
+      "cell": "lognormal_t1_dir_ndc_s3",
+      "status": "OK",
+      "used_seed": 3,
+      "run_name": "lognormal_t1_dir_ndc_s3",
+      "attempts": [
+        {
+          "seed": 3,
+          "run_name": "lognormal_t1_dir_ndc_s3",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 19583.1
+        }
+      ]
+    },
+    "lognormal_t1_und_ndc_s3": {
+      "cell": "lognormal_t1_und_ndc_s3",
+      "status": "OK",
+      "used_seed": 3,
+      "run_name": "lognormal_t1_und_ndc_s3",
+      "attempts": [
+        {
+          "seed": 3,
+          "run_name": "lognormal_t1_und_ndc_s3",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 20097.0
+        }
+      ]
+    },
+    "lognormal_t5_dir_ndc_s3": {
+      "cell": "lognormal_t5_dir_ndc_s3",
+      "status": "OK",
+      "used_seed": 3,
+      "run_name": "lognormal_t5_dir_ndc_s3",
+      "attempts": [
+        {
+          "seed": 3,
+          "run_name": "lognormal_t5_dir_ndc_s3",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 20730.8
+        }
+      ]
+    },
+    "lognormal_t1_dir_ndc_s1": {
+      "cell": "lognormal_t1_dir_ndc_s1",
+      "status": "OK",
+      "used_seed": 1,
+      "run_name": "lognormal_t1_dir_ndc_s1",
+      "attempts": [
+        {
+          "seed": 1,
+          "run_name": "lognormal_t1_dir_ndc_s1",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 21117.1
+        }
+      ]
+    },
+    "lognormal_t5_und_ndc_s3": {
+      "cell": "lognormal_t5_und_ndc_s3",
+      "status": "OK",
+      "used_seed": 3,
+      "run_name": "lognormal_t5_und_ndc_s3",
+      "attempts": [
+        {
+          "seed": 3,
+          "run_name": "lognormal_t5_und_ndc_s3",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 21326.8
+        }
+      ]
+    },
+    "lognormal_t5_dir_ndc_s1": {
+      "cell": "lognormal_t5_dir_ndc_s1",
+      "status": "OK",
+      "used_seed": 1,
+      "run_name": "lognormal_t5_dir_ndc_s1",
+      "attempts": [
+        {
+          "seed": 1,
+          "run_name": "lognormal_t5_dir_ndc_s1",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 21454.3
+        }
+      ]
+    },
+    "poisson_t5_und_dc_s1": {
+      "cell": "poisson_t5_und_dc_s1",
+      "status": "OK",
+      "used_seed": 1,
+      "run_name": "poisson_t5_und_dc_s1",
+      "attempts": [
+        {
+          "seed": 1,
+          "run_name": "poisson_t5_und_dc_s1",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 9007.6
+        }
+      ]
+    },
+    "poisson_t5_dir_dc_s0": {
+      "cell": "poisson_t5_dir_dc_s0",
+      "status": "OK",
+      "used_seed": 0,
+      "run_name": "poisson_t5_dir_dc_s0",
+      "attempts": [
+        {
+          "seed": 0,
+          "run_name": "poisson_t5_dir_dc_s0",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 13710.8
+        }
+      ]
+    },
+    "poisson_t5_dir_ndc_s4": {
+      "cell": "poisson_t5_dir_ndc_s4",
+      "status": "OK",
+      "used_seed": 4,
+      "run_name": "poisson_t5_dir_ndc_s4",
+      "attempts": [
+        {
+          "seed": 4,
+          "run_name": "poisson_t5_dir_ndc_s4",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 11653.8
+        }
+      ]
+    },
+    "lognormal_t5_und_dc_s2": {
+      "cell": "lognormal_t5_und_dc_s2",
+      "status": "OK",
+      "used_seed": 2,
+      "run_name": "lognormal_t5_und_dc_s2",
+      "attempts": [
+        {
+          "seed": 2,
+          "run_name": "lognormal_t5_und_dc_s2",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 23729.0
+        }
+      ]
+    },
+    "poisson_t5_dir_ndc_s2": {
+      "cell": "poisson_t5_dir_ndc_s2",
+      "status": "OK",
+      "used_seed": 2,
+      "run_name": "poisson_t5_dir_ndc_s2",
+      "attempts": [
+        {
+          "seed": 2,
+          "run_name": "poisson_t5_dir_ndc_s2",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 12578.6
+        }
+      ]
+    },
+    "poisson_t5_und_ndc_s1": {
+      "cell": "poisson_t5_und_ndc_s1",
+      "status": "OK",
+      "used_seed": 1,
+      "run_name": "poisson_t5_und_ndc_s1",
+      "attempts": [
+        {
+          "seed": 1,
+          "run_name": "poisson_t5_und_ndc_s1",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 9455.7
+        }
+      ]
+    },
+    "poisson_t5_und_dc_s2": {
+      "cell": "poisson_t5_und_dc_s2",
+      "status": "OK",
+      "used_seed": 2,
+      "run_name": "poisson_t5_und_dc_s2",
+      "attempts": [
+        {
+          "seed": 2,
+          "run_name": "poisson_t5_und_dc_s2",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 10610.7
+        }
+      ]
+    },
+    "poisson_t5_und_dc_s4": {
+      "cell": "poisson_t5_und_dc_s4",
+      "status": "OK",
+      "used_seed": 4,
+      "run_name": "poisson_t5_und_dc_s4",
+      "attempts": [
+        {
+          "seed": 4,
+          "run_name": "poisson_t5_und_dc_s4",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 10372.5
+        }
+      ]
+    },
+    "poisson_t5_dir_dc_s2": {
+      "cell": "poisson_t5_dir_dc_s2",
+      "status": "OK",
+      "used_seed": 2,
+      "run_name": "poisson_t5_dir_dc_s2",
+      "attempts": [
+        {
+          "seed": 2,
+          "run_name": "poisson_t5_dir_dc_s2",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 14425.9
+        }
+      ]
+    },
+    "lognormal_t5_und_ndc_s0": {
+      "cell": "lognormal_t5_und_ndc_s0",
+      "status": "OK",
+      "used_seed": 0,
+      "run_name": "lognormal_t5_und_ndc_s0",
+      "attempts": [
+        {
+          "seed": 0,
+          "run_name": "lognormal_t5_und_ndc_s0",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 24768.1
+        }
+      ]
+    },
+    "lognormal_t5_und_dc_s1": {
+      "cell": "lognormal_t5_und_dc_s1",
+      "status": "OK",
+      "used_seed": 1,
+      "run_name": "lognormal_t5_und_dc_s1",
+      "attempts": [
+        {
+          "seed": 1,
+          "run_name": "lognormal_t5_und_dc_s1",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 24778.8
+        }
+      ]
+    },
+    "lognormal_t5_und_dc_s4": {
+      "cell": "lognormal_t5_und_dc_s4",
+      "status": "OK",
+      "used_seed": 4,
+      "run_name": "lognormal_t5_und_dc_s4",
+      "attempts": [
+        {
+          "seed": 4,
+          "run_name": "lognormal_t5_und_dc_s4",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 24945.4
+        }
+      ]
+    },
+    "poisson_t5_dir_ndc_s1": {
+      "cell": "poisson_t5_dir_ndc_s1",
+      "status": "OK",
+      "used_seed": 1,
+      "run_name": "poisson_t5_dir_ndc_s1",
+      "attempts": [
+        {
+          "seed": 1,
+          "run_name": "poisson_t5_dir_ndc_s1",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 13545.4
+        }
+      ]
+    },
+    "poisson_t5_dir_dc_s4": {
+      "cell": "poisson_t5_dir_dc_s4",
+      "status": "OK",
+      "used_seed": 4,
+      "run_name": "poisson_t5_dir_dc_s4",
+      "attempts": [
+        {
+          "seed": 4,
+          "run_name": "poisson_t5_dir_dc_s4",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 14309.3
+        }
+      ]
+    },
+    "lognormal_t1_und_dc_s3": {
+      "cell": "lognormal_t1_und_dc_s3",
+      "status": "OK",
+      "used_seed": 3,
+      "run_name": "lognormal_t1_und_dc_s3",
+      "attempts": [
+        {
+          "seed": 3,
+          "run_name": "lognormal_t1_und_dc_s3",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 25429.6
+        }
+      ]
+    },
+    "lognormal_t5_und_dc_s0": {
+      "cell": "lognormal_t5_und_dc_s0",
+      "status": "OK",
+      "used_seed": 0,
+      "run_name": "lognormal_t5_und_dc_s0",
+      "attempts": [
+        {
+          "seed": 0,
+          "run_name": "lognormal_t5_und_dc_s0",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 25568.9
+        }
+      ]
+    },
+    "poisson_t5_dir_ndc_s3": {
+      "cell": "poisson_t5_dir_ndc_s3",
+      "status": "OK",
+      "used_seed": 3,
+      "run_name": "poisson_t5_dir_ndc_s3",
+      "attempts": [
+        {
+          "seed": 3,
+          "run_name": "poisson_t5_dir_ndc_s3",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 13729.8
+        }
+      ]
+    },
+    "poisson_t5_und_ndc_s2": {
+      "cell": "poisson_t5_und_ndc_s2",
+      "status": "OK",
+      "used_seed": 2,
+      "run_name": "poisson_t5_und_ndc_s2",
+      "attempts": [
+        {
+          "seed": 2,
+          "run_name": "poisson_t5_und_ndc_s2",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 10612.2
+        }
+      ]
+    },
+    "lognormal_t5_und_dc_s3": {
+      "cell": "lognormal_t5_und_dc_s3",
+      "status": "OK",
+      "used_seed": 3,
+      "run_name": "lognormal_t5_und_dc_s3",
+      "attempts": [
+        {
+          "seed": 3,
+          "run_name": "lognormal_t5_und_dc_s3",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 25707.6
+        }
+      ]
+    },
+    "lognormal_t1_und_dc_s2": {
+      "cell": "lognormal_t1_und_dc_s2",
+      "status": "OK",
+      "used_seed": 2,
+      "run_name": "lognormal_t1_und_dc_s2",
+      "attempts": [
+        {
+          "seed": 2,
+          "run_name": "lognormal_t1_und_dc_s2",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 25754.2
+        }
+      ]
+    },
+    "poisson_t5_dir_ndc_s0": {
+      "cell": "poisson_t5_dir_ndc_s0",
+      "status": "OK",
+      "used_seed": 0,
+      "run_name": "poisson_t5_dir_ndc_s0",
+      "attempts": [
+        {
+          "seed": 0,
+          "run_name": "poisson_t5_dir_ndc_s0",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 14305.2
+        }
+      ]
+    },
+    "poisson_t5_und_dc_s3": {
+      "cell": "poisson_t5_und_dc_s3",
+      "status": "OK",
+      "used_seed": 3,
+      "run_name": "poisson_t5_und_dc_s3",
+      "attempts": [
+        {
+          "seed": 3,
+          "run_name": "poisson_t5_und_dc_s3",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 11706.7
+        }
+      ]
+    },
+    "poisson_t5_und_ndc_s0": {
+      "cell": "poisson_t5_und_ndc_s0",
+      "status": "OK",
+      "used_seed": 0,
+      "run_name": "poisson_t5_und_ndc_s0",
+      "attempts": [
+        {
+          "seed": 0,
+          "run_name": "poisson_t5_und_ndc_s0",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 11125.6
+        }
+      ]
+    },
+    "lognormal_t1_und_dc_s1": {
+      "cell": "lognormal_t1_und_dc_s1",
+      "status": "OK",
+      "used_seed": 1,
+      "run_name": "lognormal_t1_und_dc_s1",
+      "attempts": [
+        {
+          "seed": 1,
+          "run_name": "lognormal_t1_und_dc_s1",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 26387.1
+        }
+      ]
+    },
+    "lognormal_t1_und_dc_s4": {
+      "cell": "lognormal_t1_und_dc_s4",
+      "status": "OK",
+      "used_seed": 4,
+      "run_name": "lognormal_t1_und_dc_s4",
+      "attempts": [
+        {
+          "seed": 4,
+          "run_name": "lognormal_t1_und_dc_s4",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 26411.9
+        }
+      ]
+    },
+    "poisson_t5_und_ndc_s3": {
+      "cell": "poisson_t5_und_ndc_s3",
+      "status": "OK",
+      "used_seed": 3,
+      "run_name": "poisson_t5_und_ndc_s3",
+      "attempts": [
+        {
+          "seed": 3,
+          "run_name": "poisson_t5_und_ndc_s3",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 11542.1
+        }
+      ]
+    },
+    "poisson_t5_dir_dc_s3": {
+      "cell": "poisson_t5_dir_dc_s3",
+      "status": "OK",
+      "used_seed": 3,
+      "run_name": "poisson_t5_dir_dc_s3",
+      "attempts": [
+        {
+          "seed": 3,
+          "run_name": "poisson_t5_dir_dc_s3",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 15807.8
+        }
+      ]
+    },
+    "poisson_t5_und_dc_s0": {
+      "cell": "poisson_t5_und_dc_s0",
+      "status": "OK",
+      "used_seed": 0,
+      "run_name": "poisson_t5_und_dc_s0",
+      "attempts": [
+        {
+          "seed": 0,
+          "run_name": "poisson_t5_und_dc_s0",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 14018.6
+        }
+      ]
+    },
+    "lognormal_t1_dir_ndc_s2": {
+      "cell": "lognormal_t1_dir_ndc_s2",
+      "status": "OK",
+      "used_seed": 2,
+      "run_name": "lognormal_t1_dir_ndc_s2",
+      "attempts": [
+        {
+          "seed": 2,
+          "run_name": "lognormal_t1_dir_ndc_s2",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 27511.9
+        }
+      ]
+    },
+    "poisson_t5_und_ndc_s4": {
+      "cell": "poisson_t5_und_ndc_s4",
+      "status": "OK",
+      "used_seed": 4,
+      "run_name": "poisson_t5_und_ndc_s4",
+      "attempts": [
+        {
+          "seed": 4,
+          "run_name": "poisson_t5_und_ndc_s4",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 12030.1
+        }
+      ]
+    },
+    "lognormal_t5_dir_ndc_s2": {
+      "cell": "lognormal_t5_dir_ndc_s2",
+      "status": "OK",
+      "used_seed": 2,
+      "run_name": "lognormal_t5_dir_ndc_s2",
+      "attempts": [
+        {
+          "seed": 2,
+          "run_name": "lognormal_t5_dir_ndc_s2",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 29719.4
+        }
+      ]
+    },
+    "gaussian_t1_dir_dc_s0": {
+      "cell": "gaussian_t1_dir_dc_s0",
+      "status": "OK",
+      "used_seed": 0,
+      "run_name": "gaussian_t1_dir_dc_s0",
+      "attempts": [
+        {
+          "seed": 0,
+          "run_name": "gaussian_t1_dir_dc_s0",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 14772.2
+        }
+      ]
+    },
+    "poisson_t1_dir_dc_s1": {
+      "cell": "poisson_t1_dir_dc_s1",
+      "status": "OK",
+      "used_seed": 1,
+      "run_name": "poisson_t1_dir_dc_s1",
+      "attempts": [
+        {
+          "seed": 1,
+          "run_name": "poisson_t1_dir_dc_s1",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 31238.2
+        }
+      ]
+    },
+    "lognormal_t5_dir_dc_s2": {
+      "cell": "lognormal_t5_dir_dc_s2",
+      "status": "OK",
+      "used_seed": 2,
+      "run_name": "lognormal_t5_dir_dc_s2",
+      "attempts": [
+        {
+          "seed": 2,
+          "run_name": "lognormal_t5_dir_dc_s2",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 31572.5
+        }
+      ]
+    },
+    "lognormal_t1_dir_ndc_s0": {
+      "cell": "lognormal_t1_dir_ndc_s0",
+      "status": "OK",
+      "used_seed": 0,
+      "run_name": "lognormal_t1_dir_ndc_s0",
+      "attempts": [
+        {
+          "seed": 0,
+          "run_name": "lognormal_t1_dir_ndc_s0",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 31920.4
+        }
+      ]
+    },
+    "lognormal_t1_dir_ndc_s4": {
+      "cell": "lognormal_t1_dir_ndc_s4",
+      "status": "OK",
+      "used_seed": 4,
+      "run_name": "lognormal_t1_dir_ndc_s4",
+      "attempts": [
+        {
+          "seed": 4,
+          "run_name": "lognormal_t1_dir_ndc_s4",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 32037.0
+        }
+      ]
+    },
+    "lognormal_t5_dir_dc_s0": {
+      "cell": "lognormal_t5_dir_dc_s0",
+      "status": "OK",
+      "used_seed": 0,
+      "run_name": "lognormal_t5_dir_dc_s0",
+      "attempts": [
+        {
+          "seed": 0,
+          "run_name": "lognormal_t5_dir_dc_s0",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 32135.7
+        }
+      ]
+    },
+    "lognormal_t1_dir_dc_s0": {
+      "cell": "lognormal_t1_dir_dc_s0",
+      "status": "OK",
+      "used_seed": 0,
+      "run_name": "lognormal_t1_dir_dc_s0",
+      "attempts": [
+        {
+          "seed": 0,
+          "run_name": "lognormal_t1_dir_dc_s0",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 32280.4
+        }
+      ]
+    },
+    "lognormal_t5_dir_ndc_s4": {
+      "cell": "lognormal_t5_dir_ndc_s4",
+      "status": "OK",
+      "used_seed": 4,
+      "run_name": "lognormal_t5_dir_ndc_s4",
+      "attempts": [
+        {
+          "seed": 4,
+          "run_name": "lognormal_t5_dir_ndc_s4",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 32350.5
+        }
+      ]
+    },
+    "lognormal_t1_dir_dc_s1": {
+      "cell": "lognormal_t1_dir_dc_s1",
+      "status": "OK",
+      "used_seed": 1,
+      "run_name": "lognormal_t1_dir_dc_s1",
+      "attempts": [
+        {
+          "seed": 1,
+          "run_name": "lognormal_t1_dir_dc_s1",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 32363.6
+        }
+      ]
+    },
+    "lognormal_t1_dir_dc_s2": {
+      "cell": "lognormal_t1_dir_dc_s2",
+      "status": "OK",
+      "used_seed": 2,
+      "run_name": "lognormal_t1_dir_dc_s2",
+      "attempts": [
+        {
+          "seed": 2,
+          "run_name": "lognormal_t1_dir_dc_s2",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 32956.4
+        }
+      ]
+    },
+    "gaussian_t1_dir_dc_s2": {
+      "cell": "gaussian_t1_dir_dc_s2",
+      "status": "OK",
+      "used_seed": 2,
+      "run_name": "gaussian_t1_dir_dc_s2",
+      "attempts": [
+        {
+          "seed": 2,
+          "run_name": "gaussian_t1_dir_dc_s2",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 16075.1
+        }
+      ]
+    },
+    "gaussian_t1_und_dc_s2": {
+      "cell": "gaussian_t1_und_dc_s2",
+      "status": "OK",
+      "used_seed": 2,
+      "run_name": "gaussian_t1_und_dc_s2",
+      "attempts": [
+        {
+          "seed": 2,
+          "run_name": "gaussian_t1_und_dc_s2",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 11825.9
+        }
+      ]
+    },
+    "gaussian_t1_dir_dc_s4": {
+      "cell": "gaussian_t1_dir_dc_s4",
+      "status": "OK",
+      "used_seed": 4,
+      "run_name": "gaussian_t1_dir_dc_s4",
+      "attempts": [
+        {
+          "seed": 4,
+          "run_name": "gaussian_t1_dir_dc_s4",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 14888.9
+        }
+      ]
+    },
+    "lognormal_t5_dir_dc_s4": {
+      "cell": "lognormal_t5_dir_dc_s4",
+      "status": "OK",
+      "used_seed": 4,
+      "run_name": "lognormal_t5_dir_dc_s4",
+      "attempts": [
+        {
+          "seed": 4,
+          "run_name": "lognormal_t5_dir_dc_s4",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 33558.8
+        }
+      ]
+    },
+    "gaussian_t1_dir_dc_s1": {
+      "cell": "gaussian_t1_dir_dc_s1",
+      "status": "OK",
+      "used_seed": 1,
+      "run_name": "gaussian_t1_dir_dc_s1",
+      "attempts": [
+        {
+          "seed": 1,
+          "run_name": "gaussian_t1_dir_dc_s1",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 16856.1
+        }
+      ]
+    },
+    "lognormal_t5_dir_dc_s1": {
+      "cell": "lognormal_t5_dir_dc_s1",
+      "status": "OK",
+      "used_seed": 1,
+      "run_name": "lognormal_t5_dir_dc_s1",
+      "attempts": [
+        {
+          "seed": 1,
+          "run_name": "lognormal_t5_dir_dc_s1",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 33602.0
+        }
+      ]
+    },
+    "lognormal_t1_dir_dc_s4": {
+      "cell": "lognormal_t1_dir_dc_s4",
+      "status": "OK",
+      "used_seed": 4,
+      "run_name": "lognormal_t1_dir_dc_s4",
+      "attempts": [
+        {
+          "seed": 4,
+          "run_name": "lognormal_t1_dir_dc_s4",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 33811.0
+        }
+      ]
+    },
+    "gaussian_t1_und_dc_s1": {
+      "cell": "gaussian_t1_und_dc_s1",
+      "status": "OK",
+      "used_seed": 1,
+      "run_name": "gaussian_t1_und_dc_s1",
+      "attempts": [
+        {
+          "seed": 1,
+          "run_name": "gaussian_t1_und_dc_s1",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 12528.7
+        }
+      ]
+    },
+    "gaussian_t1_dir_ndc_s4": {
+      "cell": "gaussian_t1_dir_ndc_s4",
+      "status": "OK",
+      "used_seed": 4,
+      "run_name": "gaussian_t1_dir_ndc_s4",
+      "attempts": [
+        {
+          "seed": 4,
+          "run_name": "gaussian_t1_dir_ndc_s4",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 13358.6
+        }
+      ]
+    },
+    "gaussian_t1_und_ndc_s1": {
+      "cell": "gaussian_t1_und_ndc_s1",
+      "status": "OK",
+      "used_seed": 1,
+      "run_name": "gaussian_t1_und_ndc_s1",
+      "attempts": [
+        {
+          "seed": 1,
+          "run_name": "gaussian_t1_und_ndc_s1",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 10433.6
+        }
+      ]
+    },
+    "gaussian_t1_und_ndc_s0": {
+      "cell": "gaussian_t1_und_ndc_s0",
+      "status": "OK",
+      "used_seed": 0,
+      "run_name": "gaussian_t1_und_ndc_s0",
+      "attempts": [
+        {
+          "seed": 0,
+          "run_name": "gaussian_t1_und_ndc_s0",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 10574.0
+        }
+      ]
+    },
+    "gaussian_t1_und_dc_s0": {
+      "cell": "gaussian_t1_und_dc_s0",
+      "status": "OK",
+      "used_seed": 0,
+      "run_name": "gaussian_t1_und_dc_s0",
+      "attempts": [
+        {
+          "seed": 0,
+          "run_name": "gaussian_t1_und_dc_s0",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 13266.9
+        }
+      ]
+    },
+    "gaussian_t1_und_dc_s3": {
+      "cell": "gaussian_t1_und_dc_s3",
+      "status": "OK",
+      "used_seed": 3,
+      "run_name": "gaussian_t1_und_dc_s3",
+      "attempts": [
+        {
+          "seed": 3,
+          "run_name": "gaussian_t1_und_dc_s3",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 12895.3
+        }
+      ]
+    },
+    "gaussian_t1_dir_ndc_s1": {
+      "cell": "gaussian_t1_dir_ndc_s1",
+      "status": "OK",
+      "used_seed": 1,
+      "run_name": "gaussian_t1_dir_ndc_s1",
+      "attempts": [
+        {
+          "seed": 1,
+          "run_name": "gaussian_t1_dir_ndc_s1",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 15739.7
+        }
+      ]
+    },
+    "gaussian_t1_und_ndc_s3": {
+      "cell": "gaussian_t1_und_ndc_s3",
+      "status": "OK",
+      "used_seed": 3,
+      "run_name": "gaussian_t1_und_ndc_s3",
+      "attempts": [
+        {
+          "seed": 3,
+          "run_name": "gaussian_t1_und_ndc_s3",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 11740.3
+        }
+      ]
+    },
+    "gaussian_t1_und_dc_s4": {
+      "cell": "gaussian_t1_und_dc_s4",
+      "status": "OK",
+      "used_seed": 4,
+      "run_name": "gaussian_t1_und_dc_s4",
+      "attempts": [
+        {
+          "seed": 4,
+          "run_name": "gaussian_t1_und_dc_s4",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 13619.0
+        }
+      ]
+    },
+    "lognormal_t5_dir_dc_s3": {
+      "cell": "lognormal_t5_dir_dc_s3",
+      "status": "OK",
+      "used_seed": 3,
+      "run_name": "lognormal_t5_dir_dc_s3",
+      "attempts": [
+        {
+          "seed": 3,
+          "run_name": "lognormal_t5_dir_dc_s3",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 36444.1
+        }
+      ]
+    },
+    "gaussian_t1_dir_ndc_s3": {
+      "cell": "gaussian_t1_dir_ndc_s3",
+      "status": "OK",
+      "used_seed": 3,
+      "run_name": "gaussian_t1_dir_ndc_s3",
+      "attempts": [
+        {
+          "seed": 3,
+          "run_name": "gaussian_t1_dir_ndc_s3",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 16388.3
+        }
+      ]
+    },
+    "lognormal_t1_dir_dc_s3": {
+      "cell": "lognormal_t1_dir_dc_s3",
+      "status": "OK",
+      "used_seed": 3,
+      "run_name": "lognormal_t1_dir_dc_s3",
+      "attempts": [
+        {
+          "seed": 3,
+          "run_name": "lognormal_t1_dir_dc_s3",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 36705.3
+        }
+      ]
+    },
+    "gaussian_t1_und_ndc_s4": {
+      "cell": "gaussian_t1_und_ndc_s4",
+      "status": "OK",
+      "used_seed": 4,
+      "run_name": "gaussian_t1_und_ndc_s4",
+      "attempts": [
+        {
+          "seed": 4,
+          "run_name": "gaussian_t1_und_ndc_s4",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 12450.0
+        }
+      ]
+    },
+    "gaussian_t5_und_ndc_s0": {
+      "cell": "gaussian_t5_und_ndc_s0",
+      "status": "OK",
+      "used_seed": 0,
+      "run_name": "gaussian_t5_und_ndc_s0",
+      "attempts": [
+        {
+          "seed": 0,
+          "run_name": "gaussian_t5_und_ndc_s0",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 11086.9
+        }
+      ]
+    },
+    "gaussian_t1_dir_dc_s3": {
+      "cell": "gaussian_t1_dir_dc_s3",
+      "status": "OK",
+      "used_seed": 3,
+      "run_name": "gaussian_t1_dir_dc_s3",
+      "attempts": [
+        {
+          "seed": 3,
+          "run_name": "gaussian_t1_dir_dc_s3",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 19912.8
+        }
+      ]
+    },
+    "gaussian_t1_dir_ndc_s0": {
+      "cell": "gaussian_t1_dir_ndc_s0",
+      "status": "OK",
+      "used_seed": 0,
+      "run_name": "gaussian_t1_dir_ndc_s0",
+      "attempts": [
+        {
+          "seed": 0,
+          "run_name": "gaussian_t1_dir_ndc_s0",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 17814.4
+        }
+      ]
+    },
+    "gaussian_t1_dir_ndc_s2": {
+      "cell": "gaussian_t1_dir_ndc_s2",
+      "status": "OK",
+      "used_seed": 2,
+      "run_name": "gaussian_t1_dir_ndc_s2",
+      "attempts": [
+        {
+          "seed": 2,
+          "run_name": "gaussian_t1_dir_ndc_s2",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 17772.4
+        }
+      ]
+    },
+    "geometric_t1_dir_dc_s2": {
+      "cell": "geometric_t1_dir_dc_s2",
+      "status": "OK",
+      "used_seed": 2,
+      "run_name": "geometric_t1_dir_dc_s2",
+      "attempts": [
+        {
+          "seed": 2,
+          "run_name": "geometric_t1_dir_dc_s2",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 9694.0
+        }
+      ]
+    },
+    "gaussian_t1_und_ndc_s2": {
+      "cell": "gaussian_t1_und_ndc_s2",
+      "status": "OK",
+      "used_seed": 2,
+      "run_name": "gaussian_t1_und_ndc_s2",
+      "attempts": [
+        {
+          "seed": 2,
+          "run_name": "gaussian_t1_und_ndc_s2",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 13208.0
+        }
+      ]
+    },
+    "gaussian_t5_und_ndc_s1": {
+      "cell": "gaussian_t5_und_ndc_s1",
+      "status": "OK",
+      "used_seed": 1,
+      "run_name": "gaussian_t5_und_ndc_s1",
+      "attempts": [
+        {
+          "seed": 1,
+          "run_name": "gaussian_t5_und_ndc_s1",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 11229.2
+        }
+      ]
+    },
+    "gaussian_t5_und_ndc_s3": {
+      "cell": "gaussian_t5_und_ndc_s3",
+      "status": "OK",
+      "used_seed": 3,
+      "run_name": "gaussian_t5_und_ndc_s3",
+      "attempts": [
+        {
+          "seed": 3,
+          "run_name": "gaussian_t5_und_ndc_s3",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 11091.8
+        }
+      ]
+    },
+    "gaussian_t5_und_dc_s2": {
+      "cell": "gaussian_t5_und_dc_s2",
+      "status": "OK",
+      "used_seed": 2,
+      "run_name": "gaussian_t5_und_dc_s2",
+      "attempts": [
+        {
+          "seed": 2,
+          "run_name": "gaussian_t5_und_dc_s2",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 11938.8
+        }
+      ]
+    },
+    "geometric_t1_dir_dc_s0": {
+      "cell": "geometric_t1_dir_dc_s0",
+      "status": "OK",
+      "used_seed": 0,
+      "run_name": "geometric_t1_dir_dc_s0",
+      "attempts": [
+        {
+          "seed": 0,
+          "run_name": "geometric_t1_dir_dc_s0",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 11073.8
+        }
+      ]
+    },
+    "gaussian_t5_und_ndc_s4": {
+      "cell": "gaussian_t5_und_ndc_s4",
+      "status": "OK",
+      "used_seed": 4,
+      "run_name": "gaussian_t5_und_ndc_s4",
+      "attempts": [
+        {
+          "seed": 4,
+          "run_name": "gaussian_t5_und_ndc_s4",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 11638.8
+        }
+      ]
+    },
+    "geometric_t1_dir_dc_s1": {
+      "cell": "geometric_t1_dir_dc_s1",
+      "status": "OK",
+      "used_seed": 1,
+      "run_name": "geometric_t1_dir_dc_s1",
+      "attempts": [
+        {
+          "seed": 1,
+          "run_name": "geometric_t1_dir_dc_s1",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 11272.3
+        }
+      ]
+    },
+    "gaussian_t5_dir_ndc_s4": {
+      "cell": "gaussian_t5_dir_ndc_s4",
+      "status": "OK",
+      "used_seed": 4,
+      "run_name": "gaussian_t5_dir_ndc_s4",
+      "attempts": [
+        {
+          "seed": 4,
+          "run_name": "gaussian_t5_dir_ndc_s4",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 13248.0
+        }
+      ]
+    },
+    "gaussian_t5_und_dc_s3": {
+      "cell": "gaussian_t5_und_dc_s3",
+      "status": "OK",
+      "used_seed": 3,
+      "run_name": "gaussian_t5_und_dc_s3",
+      "attempts": [
+        {
+          "seed": 3,
+          "run_name": "gaussian_t5_und_dc_s3",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 12976.9
+        }
+      ]
+    },
+    "gaussian_t5_dir_ndc_s0": {
+      "cell": "gaussian_t5_dir_ndc_s0",
+      "status": "OK",
+      "used_seed": 0,
+      "run_name": "gaussian_t5_dir_ndc_s0",
+      "attempts": [
+        {
+          "seed": 0,
+          "run_name": "gaussian_t5_dir_ndc_s0",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 13768.0
+        }
+      ]
+    },
+    "gaussian_t5_und_dc_s0": {
+      "cell": "gaussian_t5_und_dc_s0",
+      "status": "OK",
+      "used_seed": 0,
+      "run_name": "gaussian_t5_und_dc_s0",
+      "attempts": [
+        {
+          "seed": 0,
+          "run_name": "gaussian_t5_und_dc_s0",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 13424.8
+        }
+      ]
+    },
+    "gaussian_t5_und_dc_s1": {
+      "cell": "gaussian_t5_und_dc_s1",
+      "status": "OK",
+      "used_seed": 1,
+      "run_name": "gaussian_t5_und_dc_s1",
+      "attempts": [
+        {
+          "seed": 1,
+          "run_name": "gaussian_t5_und_dc_s1",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 13659.3
+        }
+      ]
+    },
+    "gaussian_t5_und_dc_s4": {
+      "cell": "gaussian_t5_und_dc_s4",
+      "status": "OK",
+      "used_seed": 4,
+      "run_name": "gaussian_t5_und_dc_s4",
+      "attempts": [
+        {
+          "seed": 4,
+          "run_name": "gaussian_t5_und_dc_s4",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 13555.3
+        }
+      ]
+    },
+    "gaussian_t5_dir_dc_s4": {
+      "cell": "gaussian_t5_dir_dc_s4",
+      "status": "OK",
+      "used_seed": 4,
+      "run_name": "gaussian_t5_dir_dc_s4",
+      "attempts": [
+        {
+          "seed": 4,
+          "run_name": "gaussian_t5_dir_dc_s4",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 14728.5
+        }
+      ]
+    },
+    "gaussian_t5_dir_dc_s0": {
+      "cell": "gaussian_t5_dir_dc_s0",
+      "status": "OK",
+      "used_seed": 0,
+      "run_name": "gaussian_t5_dir_dc_s0",
+      "attempts": [
+        {
+          "seed": 0,
+          "run_name": "gaussian_t5_dir_dc_s0",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 15517.1
+        }
+      ]
+    },
+    "geometric_t1_und_dc_s2": {
+      "cell": "geometric_t1_und_dc_s2",
+      "status": "OK",
+      "used_seed": 2,
+      "run_name": "geometric_t1_und_dc_s2",
+      "attempts": [
+        {
+          "seed": 2,
+          "run_name": "geometric_t1_und_dc_s2",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 7941.3
+        }
+      ]
+    },
+    "geometric_t1_und_dc_s3": {
+      "cell": "geometric_t1_und_dc_s3",
+      "status": "OK",
+      "used_seed": 3,
+      "run_name": "geometric_t1_und_dc_s3",
+      "attempts": [
+        {
+          "seed": 3,
+          "run_name": "geometric_t1_und_dc_s3",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 7409.9
+        }
+      ]
+    },
+    "gaussian_t5_dir_dc_s2": {
+      "cell": "gaussian_t5_dir_dc_s2",
+      "status": "OK",
+      "used_seed": 2,
+      "run_name": "gaussian_t5_dir_dc_s2",
+      "attempts": [
+        {
+          "seed": 2,
+          "run_name": "gaussian_t5_dir_dc_s2",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 15606.0
+        }
+      ]
+    },
+    "geometric_t1_und_dc_s0": {
+      "cell": "geometric_t1_und_dc_s0",
+      "status": "OK",
+      "used_seed": 0,
+      "run_name": "geometric_t1_und_dc_s0",
+      "attempts": [
+        {
+          "seed": 0,
+          "run_name": "geometric_t1_und_dc_s0",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 8096.6
+        }
+      ]
+    },
+    "gaussian_t5_und_ndc_s2": {
+      "cell": "gaussian_t5_und_ndc_s2",
+      "status": "OK",
+      "used_seed": 2,
+      "run_name": "gaussian_t5_und_ndc_s2",
+      "attempts": [
+        {
+          "seed": 2,
+          "run_name": "gaussian_t5_und_ndc_s2",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 13977.2
+        }
+      ]
+    },
+    "geometric_t1_und_dc_s4": {
+      "cell": "geometric_t1_und_dc_s4",
+      "status": "OK",
+      "used_seed": 4,
+      "run_name": "geometric_t1_und_dc_s4",
+      "attempts": [
+        {
+          "seed": 4,
+          "run_name": "geometric_t1_und_dc_s4",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 7467.0
+        }
+      ]
+    },
+    "geometric_t1_dir_dc_s3": {
+      "cell": "geometric_t1_dir_dc_s3",
+      "status": "OK",
+      "used_seed": 3,
+      "run_name": "geometric_t1_dir_dc_s3",
+      "attempts": [
+        {
+          "seed": 3,
+          "run_name": "geometric_t1_dir_dc_s3",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 10905.1
+        }
+      ]
+    },
+    "geometric_t1_und_dc_s1": {
+      "cell": "geometric_t1_und_dc_s1",
+      "status": "OK",
+      "used_seed": 1,
+      "run_name": "geometric_t1_und_dc_s1",
+      "attempts": [
+        {
+          "seed": 1,
+          "run_name": "geometric_t1_und_dc_s1",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 8549.1
+        }
+      ]
+    },
+    "geometric_t1_und_ndc_s3": {
+      "cell": "geometric_t1_und_ndc_s3",
+      "status": "OK",
+      "used_seed": 3,
+      "run_name": "geometric_t1_und_ndc_s3",
+      "attempts": [
+        {
+          "seed": 3,
+          "run_name": "geometric_t1_und_ndc_s3",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 7463.2
+        }
+      ]
+    },
+    "gaussian_t5_dir_ndc_s1": {
+      "cell": "gaussian_t5_dir_ndc_s1",
+      "status": "OK",
+      "used_seed": 1,
+      "run_name": "gaussian_t5_dir_ndc_s1",
+      "attempts": [
+        {
+          "seed": 1,
+          "run_name": "gaussian_t5_dir_ndc_s1",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 15727.4
+        }
+      ]
+    },
+    "geometric_t1_dir_ndc_s0": {
+      "cell": "geometric_t1_dir_ndc_s0",
+      "status": "OK",
+      "used_seed": 0,
+      "run_name": "geometric_t1_dir_ndc_s0",
+      "attempts": [
+        {
+          "seed": 0,
+          "run_name": "geometric_t1_dir_ndc_s0",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 10030.1
+        }
+      ]
+    },
+    "gaussian_t5_dir_dc_s1": {
+      "cell": "gaussian_t5_dir_dc_s1",
+      "status": "OK",
+      "used_seed": 1,
+      "run_name": "gaussian_t5_dir_dc_s1",
+      "attempts": [
+        {
+          "seed": 1,
+          "run_name": "gaussian_t5_dir_dc_s1",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 16573.5
+        }
+      ]
+    },
+    "geometric_t1_und_ndc_s2": {
+      "cell": "geometric_t1_und_ndc_s2",
+      "status": "OK",
+      "used_seed": 2,
+      "run_name": "geometric_t1_und_ndc_s2",
+      "attempts": [
+        {
+          "seed": 2,
+          "run_name": "geometric_t1_und_ndc_s2",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 7801.1
+        }
+      ]
+    },
+    "geometric_t1_und_ndc_s1": {
+      "cell": "geometric_t1_und_ndc_s1",
+      "status": "OK",
+      "used_seed": 1,
+      "run_name": "geometric_t1_und_ndc_s1",
+      "attempts": [
+        {
+          "seed": 1,
+          "run_name": "geometric_t1_und_ndc_s1",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 8658.5
+        }
+      ]
+    },
+    "poisson_t5_dir_dc_s1": {
+      "cell": "poisson_t5_dir_dc_s1",
+      "status": "OK",
+      "used_seed": 1,
+      "run_name": "poisson_t5_dir_dc_s1",
+      "attempts": [
+        {
+          "seed": 1,
+          "run_name": "poisson_t5_dir_dc_s1",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 32071.7
+        }
+      ]
+    },
+    "geometric_t1_und_ndc_s4": {
+      "cell": "geometric_t1_und_ndc_s4",
+      "status": "OK",
+      "used_seed": 4,
+      "run_name": "geometric_t1_und_ndc_s4",
+      "attempts": [
+        {
+          "seed": 4,
+          "run_name": "geometric_t1_und_ndc_s4",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 8568.4
+        }
+      ]
+    },
+    "geometric_t1_dir_ndc_s3": {
+      "cell": "geometric_t1_dir_ndc_s3",
+      "status": "OK",
+      "used_seed": 3,
+      "run_name": "geometric_t1_dir_ndc_s3",
+      "attempts": [
+        {
+          "seed": 3,
+          "run_name": "geometric_t1_dir_ndc_s3",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 10212.2
+        }
+      ]
+    },
+    "geometric_t1_dir_ndc_s1": {
+      "cell": "geometric_t1_dir_ndc_s1",
+      "status": "OK",
+      "used_seed": 1,
+      "run_name": "geometric_t1_dir_ndc_s1",
+      "attempts": [
+        {
+          "seed": 1,
+          "run_name": "geometric_t1_dir_ndc_s1",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 10908.2
+        }
+      ]
+    },
+    "geometric_t1_und_ndc_s0": {
+      "cell": "geometric_t1_und_ndc_s0",
+      "status": "OK",
+      "used_seed": 0,
+      "run_name": "geometric_t1_und_ndc_s0",
+      "attempts": [
+        {
+          "seed": 0,
+          "run_name": "geometric_t1_und_ndc_s0",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 9361.5
+        }
+      ]
+    },
+    "gaussian_t5_dir_ndc_s3": {
+      "cell": "gaussian_t5_dir_ndc_s3",
+      "status": "OK",
+      "used_seed": 3,
+      "run_name": "gaussian_t5_dir_ndc_s3",
+      "attempts": [
+        {
+          "seed": 3,
+          "run_name": "gaussian_t5_dir_ndc_s3",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 17084.6
+        }
+      ]
+    },
+    "gaussian_t5_dir_ndc_s2": {
+      "cell": "gaussian_t5_dir_ndc_s2",
+      "status": "OK",
+      "used_seed": 2,
+      "run_name": "gaussian_t5_dir_ndc_s2",
+      "attempts": [
+        {
+          "seed": 2,
+          "run_name": "gaussian_t5_dir_ndc_s2",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 17626.9
+        }
+      ]
+    },
+    "geometric_t1_dir_dc_s4": {
+      "cell": "geometric_t1_dir_dc_s4",
+      "status": "OK",
+      "used_seed": 4,
+      "run_name": "geometric_t1_dir_dc_s4",
+      "attempts": [
+        {
+          "seed": 4,
+          "run_name": "geometric_t1_dir_dc_s4",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 12203.5
+        }
+      ]
+    },
+    "geometric_t1_dir_ndc_s2": {
+      "cell": "geometric_t1_dir_ndc_s2",
+      "status": "OK",
+      "used_seed": 2,
+      "run_name": "geometric_t1_dir_ndc_s2",
+      "attempts": [
+        {
+          "seed": 2,
+          "run_name": "geometric_t1_dir_ndc_s2",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 11545.2
+        }
+      ]
+    },
+    "gaussian_t5_dir_dc_s3": {
+      "cell": "gaussian_t5_dir_dc_s3",
+      "status": "OK",
+      "used_seed": 3,
+      "run_name": "gaussian_t5_dir_dc_s3",
+      "attempts": [
+        {
+          "seed": 3,
+          "run_name": "gaussian_t5_dir_dc_s3",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 18932.6
+        }
+      ]
+    },
+    "geometric_t1_dir_ndc_s4": {
+      "cell": "geometric_t1_dir_ndc_s4",
+      "status": "OK",
+      "used_seed": 4,
+      "run_name": "geometric_t1_dir_ndc_s4",
+      "attempts": [
+        {
+          "seed": 4,
+          "run_name": "geometric_t1_dir_ndc_s4",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 11756.1
+        }
+      ]
+    },
+    "geometric_t5_dir_dc_s0": {
+      "cell": "geometric_t5_dir_dc_s0",
+      "status": "OK",
+      "used_seed": 0,
+      "run_name": "geometric_t5_dir_dc_s0",
+      "attempts": [
+        {
+          "seed": 0,
+          "run_name": "geometric_t5_dir_dc_s0",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 10159.0
+        }
+      ]
+    },
+    "geometric_t5_dir_ndc_s0": {
+      "cell": "geometric_t5_dir_ndc_s0",
+      "status": "OK",
+      "used_seed": 0,
+      "run_name": "geometric_t5_dir_ndc_s0",
+      "attempts": [
+        {
+          "seed": 0,
+          "run_name": "geometric_t5_dir_ndc_s0",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 9822.4
+        }
+      ]
+    },
+    "geometric_t5_und_dc_s2": {
+      "cell": "geometric_t5_und_dc_s2",
+      "status": "OK",
+      "used_seed": 2,
+      "run_name": "geometric_t5_und_dc_s2",
+      "attempts": [
+        {
+          "seed": 2,
+          "run_name": "geometric_t5_und_dc_s2",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 7616.4
+        }
+      ]
+    },
+    "geometric_t5_und_ndc_s3": {
+      "cell": "geometric_t5_und_ndc_s3",
+      "status": "OK",
+      "used_seed": 3,
+      "run_name": "geometric_t5_und_ndc_s3",
+      "attempts": [
+        {
+          "seed": 3,
+          "run_name": "geometric_t5_und_ndc_s3",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 7020.8
+        }
+      ]
+    },
+    "geometric_t5_dir_dc_s2": {
+      "cell": "geometric_t5_dir_dc_s2",
+      "status": "OK",
+      "used_seed": 2,
+      "run_name": "geometric_t5_dir_dc_s2",
+      "attempts": [
+        {
+          "seed": 2,
+          "run_name": "geometric_t5_dir_dc_s2",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 10482.6
+        }
+      ]
+    },
+    "geometric_t5_und_dc_s3": {
+      "cell": "geometric_t5_und_dc_s3",
+      "status": "OK",
+      "used_seed": 3,
+      "run_name": "geometric_t5_und_dc_s3",
+      "attempts": [
+        {
+          "seed": 3,
+          "run_name": "geometric_t5_und_dc_s3",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 7674.8
+        }
+      ]
+    },
+    "geometric_t5_und_dc_s4": {
+      "cell": "geometric_t5_und_dc_s4",
+      "status": "OK",
+      "used_seed": 4,
+      "run_name": "geometric_t5_und_dc_s4",
+      "attempts": [
+        {
+          "seed": 4,
+          "run_name": "geometric_t5_und_dc_s4",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 7714.9
+        }
+      ]
+    },
+    "geometric_t5_und_dc_s1": {
+      "cell": "geometric_t5_und_dc_s1",
+      "status": "OK",
+      "used_seed": 1,
+      "run_name": "geometric_t5_und_dc_s1",
+      "attempts": [
+        {
+          "seed": 1,
+          "run_name": "geometric_t5_und_dc_s1",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 8521.4
+        }
+      ]
+    },
+    "geometric_t5_und_dc_s0": {
+      "cell": "geometric_t5_und_dc_s0",
+      "status": "OK",
+      "used_seed": 0,
+      "run_name": "geometric_t5_und_dc_s0",
+      "attempts": [
+        {
+          "seed": 0,
+          "run_name": "geometric_t5_und_dc_s0",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 8594.4
+        }
+      ]
+    },
+    "geometric_t5_dir_dc_s1": {
+      "cell": "geometric_t5_dir_dc_s1",
+      "status": "OK",
+      "used_seed": 1,
+      "run_name": "geometric_t5_dir_dc_s1",
+      "attempts": [
+        {
+          "seed": 1,
+          "run_name": "geometric_t5_dir_dc_s1",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 11193.3
+        }
+      ]
+    },
+    "geometric_t5_und_ndc_s4": {
+      "cell": "geometric_t5_und_ndc_s4",
+      "status": "OK",
+      "used_seed": 4,
+      "run_name": "geometric_t5_und_ndc_s4",
+      "attempts": [
+        {
+          "seed": 4,
+          "run_name": "geometric_t5_und_ndc_s4",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 7643.0
+        }
+      ]
+    },
+    "geometric_t5_dir_ndc_s1": {
+      "cell": "geometric_t5_dir_ndc_s1",
+      "status": "OK",
+      "used_seed": 1,
+      "run_name": "geometric_t5_dir_ndc_s1",
+      "attempts": [
+        {
+          "seed": 1,
+          "run_name": "geometric_t5_dir_ndc_s1",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 10357.8
+        }
+      ]
+    },
+    "geometric_t5_und_ndc_s2": {
+      "cell": "geometric_t5_und_ndc_s2",
+      "status": "OK",
+      "used_seed": 2,
+      "run_name": "geometric_t5_und_ndc_s2",
+      "attempts": [
+        {
+          "seed": 2,
+          "run_name": "geometric_t5_und_ndc_s2",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 8011.3
+        }
+      ]
+    },
+    "geometric_t5_dir_dc_s3": {
+      "cell": "geometric_t5_dir_dc_s3",
+      "status": "OK",
+      "used_seed": 3,
+      "run_name": "geometric_t5_dir_dc_s3",
+      "attempts": [
+        {
+          "seed": 3,
+          "run_name": "geometric_t5_dir_dc_s3",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 11290.4
+        }
+      ]
+    },
+    "geometric_t5_und_ndc_s0": {
+      "cell": "geometric_t5_und_ndc_s0",
+      "status": "OK",
+      "used_seed": 0,
+      "run_name": "geometric_t5_und_ndc_s0",
+      "attempts": [
+        {
+          "seed": 0,
+          "run_name": "geometric_t5_und_ndc_s0",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 8135.9
+        }
+      ]
+    },
+    "exponential_t1_und_dc_s3": {
+      "cell": "exponential_t1_und_dc_s3",
+      "status": "OK",
+      "used_seed": 3,
+      "run_name": "exponential_t1_und_dc_s3",
+      "attempts": [
+        {
+          "seed": 3,
+          "run_name": "exponential_t1_und_dc_s3",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 5404.2
+        }
+      ]
+    },
+    "geometric_t5_und_ndc_s1": {
+      "cell": "geometric_t5_und_ndc_s1",
+      "status": "OK",
+      "used_seed": 1,
+      "run_name": "geometric_t5_und_ndc_s1",
+      "attempts": [
+        {
+          "seed": 1,
+          "run_name": "geometric_t5_und_ndc_s1",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 8627.6
+        }
+      ]
+    },
+    "geometric_t5_dir_ndc_s3": {
+      "cell": "geometric_t5_dir_ndc_s3",
+      "status": "OK",
+      "used_seed": 3,
+      "run_name": "geometric_t5_dir_ndc_s3",
+      "attempts": [
+        {
+          "seed": 3,
+          "run_name": "geometric_t5_dir_ndc_s3",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 10043.0
+        }
+      ]
+    },
+    "geometric_t5_dir_dc_s4": {
+      "cell": "geometric_t5_dir_dc_s4",
+      "status": "OK",
+      "used_seed": 4,
+      "run_name": "geometric_t5_dir_dc_s4",
+      "attempts": [
+        {
+          "seed": 4,
+          "run_name": "geometric_t5_dir_dc_s4",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 12096.3
+        }
+      ]
+    },
+    "geometric_t5_dir_ndc_s4": {
+      "cell": "geometric_t5_dir_ndc_s4",
+      "status": "OK",
+      "used_seed": 4,
+      "run_name": "geometric_t5_dir_ndc_s4",
+      "attempts": [
+        {
+          "seed": 4,
+          "run_name": "geometric_t5_dir_ndc_s4",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 10095.6
+        }
+      ]
+    },
+    "exponential_t1_und_dc_s2": {
+      "cell": "exponential_t1_und_dc_s2",
+      "status": "OK",
+      "used_seed": 2,
+      "run_name": "exponential_t1_und_dc_s2",
+      "attempts": [
+        {
+          "seed": 2,
+          "run_name": "exponential_t1_und_dc_s2",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 7017.3
+        }
+      ]
+    },
+    "exponential_t1_dir_dc_s4": {
+      "cell": "exponential_t1_dir_dc_s4",
+      "status": "OK",
+      "used_seed": 4,
+      "run_name": "exponential_t1_dir_dc_s4",
+      "attempts": [
+        {
+          "seed": 4,
+          "run_name": "exponential_t1_dir_dc_s4",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 8483.8
+        }
+      ]
+    },
+    "geometric_t5_dir_ndc_s2": {
+      "cell": "geometric_t5_dir_ndc_s2",
+      "status": "OK",
+      "used_seed": 2,
+      "run_name": "geometric_t5_dir_ndc_s2",
+      "attempts": [
+        {
+          "seed": 2,
+          "run_name": "geometric_t5_dir_ndc_s2",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 11489.1
+        }
+      ]
+    },
+    "exponential_t1_dir_dc_s1": {
+      "cell": "exponential_t1_dir_dc_s1",
+      "status": "OK",
+      "used_seed": 1,
+      "run_name": "exponential_t1_dir_dc_s1",
+      "attempts": [
+        {
+          "seed": 1,
+          "run_name": "exponential_t1_dir_dc_s1",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 9146.1
+        }
+      ]
+    },
+    "exponential_t1_und_dc_s4": {
+      "cell": "exponential_t1_und_dc_s4",
+      "status": "OK",
+      "used_seed": 4,
+      "run_name": "exponential_t1_und_dc_s4",
+      "attempts": [
+        {
+          "seed": 4,
+          "run_name": "exponential_t1_und_dc_s4",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 6517.4
+        }
+      ]
+    },
+    "exponential_t1_und_dc_s0": {
+      "cell": "exponential_t1_und_dc_s0",
+      "status": "OK",
+      "used_seed": 0,
+      "run_name": "exponential_t1_und_dc_s0",
+      "attempts": [
+        {
+          "seed": 0,
+          "run_name": "exponential_t1_und_dc_s0",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 7472.1
+        }
+      ]
+    },
+    "exponential_t1_und_dc_s1": {
+      "cell": "exponential_t1_und_dc_s1",
+      "status": "OK",
+      "used_seed": 1,
+      "run_name": "exponential_t1_und_dc_s1",
+      "attempts": [
+        {
+          "seed": 1,
+          "run_name": "exponential_t1_und_dc_s1",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 7390.9
+        }
+      ]
+    },
+    "exponential_t1_dir_ndc_s1": {
+      "cell": "exponential_t1_dir_ndc_s1",
+      "status": "OK",
+      "used_seed": 1,
+      "run_name": "exponential_t1_dir_ndc_s1",
+      "attempts": [
+        {
+          "seed": 1,
+          "run_name": "exponential_t1_dir_ndc_s1",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 8019.4
+        }
+      ]
+    },
+    "exponential_t1_und_ndc_s0": {
+      "cell": "exponential_t1_und_ndc_s0",
+      "status": "OK",
+      "used_seed": 0,
+      "run_name": "exponential_t1_und_ndc_s0",
+      "attempts": [
+        {
+          "seed": 0,
+          "run_name": "exponential_t1_und_ndc_s0",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 6771.8
+        }
+      ]
+    },
+    "exponential_t1_dir_ndc_s2": {
+      "cell": "exponential_t1_dir_ndc_s2",
+      "status": "OK",
+      "used_seed": 2,
+      "run_name": "exponential_t1_dir_ndc_s2",
+      "attempts": [
+        {
+          "seed": 2,
+          "run_name": "exponential_t1_dir_ndc_s2",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 8359.8
+        }
+      ]
+    },
+    "exponential_t1_dir_dc_s2": {
+      "cell": "exponential_t1_dir_dc_s2",
+      "status": "OK",
+      "used_seed": 2,
+      "run_name": "exponential_t1_dir_dc_s2",
+      "attempts": [
+        {
+          "seed": 2,
+          "run_name": "exponential_t1_dir_dc_s2",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 9565.2
+        }
+      ]
+    },
+    "exponential_t1_dir_ndc_s3": {
+      "cell": "exponential_t1_dir_ndc_s3",
+      "status": "OK",
+      "used_seed": 3,
+      "run_name": "exponential_t1_dir_ndc_s3",
+      "attempts": [
+        {
+          "seed": 3,
+          "run_name": "exponential_t1_dir_ndc_s3",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 8457.5
+        }
+      ]
+    },
+    "exponential_t1_und_ndc_s1": {
+      "cell": "exponential_t1_und_ndc_s1",
+      "status": "OK",
+      "used_seed": 1,
+      "run_name": "exponential_t1_und_ndc_s1",
+      "attempts": [
+        {
+          "seed": 1,
+          "run_name": "exponential_t1_und_ndc_s1",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 7071.2
+        }
+      ]
+    },
+    "exponential_t1_und_ndc_s3": {
+      "cell": "exponential_t1_und_ndc_s3",
+      "status": "OK",
+      "used_seed": 3,
+      "run_name": "exponential_t1_und_ndc_s3",
+      "attempts": [
+        {
+          "seed": 3,
+          "run_name": "exponential_t1_und_ndc_s3",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 7066.6
+        }
+      ]
+    },
+    "exponential_t1_und_ndc_s4": {
+      "cell": "exponential_t1_und_ndc_s4",
+      "status": "OK",
+      "used_seed": 4,
+      "run_name": "exponential_t1_und_ndc_s4",
+      "attempts": [
+        {
+          "seed": 4,
+          "run_name": "exponential_t1_und_ndc_s4",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 6989.1
+        }
+      ]
+    },
+    "exponential_t5_und_dc_s3": {
+      "cell": "exponential_t5_und_dc_s3",
+      "status": "OK",
+      "used_seed": 3,
+      "run_name": "exponential_t5_und_dc_s3",
+      "attempts": [
+        {
+          "seed": 3,
+          "run_name": "exponential_t5_und_dc_s3",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 4904.0
+        }
+      ]
+    },
+    "exponential_t1_und_ndc_s2": {
+      "cell": "exponential_t1_und_ndc_s2",
+      "status": "OK",
+      "used_seed": 2,
+      "run_name": "exponential_t1_und_ndc_s2",
+      "attempts": [
+        {
+          "seed": 2,
+          "run_name": "exponential_t1_und_ndc_s2",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 7297.0
+        }
+      ]
+    },
+    "exponential_t1_dir_dc_s3": {
+      "cell": "exponential_t1_dir_dc_s3",
+      "status": "OK",
+      "used_seed": 3,
+      "run_name": "exponential_t1_dir_dc_s3",
+      "attempts": [
+        {
+          "seed": 3,
+          "run_name": "exponential_t1_dir_dc_s3",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 9717.0
+        }
+      ]
+    },
+    "exponential_t1_dir_ndc_s0": {
+      "cell": "exponential_t1_dir_ndc_s0",
+      "status": "OK",
+      "used_seed": 0,
+      "run_name": "exponential_t1_dir_ndc_s0",
+      "attempts": [
+        {
+          "seed": 0,
+          "run_name": "exponential_t1_dir_ndc_s0",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 9051.9
+        }
+      ]
+    },
+    "exponential_t1_dir_ndc_s4": {
+      "cell": "exponential_t1_dir_ndc_s4",
+      "status": "OK",
+      "used_seed": 4,
+      "run_name": "exponential_t1_dir_ndc_s4",
+      "attempts": [
+        {
+          "seed": 4,
+          "run_name": "exponential_t1_dir_ndc_s4",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 8834.7
+        }
+      ]
+    },
+    "exponential_t5_dir_ndc_s1": {
+      "cell": "exponential_t5_dir_ndc_s1",
+      "status": "OK",
+      "used_seed": 1,
+      "run_name": "exponential_t5_dir_ndc_s1",
+      "attempts": [
+        {
+          "seed": 1,
+          "run_name": "exponential_t5_dir_ndc_s1",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 6719.0
+        }
+      ]
+    },
+    "exponential_t5_und_dc_s0": {
+      "cell": "exponential_t5_und_dc_s0",
+      "status": "OK",
+      "used_seed": 0,
+      "run_name": "exponential_t5_und_dc_s0",
+      "attempts": [
+        {
+          "seed": 0,
+          "run_name": "exponential_t5_und_dc_s0",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 5882.9
+        }
+      ]
+    },
+    "exponential_t5_dir_dc_s4": {
+      "cell": "exponential_t5_dir_dc_s4",
+      "status": "OK",
+      "used_seed": 4,
+      "run_name": "exponential_t5_dir_dc_s4",
+      "attempts": [
+        {
+          "seed": 4,
+          "run_name": "exponential_t5_dir_dc_s4",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 7197.7
+        }
+      ]
+    },
+    "exponential_t5_dir_dc_s0": {
+      "cell": "exponential_t5_dir_dc_s0",
+      "status": "OK",
+      "used_seed": 0,
+      "run_name": "exponential_t5_dir_dc_s0",
+      "attempts": [
+        {
+          "seed": 0,
+          "run_name": "exponential_t5_dir_dc_s0",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 7856.2
+        }
+      ]
+    },
+    "exponential_t5_dir_dc_s1": {
+      "cell": "exponential_t5_dir_dc_s1",
+      "status": "OK",
+      "used_seed": 1,
+      "run_name": "exponential_t5_dir_dc_s1",
+      "attempts": [
+        {
+          "seed": 1,
+          "run_name": "exponential_t5_dir_dc_s1",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 7584.5
+        }
+      ]
+    },
+    "exponential_t5_und_dc_s2": {
+      "cell": "exponential_t5_und_dc_s2",
+      "status": "OK",
+      "used_seed": 2,
+      "run_name": "exponential_t5_und_dc_s2",
+      "attempts": [
+        {
+          "seed": 2,
+          "run_name": "exponential_t5_und_dc_s2",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 5936.5
+        }
+      ]
+    },
+    "exponential_t5_und_dc_s4": {
+      "cell": "exponential_t5_und_dc_s4",
+      "status": "OK",
+      "used_seed": 4,
+      "run_name": "exponential_t5_und_dc_s4",
+      "attempts": [
+        {
+          "seed": 4,
+          "run_name": "exponential_t5_und_dc_s4",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 5575.5
+        }
+      ]
+    },
+    "exponential_t5_und_dc_s1": {
+      "cell": "exponential_t5_und_dc_s1",
+      "status": "OK",
+      "used_seed": 1,
+      "run_name": "exponential_t5_und_dc_s1",
+      "attempts": [
+        {
+          "seed": 1,
+          "run_name": "exponential_t5_und_dc_s1",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 6252.0
+        }
+      ]
+    },
+    "exponential_t5_und_ndc_s0": {
+      "cell": "exponential_t5_und_ndc_s0",
+      "status": "OK",
+      "used_seed": 0,
+      "run_name": "exponential_t5_und_ndc_s0",
+      "attempts": [
+        {
+          "seed": 0,
+          "run_name": "exponential_t5_und_ndc_s0",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 5699.7
+        }
+      ]
+    },
+    "exponential_t1_dir_dc_s0": {
+      "cell": "exponential_t1_dir_dc_s0",
+      "status": "OK",
+      "used_seed": 0,
+      "run_name": "exponential_t1_dir_dc_s0",
+      "attempts": [
+        {
+          "seed": 0,
+          "run_name": "exponential_t1_dir_dc_s0",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 11293.8
+        }
+      ]
+    },
+    "exponential_t5_dir_ndc_s0": {
+      "cell": "exponential_t5_dir_ndc_s0",
+      "status": "OK",
+      "used_seed": 0,
+      "run_name": "exponential_t5_dir_ndc_s0",
+      "attempts": [
+        {
+          "seed": 0,
+          "run_name": "exponential_t5_dir_ndc_s0",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 7662.8
+        }
+      ]
+    },
+    "exponential_t5_dir_ndc_s2": {
+      "cell": "exponential_t5_dir_ndc_s2",
+      "status": "OK",
+      "used_seed": 2,
+      "run_name": "exponential_t5_dir_ndc_s2",
+      "attempts": [
+        {
+          "seed": 2,
+          "run_name": "exponential_t5_dir_ndc_s2",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 6959.1
+        }
+      ]
+    },
+    "exponential_t5_dir_dc_s2": {
+      "cell": "exponential_t5_dir_dc_s2",
+      "status": "OK",
+      "used_seed": 2,
+      "run_name": "exponential_t5_dir_dc_s2",
+      "attempts": [
+        {
+          "seed": 2,
+          "run_name": "exponential_t5_dir_dc_s2",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 8093.7
+        }
+      ]
+    },
+    "exponential_t5_und_ndc_s1": {
+      "cell": "exponential_t5_und_ndc_s1",
+      "status": "OK",
+      "used_seed": 1,
+      "run_name": "exponential_t5_und_ndc_s1",
+      "attempts": [
+        {
+          "seed": 1,
+          "run_name": "exponential_t5_und_ndc_s1",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 5818.3
+        }
+      ]
+    },
+    "exponential_t5_dir_dc_s3": {
+      "cell": "exponential_t5_dir_dc_s3",
+      "status": "OK",
+      "used_seed": 3,
+      "run_name": "exponential_t5_dir_dc_s3",
+      "attempts": [
+        {
+          "seed": 3,
+          "run_name": "exponential_t5_dir_dc_s3",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 8256.7
+        }
+      ]
+    },
+    "exponential_t5_und_ndc_s3": {
+      "cell": "exponential_t5_und_ndc_s3",
+      "status": "OK",
+      "used_seed": 3,
+      "run_name": "exponential_t5_und_ndc_s3",
+      "attempts": [
+        {
+          "seed": 3,
+          "run_name": "exponential_t5_und_ndc_s3",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 5518.4
+        }
+      ]
+    },
+    "exponential_t5_dir_ndc_s3": {
+      "cell": "exponential_t5_dir_ndc_s3",
+      "status": "OK",
+      "used_seed": 3,
+      "run_name": "exponential_t5_dir_ndc_s3",
+      "attempts": [
+        {
+          "seed": 3,
+          "run_name": "exponential_t5_dir_ndc_s3",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 7321.9
+        }
+      ]
+    },
+    "exponential_t5_und_ndc_s2": {
+      "cell": "exponential_t5_und_ndc_s2",
+      "status": "OK",
+      "used_seed": 2,
+      "run_name": "exponential_t5_und_ndc_s2",
+      "attempts": [
+        {
+          "seed": 2,
+          "run_name": "exponential_t5_und_ndc_s2",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 5793.4
+        }
+      ]
+    },
+    "exponential_t5_und_ndc_s4": {
+      "cell": "exponential_t5_und_ndc_s4",
+      "status": "OK",
+      "used_seed": 4,
+      "run_name": "exponential_t5_und_ndc_s4",
+      "attempts": [
+        {
+          "seed": 4,
+          "run_name": "exponential_t5_und_ndc_s4",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 5541.7
+        }
+      ]
+    },
+    "exponential_t5_dir_ndc_s4": {
+      "cell": "exponential_t5_dir_ndc_s4",
+      "status": "OK",
+      "used_seed": 4,
+      "run_name": "exponential_t5_dir_ndc_s4",
+      "attempts": [
+        {
+          "seed": 4,
+          "run_name": "exponential_t5_dir_ndc_s4",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 7719.2
+        }
+      ]
+    },
+    "lognormal_t1_und_dc_s0": {
+      "cell": "lognormal_t1_und_dc_s0",
+      "status": "OK",
+      "used_seed": 1000,
+      "run_name": "lognormal_t1_und_dc_s0_retry1",
+      "attempts": [
+        {
+          "seed": 0,
+          "run_name": "lognormal_t1_und_dc_s0",
+          "ok": false,
+          "returncode": -15,
+          "killed": true,
+          "elapsed_s": 43200.9
+        },
+        {
+          "seed": 1000,
+          "run_name": "lognormal_t1_und_dc_s0_retry1",
+          "ok": true,
+          "returncode": 0,
+          "killed": false,
+          "elapsed_s": 12813.8
+        }
+      ]
+    }
+  }
+}

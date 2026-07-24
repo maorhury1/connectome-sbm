@@ -1,0 +1,15 @@
+{
+  "logscore_per_edge": -66.50718720329917,
+  "n_test": 186622,
+  "n_blocks": 794,
+  "n_train_edges": 3545838,
+  "model": "gaussian",
+  "method": "stratified",
+  "fold": 1,
+  "seed": 0,
+  "directed": true,
+  "deg_corr": false,
+  "test_frac": 0.05,
+  "threshold": 5,
+  "elapsed_s": 16729.0
+}

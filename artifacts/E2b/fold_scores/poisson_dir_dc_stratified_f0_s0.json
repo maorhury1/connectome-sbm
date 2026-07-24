@@ -1,0 +1,15 @@
+{
+  "logscore_per_edge": -6.0843845332281035,
+  "n_test": 186622,
+  "n_blocks": 1684,
+  "n_train_edges": 3545838,
+  "model": "poisson",
+  "method": "stratified",
+  "fold": 0,
+  "seed": 0,
+  "directed": true,
+  "deg_corr": true,
+  "test_frac": 0.05,
+  "threshold": 5,
+  "elapsed_s": 15622.1
+}
