@@ -3,6 +3,8 @@
 
 *Status: locked (approved). Nothing executes until explicit go. Gate A is the first hard stop.*
 
+> **⚠ LIVE CLARIFICATIONS (2026-07-24).** The original plan text below is preserved verbatim; inline `⚠ CLARIFICATION` blocks record where execution diverged from it after contact with the data/tooling. The headline revisions: (1) **canonical graph is >=5, flat, graph-tool 2.98** — the plan's `>=1 / nested / gt-3.0` proved unbuildable (codex pre-floored at 5), unreliable (sub-5 = FlyWire false-positive floor), or crashing; >=1 is downgraded to an optional caveated robustness check (see 3.2, 3.4). (2) MDL is comparable only within a weight family; the lognormal-vs-Gaussian **Jacobian audit is done** and *reverses* the naive verdict (gaussian lower corrected MDL). (3) E2b (held-out prediction) is running and is now the deciding criterion for the title (§6).
+
 ---
 
 ## 0. Operating principles
@@ -29,14 +31,21 @@ The statistically simplest description of the connectome — a degree-corrected 
 
 **3.2 Preprocessing.** Canonical: directed, threshold >=1, no self-loops, nested DC-SBM. Sensitivity (best model + nearest competitor only): >=5, undirected, flat. **Block-count reconciliation is required early** — explain the pilot ~360 vs the FlyWire preprint's larger count (threshold / directedness / nested-vs-flat / node set) before interpreting granularity.
 
+> **⚠ CLARIFICATION (2026-07-24, after data + methods audit — original text kept intentionally). The "canonical" setting above is revised; here is what actually holds and why:**
+> - **Threshold >=1 is downgraded from canonical to (at most) an optional, caveated robustness check; >=5 is the working and defensible canonical.** Reasons: (a) the codex `connections_princeton` table is *pre-floored at >=5 synapses* (min summed weight = 5), so a real >=1 graph cannot be built from it — every batch cell labelled `t1` is byte-identical to its `t5` twin. (b) A true >=1 graph exists only in the raw `synapses.ftr` (14.2M pairs vs 2.46M at >=5; 82.7% of pairs are <5), which may be a *different FlyWire snapshot* than codex v783 (pilot >=5 build = 131k nodes vs codex 139k), so blending its edges with codex labels/coordinates risks root-id mismatch — unverified. (c) FlyWire floors at >=5 *deliberately*: sub-5 links are considered unreliable (automated-detection false positives), so >=1 is "more data but noisier," and for held-out **weight prediction** (E2b) scoring a possibly-false edge = scoring noise, contaminating the criterion. Net: >=5 is version-consistent with our labels and the retinotopic (p,q) coordinates and matches the whole-brain literature; treat it as canonical, and if >=1 is run at all it is an explicitly-labelled sensitivity check, never the headline.
+> - **Nested was never achieved; flat is canonical (fair-fallback 4.7).** graph-tool 3.0/3.1 segfault / return NaN on our weighted nested fits; we run graph-tool **2.98, flat** (see 3.4 clarification). Per 4.7, every likelihood is therefore compared under flat inference.
+
 **3.3 Labels (withheld from fitting; evaluation-only).** `superclass`, `class`, `subclass`, `primary_type`, `side`, `nt_type`. Framed as "labels withheld during fitting," never "independent ground truth" (FlyWire typing itself used connectivity).
 
 **3.4 Inference.** graph-tool **3.0**, frozen exactly (build/commit, thread count, environment recorded). Degree-corrected `BlockState`; weight covariates via `WeightedBlockState`.
+
+> **⚠ CLARIFICATION (2026-07-24).** We use graph-tool **2.98**, not 3.0: 3.0/3.1 segfault on nested weighted fits and return NaN entropy on flat weighted fits for this data; 2.98 gives finite entropy and stable partitions. API is the 2.x form — degree-corrected `gt.BlockState` with `recs=[prop], rec_types=[...]` (not `WeightedBlockState`). Inference is **flat** (see 3.2 clarification).
 
 **3.5 Likelihoods & comparability (precise).**
 - Clean primary pair: **lognormal vs Gaussian** (real-normal on log vs raw).
 - Clean discrete pair: **Poisson vs geometric**.
 - **Cross-family predictive comparison:** common integer support via `P(W=k)=F(k+0.5)-F(k-0.5)`, with **threshold-specific truncation** — condition on `W>=1` for the >=1 graph, `W>=5` for the >=5 graph.
+  > **⚠ CLARIFICATION (2026-07-24).** In practice only the **`W>=5`** branch is used: our graph is the >=5 codex graph (see 3.2). `xval.py` truncates at 5 (`logsf(threshold-1)`, fits by truncated MLE). The `W>=1` branch stays defined for the optional >=1 robustness check only.
 - **MDL comparability is separate from predictive common support:** definitive for lognormal-vs-Gaussian (after the Jacobian audit) and within Poisson-vs-geometric; **four-way MDL is exploratory** unless a full common coding scheme is built. "Statistically simplest" is narrowed to whatever pair MDL actually establishes.
 
 **3.6 Selection criteria (label-free).** Description length (with Jacobian + the caveats above) and **held-out predictive log score** (§5, E2b). Report predictive advantage in **nats/bits per held-out edge**.
@@ -88,9 +97,13 @@ Held-out predictive log scores; randomized-quantile/PIT residuals for discrete m
 Canonical condition, all likelihoods, K=8-10 seeds; sensitivity variants (>=5 / undirected / flat) ~3 seeds; DC ablation on best + nearest competitor only. Report #blocks, V/homog/compl, AMI/ARI, DL, cross-seed agreement, runtime.
 -> **CP-3: comparison table + stability.**
 
+> **⚠ CLARIFICATION (2026-07-24). What was actually run for E2, and how it maps here:** a full factorial (5 likelihoods x {dir,und} x {DC,ndc} x 5 seeds = 200 fits), all on the **>=5, flat** graph — i.e. per the 3.2 clarification this is the *canonical* condition now, and "sensitivity variants (>=5/und/flat)" collapses into it rather than being a separate axis. This over-scopes the plan (full DC ablation across *all* likelihoods, not just best + competitor) and was run before E1/CP-2. CP-3 done and cached (`eval_sweep.py` -> `RESULTS.md`); MDL shown with §3.5 limits and, for lognormal-vs-Gaussian, the completed Jacobian audit (`jacobian_audit.py`). Threshold (t1=t5) is therefore not a real axis in this run.
+
 **E2b — Compression / predictive-selection agreement (RQ-B, load-bearing).**
 Does the label-free winner equal the biological winner? Held-out likelihood = **weight prediction** (mask weights, refit within fold) primary; **joint edge prediction** (mask node pairs incl. non-edges, predefined sampling + importance weights, refit) secondary — subject to the Gate A-1 outcome. Folds restricted to canonical + top-two likelihoods, 3 holdouts (millions of test edges -> high precision at few folds). MDL reported with its per-pair comparability limits (§3.5).
 -> **CP-4: agreement result + title decision** (§6).
+
+> **⚠ CLARIFICATION (2026-07-24). What is running:** all **4 weight models** (not just top-two) x {dir,und} x {DC,ndc} x {random, stratified folds} x 3 disjoint folds x 3 seeds = **288 cells**, 5% held out, on the **>=5** graph. The A-1 outcome forced the *edge-removed weight-prediction* fold (adjacency+weight both hidden; leak-free), so "mask weights only" is not what runs — but the removed-adjacency confound is common to all models, so relative selection stays fair. **"Joint edge prediction" (the secondary, non-edge variant) is deferred, not done.** Folds are shared across models (paired); per-cell JSONs are cached so restarts resume (`batch_e2b.py`/`worker_e2b.py`, report via `report_e2b.py`). Early partial read: prediction favours **lognormal**, gaussian predicts catastrophically despite winning corrected MDL.
 
 **E3 — Symmetry / cross-hemisphere (RQ-C), fully specified.**
 Predeclared: hemisphere assignment per neuron; treatment of **midline neurons and contralateral edges**; **infer left and right hemispheres separately**; alignment **features** (block-level connectivity signatures only — **no homolog/type/side labels; those are evaluation-only**); whether block counts may differ (yes); **matching algorithm** (Hungarian or optimal transport, predeclared); **negative pairs + degree/class-matched permutation null**; **primary symmetry metric** (homolog co-assignment enrichment over null). Cheaper joint-graph version reported only as "orthogonal evidence."
