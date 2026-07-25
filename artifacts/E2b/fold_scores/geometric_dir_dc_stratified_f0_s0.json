@@ -1,0 +1,15 @@
+{
+  "logscore_per_edge": -3.0084552441615946,
+  "n_test": 186622,
+  "n_blocks": 568,
+  "n_train_edges": 3545838,
+  "model": "geometric",
+  "method": "stratified",
+  "fold": 0,
+  "seed": 0,
+  "directed": true,
+  "deg_corr": true,
+  "test_frac": 0.05,
+  "threshold": 5,
+  "elapsed_s": 9850.9
+}

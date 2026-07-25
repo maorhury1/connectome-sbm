@@ -100,3 +100,59 @@ the real path) — the first connectome run. Not yet run.
 - **und/dc:** MDL picks **gaussian** (29.83 vs 29.81 M); biology (V) picks **lognormal** -> **DISAGREE**
 
 - **und/ndc:** MDL picks **gaussian** (37.92 vs 30.17 M); biology (V) picks **gaussian** -> **AGREE**
+
+
+## CP-4 — E2b held-out predictive selection
+
+*Leak-free edge-removed weight prediction, 5% held out, 3 disjoint folds x 3 seeds, folds shared across models (paired). nats/edge: HIGHER = better prediction. V(type) from CP-3.*
+
+| model | dir | dc | fold method | nats/edge | sd | cells | blocks | V type |
+|---|---|---|---|---|---|---|---|---|
+| geometric | dir | ndc | stratified | **-2.9188** | 0.0042 | 9 | 692 | 0.678 |
+| geometric | dir | ndc | random | **-2.9191** | 0.0012 | 9 | 686 | 0.678 |
+| geometric | dir | dc | random | **-3.0128** | 0.0063 | 9 | 537 | 0.569 |
+| geometric | dir | dc | stratified | **-3.0133** | 0.0055 | 9 | 529 | 0.569 |
+| lognormal | dir | ndc | stratified | **-3.0713** | 0.1794 | 9 | 9938 | 0.498 |
+| geometric | und | ndc | stratified | **-3.0920** | 0.0034 | 9 | 821 | 0.584 |
+| geometric | und | ndc | random | **-3.0986** | 0.0040 | 9 | 733 | 0.584 |
+| lognormal | dir | dc | random | **-3.1276** | 0.4708 | 9 | 169 | 0.773 |
+| lognormal | dir | ndc | random | **-3.1400** | 0.3034 | 9 | 11274 | 0.498 |
+| geometric | und | dc | stratified | **-3.1475** | 0.0016 | 9 | 674 | 0.525 |
+| geometric | und | dc | random | **-3.1534** | 0.0064 | 9 | 619 | 0.525 |
+| lognormal | und | ndc | random | **-3.1548** | 0.0023 | 9 | 14470 | 0.567 |
+| lognormal | und | dc | random | **-3.2494** | 0.3498 | 9 | 215 | 0.731 |
+| lognormal | und | ndc | stratified | **-3.6171** | 1.3961 | 9 | 11868 | 0.567 |
+| lognormal | dir | dc | stratified | **-3.6803** | 1.0018 | 9 | 193 | 0.773 |
+| poisson | dir | ndc | random | **-5.8166** | 0.0312 | 9 | 1741 | 0.751 |
+| poisson | dir | ndc | stratified | **-5.9163** | 0.0573 | 9 | 1657 | 0.751 |
+| poisson | dir | dc | random | **-5.9536** | 0.0373 | 9 | 1612 | 0.718 |
+| poisson | dir | dc | stratified | **-6.0315** | 0.0530 | 9 | 1546 | 0.718 |
+| lognormal | und | dc | stratified | **-6.3701** | 6.3882 | 9 | 209 | 0.731 |
+| poisson | und | ndc | stratified | **-6.9480** | 0.0834 | 9 | 2178 | 0.704 |
+| poisson | und | ndc | random | **-7.0017** | 0.0472 | 9 | 2269 | 0.704 |
+| poisson | und | dc | random | **-7.3058** | 0.0943 | 9 | 2180 | 0.663 |
+| poisson | und | dc | stratified | **-7.3331** | 0.0980 | 9 | 2383 | 0.663 |
+| gaussian | und | dc | random | **-105.2344** | 162.1757 | 9 | 691 | 0.600 |
+| gaussian | dir | ndc | random | **-123.0690** | 65.5535 | 9 | 654 | 0.727 |
+| gaussian | dir | dc | random | **-216.0759** | 282.8237 | 9 | 592 | 0.661 |
+| gaussian | dir | ndc | stratified | **-356.0840** | 792.8550 | 9 | 674 | 0.727 |
+| gaussian | und | ndc | random | **-391.2103** | 395.9513 | 9 | 763 | 0.665 |
+| gaussian | dir | dc | stratified | **-721.8517** | 1911.1501 | 9 | 619 | 0.661 |
+| gaussian | und | ndc | stratified | **-966.3700** | 1535.4571 | 9 | 772 | 0.665 |
+| gaussian | und | dc | stratified | **-2736.3313** | 7763.1871 | 9 | 685 | 0.600 |
+
+- **dir/dc/random:** prediction picks **geometric**, biology picks **lognormal** -> **DISAGREE**
+
+- **dir/dc/stratified:** prediction picks **geometric**, biology picks **lognormal** -> **DISAGREE**
+
+- **dir/ndc/random:** prediction picks **geometric**, biology picks **poisson** -> **DISAGREE**
+
+- **dir/ndc/stratified:** prediction picks **geometric**, biology picks **poisson** -> **DISAGREE**
+
+- **und/dc/random:** prediction picks **geometric**, biology picks **lognormal** -> **DISAGREE**
+
+- **und/dc/stratified:** prediction picks **geometric**, biology picks **lognormal** -> **DISAGREE**
+
+- **und/ndc/random:** prediction picks **geometric**, biology picks **poisson** -> **DISAGREE**
+
+- **und/ndc/stratified:** prediction picks **geometric**, biology picks **poisson** -> **DISAGREE**

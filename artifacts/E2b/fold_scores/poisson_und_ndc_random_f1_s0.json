@@ -1,0 +1,15 @@
+{
+  "logscore_per_edge": -7.039966790052262,
+  "n_test": 171118,
+  "n_blocks": 2463,
+  "n_train_edges": 3251252,
+  "model": "poisson",
+  "method": "random",
+  "fold": 1,
+  "seed": 0,
+  "directed": false,
+  "deg_corr": false,
+  "test_frac": 0.05,
+  "threshold": 5,
+  "elapsed_s": 10445.7
+}
