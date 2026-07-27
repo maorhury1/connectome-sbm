@@ -37,6 +37,26 @@ The statistically simplest description of the connectome — a degree-corrected 
 
 **3.3 Labels (withheld from fitting; evaluation-only).** `superclass`, `class`, `subclass`, `primary_type`, `side`, `nt_type`. Framed as "labels withheld during fitting," never "independent ground truth" (FlyWire typing itself used connectivity).
 
+> **⚠ CLARIFICATION (2026-07-25) — version/environment audit for NESTED fits.** Tested whether a
+> newer graph-tool fixes the nested-weighted failure. Findings (environment, not a scientific result):
+> - **Availability:** conda-forge has graph-tool **3.0, 3.1, 3.5** — 3.2/3.3/3.4 do not exist.
+> - **Hard blocker on this server:** 3.1 and 3.5 binaries require **glibc 2.38**; the machine is
+>   Ubuntu 22.04 with **glibc 2.35**, so they cannot run (conda installs them anyway — the package
+>   omits its glibc floor, so the failure surfaces as an ImportError at runtime). 3.0 and 2.98
+>   (glibc <=2.32) are the only versions that run here. No container tooling
+>   (docker/podman/apptainer/singularity) is available as a workaround.
+> - **3.5 verified on macOS (arm64), SYNTHETIC data only** (800-node planted-block graph with
+>   lognormal weights >=5; the real connectome never left the server): **nested works — 16/16
+>   nested cells OK, including nested + lognormal + DC**, recovering the planted 8 blocks.
+> - **The failure mode inverts between versions:** on 2.98 flat works and nested does not; on 3.5
+>   nested works but **flat weighted fits are unusable** (poisson-flat returns NaN; several
+>   lognormal/gaussian flat cells return numerically absurd entropies ~-1e176), and flat
+>   over-fragments (hundreds of blocks where nested finds the planted 8).
+> - **Consequence:** the nested experiments are feasible, but only on graph-tool 3.1+, i.e. a
+>   **Ubuntu 24.04+ host**. Until such a machine is available, flat remains canonical under the
+>   fair-fallback rule (4.7). Before committing a full nested grid, re-verify at ~20k nodes — the
+>   3.0 segfault only appeared at full-brain scale.
+
 **3.4 Inference.** graph-tool **3.0**, frozen exactly (build/commit, thread count, environment recorded). Degree-corrected `BlockState`; weight covariates via `WeightedBlockState`.
 
 > **⚠ CLARIFICATION (2026-07-24).** We use graph-tool **2.98**, not 3.0: 3.0/3.1 segfault on nested weighted fits and return NaN entropy on flat weighted fits for this data; 2.98 gives finite entropy and stable partitions. API is the 2.x form — degree-corrected `gt.BlockState` with `recs=[prop], rec_types=[...]` (not `WeightedBlockState`). Inference is **flat** (see 3.2 clarification).
