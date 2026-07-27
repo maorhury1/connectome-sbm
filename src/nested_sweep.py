@@ -48,6 +48,51 @@ def n_blocks_of(state):
     return int(len(np.unique(state.get_blocks().a)))
 
 
+def fit_nested(gt, g, prop, rec_type, deg_corr):
+    """Nested weighted fit.
+
+    CRITICAL API NOTE: the weight likelihood must go to the BASE state, via
+    `base_state=` / `base_state_args=`. Passing `state=WeightedBlockState, state_args=...`
+    silently replaces the *nested* class instead and the weights are IGNORED — the symptom is
+    identical entropies across different weight models (caught by --verify).
+    """
+    bargs = dict(deg_corr=deg_corr, rec=[prop], rec_types=[rec_type])
+    if hasattr(gt, "WeightedBlockState"):                     # graph-tool 3.x
+        return gt.minimize_nested_blockmodel_dl(
+            g, base_state=gt.WeightedBlockState, base_state_args=bargs)
+    # graph-tool 2.x: weights are covariates on BlockState itself
+    return gt.minimize_nested_blockmodel_dl(
+        g, state_args=dict(deg_corr=deg_corr, recs=[prop], rec_types=[rec_type]))
+
+
+def verify_weights_applied(edges_path, n_sub=3000):
+    """Guard against the silent-unweighted bug: two weight models on the same small subgraph
+    MUST give different description lengths. Identical => weights are being ignored."""
+    import graph_tool.all as gt
+    d = np.load(edges_path)
+    src, dst, w = d["src"].astype(np.int64), d["dst"].astype(np.int64), d["w"].astype(float)
+    keep = (src < n_sub) & (dst < n_sub)
+    src, dst, w = src[keep], dst[keep], w[keep]
+    g = gt.Graph(directed=True); g.add_vertex(n_sub)
+    g.add_edge_list(np.column_stack([src, dst]))
+    ew = g.new_ep("double"); ew.a = w
+    lw = g.new_ep("double"); lw.a = np.log(w)
+    print(f"[verify] subgraph {n_sub} nodes / {g.num_edges()} edges", flush=True)
+    ents = {}
+    for name, p, rt in (("lognormal", lw, "real-normal"),
+                        ("geometric", ew, "discrete-geometric")):
+        gt.seed_rng(0); np.random.seed(0)
+        s = fit_nested(gt, g, p, rt, True)
+        ents[name] = float(s.entropy())
+        print(f"[verify]   {name:10} entropy = {ents[name]:.1f}", flush=True)
+    diff = abs(ents["lognormal"] - ents["geometric"])
+    ok = diff > 1.0
+    print(f"[verify] |difference| = {diff:.2f} -> "
+          f"{'PASS: weights ARE applied' if ok else 'FAIL: weights IGNORED (identical fits)'}",
+          flush=True)
+    return ok
+
+
 def build_graph(edges_path, directed):
     """Graph from the exported edge list; undirected collapses reciprocal pairs (sums weights)."""
     import graph_tool.all as gt
@@ -89,8 +134,7 @@ def run_cell(model, deg_corr, directed, seed, edges_path, out_dir, name):
     prop = g.ep["logw"] if use_log else g.ep["w"]
 
     t0 = time.time()
-    sargs = dict(deg_corr=deg_corr, rec=[prop], rec_types=[rec_type])
-    state = gt.minimize_nested_blockmodel_dl(g, state=gt.WeightedBlockState, state_args=sargs)
+    state = fit_nested(gt, g, prop, rec_type, deg_corr)
     ent = float(state.entropy())
     elapsed = time.time() - t0
 
@@ -172,8 +216,13 @@ def main():
     ap.add_argument("--seeds", default="0", help="comma-separated, e.g. 0,1,2")
     ap.add_argument("--seed", type=int, default=0, help="internal (subprocess)")
     ap.add_argument("--cell", help="internal (subprocess): model,dc,directed,name")
+    ap.add_argument("--verify", action="store_true",
+                    help="check the weight likelihood actually reaches the nested fit, then exit")
     a = ap.parse_args()
     os.makedirs(a.out, exist_ok=True)
+
+    if a.verify:
+        sys.exit(0 if verify_weights_applied(a.edges) else 1)
 
     if a.cell:                                     # child process: run exactly one fit
         model, dc, di, name = a.cell.split(",")
