@@ -65,30 +65,52 @@ def fit_nested(gt, g, prop, rec_type, deg_corr):
         g, state_args=dict(deg_corr=deg_corr, recs=[prop], rec_types=[rec_type]))
 
 
-def verify_weights_applied(edges_path, n_sub=3000):
-    """Guard against the silent-unweighted bug: two weight models on the same small subgraph
-    MUST give different description lengths. Identical => weights are being ignored."""
+def verify_weights_applied(edges_path, n_sub=4000):
+    """Guard against the silent-unweighted bug.
+
+    Fits every weight model on the SAME dense subgraph (the n_sub highest-degree nodes -- taking
+    the first n_sub indices gives an almost edgeless graph and tells you nothing). Distinct
+    finite description lengths => the weight likelihood really reaches the nested fit.
+    Models returning NaN are reported separately: that is a broken likelihood, not proof that
+    weights are ignored.
+    """
     import graph_tool.all as gt
     d = np.load(edges_path)
     src, dst, w = d["src"].astype(np.int64), d["dst"].astype(np.int64), d["w"].astype(float)
-    keep = (src < n_sub) & (dst < n_sub)
-    src, dst, w = src[keep], dst[keep], w[keep]
-    g = gt.Graph(directed=True); g.add_vertex(n_sub)
-    g.add_edge_list(np.column_stack([src, dst]))
-    ew = g.new_ep("double"); ew.a = w
-    lw = g.new_ep("double"); lw.a = np.log(w)
-    print(f"[verify] subgraph {n_sub} nodes / {g.num_edges()} edges", flush=True)
-    ents = {}
-    for name, p, rt in (("lognormal", lw, "real-normal"),
-                        ("geometric", ew, "discrete-geometric")):
+    deg = np.bincount(np.concatenate([src, dst]))
+    top = np.argsort(deg)[::-1][:n_sub]
+    remap = -np.ones(deg.size, dtype=np.int64)
+    remap[top] = np.arange(len(top))
+    keep = (remap[src] >= 0) & (remap[dst] >= 0)
+    s2, d2, w2 = remap[src[keep]], remap[dst[keep]], w[keep]
+    g = gt.Graph(directed=True); g.add_vertex(len(top))
+    g.add_edge_list(np.column_stack([s2, d2]))
+    ew = g.new_ep("double"); ew.a = w2
+    lw = g.new_ep("double"); lw.a = np.log(w2)
+    print(f"[verify] dense subgraph: {g.num_vertices()} nodes / {g.num_edges()} edges", flush=True)
+
+    ents, nan_models = {}, []
+    for name, (use_log, rt) in WEIGHT_MODELS.items():
         gt.seed_rng(0); np.random.seed(0)
-        s = fit_nested(gt, g, p, rt, True)
-        ents[name] = float(s.entropy())
-        print(f"[verify]   {name:10} entropy = {ents[name]:.1f}", flush=True)
-    diff = abs(ents["lognormal"] - ents["geometric"])
-    ok = diff > 1.0
-    print(f"[verify] |difference| = {diff:.2f} -> "
-          f"{'PASS: weights ARE applied' if ok else 'FAIL: weights IGNORED (identical fits)'}",
+        try:
+            e = float(fit_nested(gt, g, lw if use_log else ew, rt, True).entropy())
+        except Exception as ex:
+            print(f"[verify]   {name:10} ERROR {type(ex).__name__}: {str(ex)[:60]}", flush=True)
+            nan_models.append(name); continue
+        if np.isfinite(e):
+            ents[name] = e
+            print(f"[verify]   {name:10} entropy = {e:14.1f}", flush=True)
+        else:
+            nan_models.append(name)
+            print(f"[verify]   {name:10} entropy = NaN  (likelihood broken for nested)", flush=True)
+
+    vals = sorted(ents.values())
+    spread = (vals[-1] - vals[0]) if len(vals) > 1 else 0.0
+    ok = len(ents) >= 2 and spread > 1.0
+    print(f"[verify] {len(ents)} finite / {len(WEIGHT_MODELS)} models; spread = {spread:.1f} nats")
+    if nan_models:
+        print(f"[verify] NaN/error models (will be excluded from the sweep): {nan_models}")
+    print(f"[verify] -> {'PASS: weights ARE applied' if ok else 'FAIL: fits do not differ by weight model'}",
           flush=True)
     return ok
 
