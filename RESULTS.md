@@ -156,3 +156,54 @@ the real path) — the first connectome run. Not yet run.
 - **und/ndc/random:** prediction picks **geometric**, biology picks **poisson** -> **DISAGREE**
 
 - **und/ndc/stratified:** prediction picks **geometric**, biology picks **poisson** -> **DISAGREE**
+
+
+## Discussion — held-out selection vs biology, and reconciliation with the lognormal architecture (2026-07-25)
+
+**Validity of the held-out test (E2b).** Methodologically sound and genuinely label-free
+(leak-free edge-removed weight prediction; Gate A-1). Its result is a real finding, not to be
+explained away: across all 8 settings the best predictor of held-out edge weights is
+**geometric** (-2.92 to -3.15), narrowly beating lognormal (-3.13 in the stable dir·dc);
+poisson far behind (-5.9); gaussian collapses (-100 to -2700, huge variance). So held-out
+prediction **disagrees** with biology (lognormal best, V=0.773) in every setting.
+
+**This contradicts the original hypothesis** that a held-out criterion would reveal lognormal
+as the best model independently of annotation. It does not — it reveals geometric. That stands.
+
+**Reconciliation with the Piazza multiplicative-lognormal architecture.**
+- The paper's lognormality is node-level: strength `S_i ~ rho_i L_i` and degree `k_i` are
+  lognormal (multiplicative CLT / Galton-Watson branching). It propagates to edges: if
+  `s_ij ~ (rho_i L_i)(rho_j L_j)`, a product of lognormals is lognormal, so edge weights inherit
+  lognormality. This is why the lognormal-weight SBM best recovers biology (V 0.77) — it matches
+  the true multiplicative structure. (Corrects an earlier over-strong "node-only" framing.)
+- The paper's own label-free selection is KS on the node `S`/`k` distributions, which selects
+  lognormal — i.e. at the architecturally-relevant level, selection AGREES with biology.
+
+**Why geometric can be best at prediction yet worst at V — decoupled, not contradictory:**
+- Held-out weight prediction is dominated by **curve-shape fit to the marginal integer-count
+  distribution** (a marginal property), largely independent of whether blocks are biological.
+  Geometric's shape hugs the truncated small counts best -> best prediction. Poisson makes MORE
+  blocks than geometric yet predicts WORSE -> curve-fit, not partition, drives the score.
+- V is dominated by whether the **partition aligns with cell types** (a structural property).
+  Geometric's partition aligns poorly (0.57); lognormal's aligns well (0.77).
+- So "best count-fitter" != "best biology-organizer"; a model can fit the histogram well while
+  grouping neurons non-biologically. This decoupling IS the E2b finding.
+
+**Open, UNTESTED hypothesis (do not use it to dismiss the result).** Geometric's marginal edge
+over lognormal may be a scoring artifact: native-discrete geometric vs a continuous lognormal
+discretized via `P(k)=F(k+0.5)-F(k-0.5)`, on small truncated (>=5) integer counts (median 8).
+
+**Decisive test (proposed, NOT yet run):**
+1. Calibration / synthetic recovery: generate edge weights from a KNOWN truncated integer-rounded
+   lognormal (matched moments, same block structure), run the exact E2b scorer.
+   - recovers lognormal -> scorer fair -> geometric's real-data win is genuine.
+   - geometric wins on lognormal-generated data -> discretization artifact confirmed.
+   Mirror with geometric-generated data.
+2. Direct empirical KS fit of the real truncated edge-weight histogram (lognormal vs geometric).
+- Likely resolution: node strengths lognormal (multiplicative rho·L) while individual edge COUNTS
+  carry Poisson/geometric-style count-noise around lognormal means -> both hold, no contradiction.
+
+**Honest stance.** The held-out test is good; its geometric result stands and must be reported
+openly (no metric-shopping). Whether it undermines the thesis depends on (a) the calibration
+test above and (b) whether the node-strength/degree level is the right selection criterion for
+this paper. Currently unresolved — flagged, not decided.
