@@ -72,7 +72,16 @@ def build_graph(edges_path, directed):
 
 
 def run_cell(model, deg_corr, directed, seed, edges_path, out_dir, name):
-    """One nested fit; saves the finest-level partition next to the summary."""
+    """One nested fit. Saves EVERYTHING needed for later analysis without refitting:
+
+      partition.npz : level_0 .. level_L  -> each neuron's block AT EVERY LEVEL of the
+                      hierarchy (projected onto the original nodes; this is what the
+                      hierarchy/granularity analysis needs), plus node_ids and the raw
+                      per-level block vectors (`bs_*`) describing the tree itself.
+      blockmat.npz  : finest-level block-pair edge count / weight sum / weight sum-of-squares
+                      (block-pair weight means+variances are recoverable from these).
+      <name>.json   : total MDL, per-level MDL, blocks per level, config, timing.
+    """
     import graph_tool.all as gt
     gt.seed_rng(seed); np.random.seed(seed)
     g, node_ids = build_graph(edges_path, directed)
@@ -83,16 +92,76 @@ def run_cell(model, deg_corr, directed, seed, edges_path, out_dir, name):
     sargs = dict(deg_corr=deg_corr, rec=[prop], rec_types=[rec_type])
     state = gt.minimize_nested_blockmodel_dl(g, state=gt.WeightedBlockState, state_args=sargs)
     ent = float(state.entropy())
-    levels = [n_blocks_of(s) for s in state.get_levels()]
-    levels = [b for b in levels if b > 0]
-    blocks = np.asarray(state.get_levels()[0].get_blocks().a, dtype=np.int64)
-    np.savez_compressed(os.path.join(out_dir, name + "_partition.npz"),
-                        node_ids=node_ids, blocks=blocks)
-    return dict(model=model, deg_corr=deg_corr, directed=directed, seed=seed, nested=True,
+    elapsed = time.time() - t0
+
+    lvl_states = state.get_levels()
+    levels = [n_blocks_of(s) for s in lvl_states]
+    n_real = max(1, len([b for b in levels if b > 1]))     # levels above the collapsed tail
+
+    # --- per-level partition of the ORIGINAL neurons (the hierarchy itself) ---
+    save = {"node_ids": node_ids}
+    for l in range(len(lvl_states)):
+        try:
+            b = np.asarray(state.project_level(l).get_blocks().a, dtype=np.int64)
+        except Exception:
+            if l > 0:
+                break
+            b = np.asarray(lvl_states[0].get_blocks().a, dtype=np.int64)
+        save[f"level_{l}"] = b
+        if l >= n_real and len(np.unique(b)) <= 1:
+            break                                          # stop once the tree has collapsed
+    try:                                                   # raw tree (block-of-block vectors)
+        for l, bs in enumerate(state.get_bs()):
+            save[f"bs_{l}"] = np.asarray(bs, dtype=np.int64)
+    except Exception:
+        pass
+    np.savez_compressed(os.path.join(out_dir, name + "_partition.npz"), **save)
+
+    # --- finest-level block-pair stats, stored SPARSE (only occupied pairs) ---
+    # dense K x K would be gigabytes when K is in the thousands; sparse triplets are tiny and
+    # lose nothing: block-pair weight mean/variance are recoverable from ecount/wsum/wsq.
+    try:
+        fb = save["level_0"]
+        uniq, inv = np.unique(fb, return_inverse=True)
+        K = len(uniq)
+        E = g.get_edges()
+        w = np.asarray(g.ep["w"].a, dtype=float)
+        flat = inv[E[:, 0]].astype(np.int64) * K + inv[E[:, 1]].astype(np.int64)
+        pair, idx = np.unique(flat, return_inverse=True)
+        np.savez_compressed(
+            os.path.join(out_dir, name + "_blockmat.npz"),
+            block_ids=uniq, K=np.int64(K),
+            row=(pair // K).astype(np.int32), col=(pair % K).astype(np.int32),
+            ecount=np.bincount(idx, minlength=len(pair)).astype(np.int64),
+            wsum=np.bincount(idx, weights=w, minlength=len(pair)),
+            wsq=np.bincount(idx, weights=w * w, minlength=len(pair)))
+    except Exception as e:
+        print(f"[warn] blockmat failed for {name}: {e}", flush=True)
+
+    # --- per-level description length ---
+    per_level_mdl = []
+    for s in lvl_states:
+        try:
+            per_level_mdl.append(float(s.entropy()))
+        except Exception:
+            per_level_mdl.append(None)
+
+    sizes = np.bincount(np.unique(save["level_0"], return_inverse=True)[1])
+    import platform
+    import graph_tool
+    return dict(gt_version=str(graph_tool.__version__), platform=platform.platform(),
+                edges_file=os.path.basename(edges_path),
+                model=model, deg_corr=deg_corr, directed=directed, seed=seed, nested=True,
                 entropy=ent, finite=bool(np.isfinite(ent)),
-                n_blocks=int(levels[0]) if levels else 0, levels=levels,
+                per_level_mdl=per_level_mdl,
+                n_blocks=int(levels[0]) if levels else 0,
+                levels=levels, n_levels_nontrivial=n_real,
+                block_sizes=dict(n=int(len(sizes)), min=int(sizes.min()), max=int(sizes.max()),
+                                 median=float(np.median(sizes)),
+                                 n_singletons=int((sizes == 1).sum())),
                 n_vertices=int(g.num_vertices()), n_edges=int(g.num_edges()),
-                elapsed_s=round(time.time() - t0, 1))
+                saved_levels=sum(1 for k in save if k.startswith("level_")),
+                elapsed_s=round(elapsed, 1))
 
 
 def main():
