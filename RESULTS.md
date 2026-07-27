@@ -207,3 +207,19 @@ discretized via `P(k)=F(k+0.5)-F(k-0.5)`, on small truncated (>=5) integer count
 openly (no metric-shopping). Whether it undermines the thesis depends on (a) the calibration
 test above and (b) whether the node-strength/degree level is the right selection criterion for
 this paper. Currently unresolved — flagged, not decided.
+
+
+## Next steps — PENDING (to settle E2b before deciding the narrative)
+
+Two small tests, both cheap, set aside for now:
+1. **Calibration / synthetic recovery** — generate edge weights from a KNOWN truncated,
+   integer-rounded lognormal (matched moments, same block structure) and run the exact E2b
+   scorer. Recovers lognormal -> scorer fair, geometric's real-data win is genuine; geometric
+   wins on lognormal-generated data -> the win is a discretization artifact. Mirror with a
+   geometric generator.
+2. **Node-level distributional selection (the paper's own criterion)** — fit lognormal vs
+   poisson/exponential/geometric to the node **strength `S_i`** and **degree `k_i`** histograms
+   and select by KS + held-out likelihood. Tests selection at the architecturally-relevant level.
+
+Together these decide whether, for this paper, unsupervised selection **agrees** with biology
+(node level) or **disagrees** (edge level) — to be reported honestly, both ways. Neither run yet.
