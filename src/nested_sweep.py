@@ -100,7 +100,8 @@ def main():
     ap.add_argument("--edges", default=os.path.expanduser("~/edges_t5_dir.npz"))
     ap.add_argument("--out", default=os.path.expanduser("~/nested_results"))
     ap.add_argument("--jobs", type=int, default=3, help="parallel cells (each pinned to 1 thread)")
-    ap.add_argument("--seed", type=int, default=0)
+    ap.add_argument("--seeds", default="0", help="comma-separated, e.g. 0,1,2")
+    ap.add_argument("--seed", type=int, default=0, help="internal (subprocess)")
     ap.add_argument("--cell", help="internal (subprocess): model,dc,directed,name")
     a = ap.parse_args()
     os.makedirs(a.out, exist_ok=True)
@@ -116,11 +117,14 @@ def main():
             json.dump(r, f, indent=2)
         return
 
-    cells = [(m, dc, di, f"{m}_{'dc' if dc else 'ndc'}_{'dir' if di else 'und'}_s{a.seed}")
-             for m in PRIORITY for dc in (True, False) for di in (True, False)]
+    # seed is the OUTER loop: seed 0 completes the whole grid before seed 1 starts, so an
+    # interrupted run still leaves a complete table rather than a ragged one.
+    seeds = [int(s) for s in a.seeds.split(",")]
+    cells = [(m, dc, di, f"{m}_{'dc' if dc else 'ndc'}_{'dir' if di else 'und'}_s{sd}", sd)
+             for sd in seeds for m in PRIORITY for dc in (True, False) for di in (True, False)]
     todo = [c for c in cells if not os.path.exists(os.path.join(a.out, c[3] + ".json"))]
-    print(f"[nested] {len(cells)} cells | {len(cells)-len(todo)} cached | {len(todo)} to run "
-          f"| {a.jobs} parallel", flush=True)
+    print(f"[nested] {len(cells)} cells ({len(seeds)} seeds x 16) | {len(cells)-len(todo)} cached "
+          f"| {len(todo)} to run | {a.jobs} parallel", flush=True)
     print(f"[nested] edges={a.edges}\n[nested] out={a.out}\n", flush=True)
 
     t0, running = time.time(), []
@@ -130,7 +134,7 @@ def main():
             spec = f"{c[0]},{int(c[1])},{int(c[2])},{c[3]}"
             env = dict(os.environ, OMP_NUM_THREADS="1")
             pr = subprocess.Popen([sys.executable, __file__, "--edges", a.edges, "--out", a.out,
-                                   "--seed", str(a.seed), "--cell", spec], env=env)
+                                   "--seed", str(c[4]), "--cell", spec], env=env)
             running.append((pr, c))
             print(f"[start] {c[3]}  (+{(time.time()-t0)/60:.0f} min)", flush=True)
         time.sleep(10)
