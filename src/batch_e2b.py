@@ -29,7 +29,7 @@ FOLDS = [0, 1, 2]
 SEEDS = [0, 1, 2]
 TEST_FRAC = 0.05
 
-N_CONCURRENT = 60
+N_CONCURRENT = 40                             # g11: 64 cores, ~20 already in use
 HARD_TIMEOUT = 12 * 3600
 MAX_RETRIES = 2
 
