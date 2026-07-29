@@ -81,7 +81,7 @@ def run_fold_spec(pre, post, weight, directed, model, threshold, train_mask, tes
     assert g_tr.num_edges() == int(train_mask.sum()), "train graph leaked held-out edges"
     state, info = sbm.fit(g_tr, model, nested=nested, deg_corr=deg_corr, seed=seed)
     score, _, diag = predictive_logscore(state, node_ids, pre, post, weight,
-                                         test_idx, train_mask, model, threshold)
+                                         test_idx, train_mask, model, threshold, directed)
     return {"logscore_per_edge": score, "n_test": int(len(test_idx)),
             "n_blocks": info["n_blocks"], "n_train_edges": int(train_mask.sum()), **diag}
 
@@ -121,7 +121,14 @@ def _fit_params(model, w_train, threshold):
                             method="bounded")
         return {"lam": float(max(r.x, 1e-9))}, bool(r.success)
 
-    # lognormal / gaussian: 2-D MLE of the DISCRETIZED truncated pmf
+    # lognormal / gaussian: 2-D MLE of the DISCRETIZED truncated pmf.
+    # Degenerate guard: with <3 distinct weights the 2-parameter likelihood is unbounded
+    # (sigma -> 0 on a single bin), so the optimiser "converges" to a meaningless spike.
+    # Callers already screen such bundles, but refuse here too so the function is safe alone.
+    if len(np.unique(x)) < 3:
+        y0 = np.log(x) if model == "lognormal" else x
+        return {"mu": float(y0.mean()), "sigma": float(max(y0.std(ddof=0), 1e-3))}, False
+
     y = np.log(x) if model == "lognormal" else x
     mu0, s0 = float(y.mean()), float(max(y.std(ddof=0), 1e-3))
 
@@ -133,18 +140,28 @@ def _fit_params(model, w_train, threshold):
         s = -float(np.sum(v))
         return s if np.isfinite(s) else 1e12
 
-    try:
-        r = minimize(nll, [mu0, np.log(s0)], method="Nelder-Mead",
-                     options=dict(maxiter=1200, xatol=1e-5, fatol=1e-7))
+    # Optimiser convergence is REQUIRED (r.success), not inferred. Nelder-Mead can stall at
+    # maxiter, so a second start is tried before declaring failure; a still-unconverged fit is
+    # rejected by the caller rather than being used.
+    starts = [[mu0, np.log(s0)], [mu0, np.log(max(s0 * 2.0, 1e-3))]]
+    best, best_f, converged = None, np.inf, False
+    for st in starts:
+        try:
+            r = minimize(nll, st, method="Nelder-Mead",
+                         options=dict(maxiter=4000, maxfev=8000, xatol=1e-6, fatol=1e-8))
+        except Exception:
+            continue
         mu, s = float(r.x[0]), float(np.exp(r.x[1]))
-        f_end, f_start = nll(r.x), nll([mu0, np.log(s0)])
-        ok = (np.isfinite(mu) and np.isfinite(s) and s > 1e-6 and np.isfinite(f_end)
-              and f_end <= f_start + 1e-6)          # converged OR at least not worse than init
-        if not ok:
-            return {"mu": mu0, "sigma": max(s0, 1e-6)}, False
-        return {"mu": mu, "sigma": max(s, 1e-6)}, True
-    except Exception:
+        fval = nll(r.x)
+        if not (np.isfinite(mu) and np.isfinite(s) and s > 1e-6 and np.isfinite(fval)):
+            continue
+        if fval < best_f:
+            best, best_f, converged = {"mu": mu, "sigma": max(s, 1e-6)}, fval, bool(r.success)
+        if r.success:
+            break
+    if best is None or not converged:
         return {"mu": mu0, "sigma": max(s0, 1e-6)}, False
+    return best, True
 
 
 def _logdiff(a, b):
@@ -187,7 +204,7 @@ def _log_trunc_pmf(model, k, p, threshold):
 
 
 def predictive_logscore(state, node_ids, pre, post, weight, test_idx, train_mask,
-                        model, threshold):
+                        model, threshold, directed=True):
     """Mean truncated-discrete predictive log-score (nats/edge) on held-out edges.
     Block assignment + per-block-pair params come from TRAIN only; held-out weights are
     scored, never fitted."""
@@ -195,11 +212,17 @@ def predictive_logscore(state, node_ids, pre, post, weight, test_idx, train_mask
     blk = sbm.blocks_by_neuron(state, node_ids)
     w = weight.astype(float)
 
+    # UNDIRECTED: (r,s) and (s,r) are the SAME bundle. The loader canonicalises node ids, but
+    # the BLOCK of the smaller id may exceed that of the larger, so the key must be ordered
+    # here or one bundle is split in two (halving its data and biasing 2-parameter families).
+    def _key(u, v):
+        return (u, v) if directed else (min(u, v), max(u, v))
+
     pair_w = defaultdict(list)
     for i in np.nonzero(train_mask)[0]:
         a, b = blk.get(int(pre[i])), blk.get(int(post[i]))
         if a is not None and b is not None:
-            pair_w[(a, b)].append(w[i])
+            pair_w[_key(a, b)].append(w[i])
 
     # FIX 2 (under-determined bundles + silent optimiser failures).
     # Previously ANY bundle with >=5 weights got its own 2-parameter fit and the optimiser's
@@ -211,6 +234,11 @@ def predictive_logscore(state, node_ids, pre, post, weight, test_idx, train_mask
     d_params = 2 if model in ("lognormal", "gaussian") else 1
     min_local = MIN_LOCAL_PER_PARAM * d_params           # 10 per parameter
     global_p, global_ok = _fit_params(model, w[train_mask], threshold)
+    if not global_ok:
+        # The global fit is the fallback for every small/rejected bundle. If IT failed, the
+        # fold cannot be scored honestly -- returning a number here would silently poison the
+        # mean for this model only.
+        raise RuntimeError(f"global {model} fit did not converge; fold not scorable")
 
     pair_p, n_local, n_rejected, n_small = {}, 0, 0, 0
     for k, v in pair_w.items():
@@ -227,7 +255,8 @@ def predictive_logscore(state, node_ids, pre, post, weight, test_idx, train_mask
     scores = []
     for i in test_idx:
         a, b = blk.get(int(pre[i])), blk.get(int(post[i]))
-        scores.append(_log_trunc_pmf(model, int(weight[i]), pair_p.get((a, b), global_p), threshold))
+        par = pair_p.get(_key(a, b), global_p) if (a is not None and b is not None) else global_p
+        scores.append(_log_trunc_pmf(model, int(weight[i]), par, threshold))
     scores = np.array(scores)
     diag = dict(n_local_bundles=n_local, n_rejected_fits=n_rejected,
                 n_small_bundles=n_small, global_fit_ok=bool(global_ok),
@@ -244,6 +273,6 @@ def run_fold(pre, post, weight, directed, model, threshold, test_frac=0.1, seed=
     assert g_tr.num_edges() == int(train_mask.sum()), "train graph leaked held-out edges"
     state, info = sbm.fit(g_tr, model, nested=nested, seed=seed)
     score, _, diag = predictive_logscore(state, node_ids, pre, post, weight,
-                                         test_idx, train_mask, model, threshold)
+                                         test_idx, train_mask, model, threshold, directed)
     return {"model": model, "seed": seed, "test_frac": test_frac, "n_test": len(test_idx),
             "logscore_per_edge": score, "n_blocks": info["n_blocks"], **diag}
