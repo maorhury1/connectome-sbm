@@ -20,7 +20,11 @@ NEURONS = DATA_DIR / "neurons.csv.gz"                      # root_id, nt_type, .
 
 # --- outputs ---
 REPO_DIR = Path(__file__).resolve().parent.parent          # code + PLAN.md + RESULTS.md (netapp, small)
-WORK_DIR = Path("/var/tmp/csbm_work")                       # logs / scratch (local disk)
+# Heavy outputs default to LOCAL disk (the shared home volume has been full at times).
+# Set CSBM_WORK to put them on shared storage instead -- required when a run is launched on one
+# machine and monitored from another, since /var/tmp is per-machine.
+import os
+WORK_DIR = Path(os.environ.get("CSBM_WORK", "/var/tmp/csbm_work"))
 
 # --- label hierarchy (coarse -> fine), evaluation-only, withheld from fitting ---
 LABEL_LEVELS = ["super_class", "class", "sub_class", "primary_type"]
