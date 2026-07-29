@@ -1,0 +1,7 @@
+{
+  "A normalisation": true,
+  "B sampling": true,
+  "C recovery (dist)": true,
+  "D recovery (bundle)": false,
+  "E tiny graph": true
+}

@@ -223,3 +223,151 @@ Two small tests, both cheap, set aside for now:
 
 Together these decide whether, for this paper, unsupervised selection **agrees** with biology
 (node level) or **disagrees** (edge level) — to be reported honestly, both ways. Neither run yet.
+
+
+## Node-level distributional selection (Piazza-style KS) + why Poisson's V is misleading (2026-07-28)
+
+**Test.** For each node: strength `S` (total synapses) and degree `k` (distinct partners), on the
+canonical >=5 directed graph (138,584 nodes). Each candidate distribution fitted to those two
+histograms; ranked by KS (lower = better). No SBM involved. This is the paper's own criterion.
+
+| rank | strength S | KS | degree k | KS |
+|---|---|---|---|---|
+| 1 | **lognormal** | **0.037** | **lognormal** | **0.054** |
+| 2 | weibull | 0.104 | weibull | 0.078 |
+| 3 | gamma | 0.135 | geometric | 0.087 |
+| 4 | geometric | 0.159 | exponential | 0.090 |
+| 5 | exponential | 0.159 | gamma | 0.091 |
+| 6 | normal | 0.354 | normal | 0.313 |
+| 7 | power-law | 0.414 | power-law | 0.367 |
+| 8 | neg-binomial | 0.528 | neg-binomial | 0.393 |
+| 9 | poisson | 0.739 | poisson | 0.576 |
+
+- **Lognormal wins decisively on both** (2.8x better than runner-up on S), replicating Piazza et al.
+  on our data, including lognormal >> power-law and >> Poisson. Overdispersion is extreme
+  (var/mean = 5105 for S, 218 for k).
+- **The extra candidates do not threaten lognormal** (weibull 2-3x worse; gamma / neg-binomial
+  unremarkable) -> no justification to add them to the SBM sweep. Cheap negative result.
+- Caveat: KS is bulk-dominated and these are single-sample fits without CIs; the ranking is
+  robust but KS alone is not proof about tail behaviour.
+
+**Interpretation — why Poisson is LAST here but near-TOP on V-measure.** Different objects:
+KS asks whether *one global* Poisson describes the degree histogram (it cannot: Poisson forces
+var = mean, data has var/mean = 218). The SBM never fits one global Poisson — it fits a
+*separate* Poisson per block-pair, i.e. a mixture of ~1600 of them, which can represent a
+heavy-tailed graph. Crucially, that rigidity is *why* it scores well on V: unable to absorb
+within-block variance, the model must **split until each block-pair is homogeneous**.
+
+| | blocks | homogeneity | completeness | V |
+|---|---|---|---|---|
+| poisson dir ndc | 1599 | **0.756** | 0.746 | 0.751 |
+| lognormal dir dc | 191 | 0.666 | **0.920** | 0.773 |
+
+Poisson wins homogeneity (many small pure blocks), lognormal wins completeness (types kept
+intact); they reach similar V by opposite routes. **So Poisson's V is a resolution artefact, not
+evidence of a Poisson connectome** — its misfit causes over-splitting, and over-splitting
+flatters a metric scored against ~8,000 fine-grained cell types. Same decoupling as geometric
+(best held-out prediction, worst V). Methodological consequence: **V-measure conflates "correct
+model" with "convenient resolution,"** which is why the node-level KS test above is the cleaner
+criterion for the architecture claim.
+
+
+## Biological agreement under chance-adjusted metrics; what the blocks actually are (2026-07-28)
+
+**1. lognormal·dir·dc ranks 1st of 20 on EVERY biological metric** — AMI, ARI, and V at all four
+label levels (super_class, class, sub_class, primary_type).
+
+**2. The margin WIDENS under chance-adjustment — this answers the "coarseness artefact" objection.**
+V is untrustworthy here because the models sit at very different resolutions (191 vs 1599 blocks):
+more blocks inflate homogeneity for free, fewer blocks inflate completeness for free. AMI/ARI
+subtract the chance baseline computed at each partition's own resolution, so neither splitting nor
+merging earns credit.
+
+| | blocks | homog | compl | V | AMI | ARI |
+|---|---|---|---|---|---|---|
+| lognormal dir dc | 191 | 0.666 | **0.920** | 0.773 | **0.729** | **0.556** |
+| poisson dir ndc | 1599 | **0.756** | 0.746 | 0.751 | 0.659 | 0.300 |
+
+On V lognormal leads by 3%; on **ARI by 85%**. Poisson's homogeneity advantage *evaporates* once
+chance-corrected — i.e. most of that purity was expected from having 1599 blocks. ARI shows the
+widest gap because it is pair-based and punishes fragmentation: every cell type split across
+blocks turns all its same-type pairs into errors. So lognormal's biological win is NOT a
+coarseness artefact.
+
+**3. But the four granularity wins are NOT independent.** super_class > class > sub_class >
+primary_type are nested aggregations, so a partition respecting primary_type boundaries
+automatically respects the coarser ones. "Wins at every granularity" is largely ONE result
+propagating upward, not four confirmations.
+
+**4. What the blocks are: a COARSENING of the taxonomy.** For lognormal·dir·dc (165 blocks on
+137,767 labelled neurons, 8,767 primary types):
+
+| types with >= N neurons | n | % >=90% inside ONE block | median concentration |
+|---|---|---|---|
+| >= 1 | 8767 | 72.0% | 1.00 |
+| >= 5 | 2159 | 53.9% | 0.96 |
+| >= 20 | 434 | 61.5% | 0.97 |
+| >= 50 | 236 | 59.3% | 0.96 |
+
+~75 primary types per block; ~3.06 blocks per type (>=20 neurons). So the model **rarely splits a
+cell type and routinely merges several** — connectivity defines *super-sets* of cell types
+("type families"), not sub-divisions of them. Caveat: only ~60% of types (>=5 neurons) are >=90%
+in one block, so this is a tendency, not a rule.
+
+**5. This reframes the earlier retinotopy null.** lognormal barely splits ANY type brain-wide, so
+"lognormal did not recover retinotopy" is weak evidence about retinotopy and strong evidence about
+**lognormal's resolution**. Poisson, which over-splits (1599 blocks), DID produce clean DV/AP
+eye-axis splits across ~20 optic types. Same graph, same biology, different granularity ->
+different answer.
+
+**6. Status of the poisson retinotopy controls.**
+- CONTROLLED: degree (DC vs non-DC -> axes become *type-specific*, DV for Mi10/Dm2/Sm07, AP for
+  Tm9/Tm5a, which rules out one global degree gradient); and the rim/edge effect (DV/AP is
+  distinct from the eye-boundary split).
+- NOT controlled: resolution. But a random-subdivision null is a **strawman** — it destroys
+  spatial structure by construction and would score 0.50 regardless — and in a retinotopic system
+  "connectivity-defined blocks align with eye position" IS the phenomenon, not an artefact.
+- The one meaningful open test is **matched-resolution lognormal** (force ~1599 blocks, re-run the
+  DV/AP scan): a disambiguation, not a null, informative either way — if the axes appear, the claim
+  strengthens to "retinotopy is recoverable given adequate resolution"; if not, the weight model
+  itself is doing the work. UNTESTED, and it is not established that pinning the block count
+  converges.
+
+
+## OPEN ISSUE — resolution must be controlled in future comparisons (2026-07-28)
+
+Models are being compared at wildly different granularities (lognormal·dir·dc ~191 blocks vs
+poisson·dir·dc ~1470), so **model and resolution are confounded** in every cross-model claim.
+This affects at least:
+- the **DV/AP retinotopy** result (poisson splits ~19/20 optic types along the eye axes,
+  lognormal ~1/16) — currently unclear whether the weight model or the granularity causes it;
+- the **biology metrics** (V is directly resolution-biased: more blocks inflate homogeneity,
+  fewer inflate completeness; AMI/ARI are chance-adjusted and therefore the fairer comparison).
+
+**Requirement going forward:** either compare at MATCHED block count, or report a
+chance-adjusted metric (AMI/ARI), or state explicitly that the comparison is confounded.
+
+**Mechanism is available and verified** (dense 3k-node subgraph, graph-tool 2.98):
+`minimize_blockmodel_dl(..., multilevel_mcmc_args=dict(B_min=X, B_max=Y))` is honoured and does
+not stall — it was in fact *faster* than unconstrained.
+
+| model | range requested | blocks returned | MDL |
+|---|---|---|---|
+| lognormal | unconstrained | 76 | 532,863 |
+| lognormal | 150-250 | 152 | 555,596 |
+| lognormal | 1200-1700 | 1213 | 756,947 |
+| poisson | unconstrained | 788 | 1,071,594 |
+| poisson | 150-250 | 247 | 1,266,532 |
+| poisson | 1200-1700 | 1228 | 1,085,578 |
+
+Note the natural 10x resolution gap (lognormal 76 vs poisson 788) reproduces on the subgraph,
+mirroring full-brain 191 vs 1470 — the confound is systematic, not incidental. Forcing costs
+description length (lognormal +42% to reach 1213 blocks), so constrained fits are deliberately
+suboptimal compressions; that is acceptable when the question is biology-alignment at matched
+resolution, but such MDLs must NOT be compared against unconstrained ones.
+
+**DESIGN ON HOLD (not run):** 2x2 separating model from resolution, all directed + DC —
+lognormal natural (191) / forced fine (1200-1700); poisson forced coarse (150-250) / natural
+(1470); outcome = number of optic types with strong DV/AP alignment. Note the coarse-lognormal
+DV/AP figure currently on record came from the OLD pilot partition, so that cell needs
+re-scanning on the batch partition for the 2x2 to be internally consistent.

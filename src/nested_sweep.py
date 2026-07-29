@@ -1,8 +1,10 @@
 """
 NESTED SBM sweep — the hierarchy experiment (RQ-D / E4), portable.
 
-Grid: 4 weight models x {DC, non-DC} x {directed, undirected} = 16 nested fits on the canonical
->=5 connectome, from the .npz written by export_edges.py.
+Grid: --models x {DC, non-DC} x {directed, undirected} x --seeds, nested, on the canonical >=5
+connectome, from the .npz written by export_edges.py. All six weight likelihoods are SUPPORTED
+(lognormal included); which ones actually run is chosen at launch with --models, so the
+production sweep can simply drop the tags it does not want.
 
 REQUIRES graph-tool >= 3.1. On graph-tool 2.98 the weighted NESTED fit does not work, and 3.1+
 cannot run on the lab server (needs glibc 2.38, server has 2.35) — so this script is meant to be
@@ -13,11 +15,14 @@ Robustness (learned the hard way):
   - every cell runs in its OWN subprocess -> a segfault is recorded, not fatal;
   - every finished cell writes its own JSON + partition .npz -> re-running SKIPS completed cells,
     so an interrupted overnight run resumes for free;
-  - cells run in PRIORITY order (lognormal+DC first), so if only some finish, they are the ones
-    that matter.
+  - seed is the OUTER loop, so an interrupted run still leaves a COMPLETE grid at seed 0.
 
 Usage:
-    python nested_sweep.py --edges edges_t5_dir.npz --out nested_results --jobs 3
+    # production nested sweep (80 fits: 4 models x 2 dc x 2 dir x 5 seeds)
+    python nested_sweep.py --edges edges_t5_dir.npz --out nested_results --jobs 4 \
+        --models gaussian,poisson,geometric,exponential --seeds 0,1,2,3,4
+    # include lognormal explicitly if you want to attempt it
+    python nested_sweep.py --models lognormal --seeds 0
     python report_nested.py --out nested_results        # table when done (or partway)
 """
 import argparse
@@ -28,13 +33,18 @@ import sys
 import time
 import numpy as np
 
+# ALL available weight likelihoods. Nothing is excluded here on purpose: pick what to run with
+# --models at launch time (e.g. lognormal is available but is known not to converge nested on the
+# full graph, so the production sweep simply omits it).
 WEIGHT_MODELS = {
-    "lognormal": (True,  "real-normal"),
-    "gaussian":  (False, "real-normal"),
-    "poisson":   (False, "discrete-poisson"),
-    "geometric": (False, "discrete-geometric"),
+    "lognormal":   (True,  "real-normal"),        # normal on log(w)
+    "gaussian":    (False, "real-normal"),        # normal on raw w
+    "poisson":     (False, "discrete-poisson"),
+    "geometric":   (False, "discrete-geometric"),
+    "exponential": (False, "real-exponential"),
+    "binomial":    (False, "discrete-binomial"),
 }
-PRIORITY = ["lognormal", "geometric", "poisson", "gaussian"]   # key model first
+DEFAULT_MODELS = ["gaussian", "poisson", "geometric", "exponential"]   # lognormal omitted
 
 
 def n_blocks_of(state):
@@ -145,8 +155,9 @@ def run_cell(model, deg_corr, directed, seed, edges_path, out_dir, name):
                       hierarchy (projected onto the original nodes; this is what the
                       hierarchy/granularity analysis needs), plus node_ids and the raw
                       per-level block vectors (`bs_*`) describing the tree itself.
-      blockmat.npz  : finest-level block-pair edge count / weight sum / weight sum-of-squares
-                      (block-pair weight means+variances are recoverable from these).
+      blockmat.npz  : block-pair edge count / weight sum / weight sum-of-squares AT EVERY
+                      SAVED LEVEL (suffixed _0.._L; block-pair weight means+variances are
+                      recoverable from these, for the whole hierarchy, without refitting).
       <name>.json   : total MDL, per-level MDL, blocks per level, config, timing.
     """
     import graph_tool.all as gt
@@ -183,24 +194,28 @@ def run_cell(model, deg_corr, directed, seed, edges_path, out_dir, name):
         pass
     np.savez_compressed(os.path.join(out_dir, name + "_partition.npz"), **save)
 
-    # --- finest-level block-pair stats, stored SPARSE (only occupied pairs) ---
+    # --- block-pair stats at EVERY saved level, stored SPARSE (only occupied pairs) ---
     # dense K x K would be gigabytes when K is in the thousands; sparse triplets are tiny and
     # lose nothing: block-pair weight mean/variance are recoverable from ecount/wsum/wsq.
+    # Saved per level so weight statistics are available for the whole hierarchy without refit.
     try:
-        fb = save["level_0"]
-        uniq, inv = np.unique(fb, return_inverse=True)
-        K = len(uniq)
         E = g.get_edges()
-        w = np.asarray(g.ep["w"].a, dtype=float)
-        flat = inv[E[:, 0]].astype(np.int64) * K + inv[E[:, 1]].astype(np.int64)
-        pair, idx = np.unique(flat, return_inverse=True)
-        np.savez_compressed(
-            os.path.join(out_dir, name + "_blockmat.npz"),
-            block_ids=uniq, K=np.int64(K),
-            row=(pair // K).astype(np.int32), col=(pair % K).astype(np.int32),
-            ecount=np.bincount(idx, minlength=len(pair)).astype(np.int64),
-            wsum=np.bincount(idx, weights=w, minlength=len(pair)),
-            wsq=np.bincount(idx, weights=w * w, minlength=len(pair)))
+        wv = np.asarray(g.ep["w"].a, dtype=float)
+        bm = {}
+        for key in [k for k in save if k.startswith("level_")]:
+            l = key.split("_")[1]
+            uniq, inv = np.unique(save[key], return_inverse=True)
+            K = len(uniq)
+            flat = inv[E[:, 0]].astype(np.int64) * K + inv[E[:, 1]].astype(np.int64)
+            pair, idx = np.unique(flat, return_inverse=True)
+            bm[f"block_ids_{l}"] = uniq
+            bm[f"K_{l}"] = np.int64(K)
+            bm[f"row_{l}"] = (pair // K).astype(np.int32)
+            bm[f"col_{l}"] = (pair % K).astype(np.int32)
+            bm[f"ecount_{l}"] = np.bincount(idx, minlength=len(pair)).astype(np.int64)
+            bm[f"wsum_{l}"] = np.bincount(idx, weights=wv, minlength=len(pair))
+            bm[f"wsq_{l}"] = np.bincount(idx, weights=wv * wv, minlength=len(pair))
+        np.savez_compressed(os.path.join(out_dir, name + "_blockmat.npz"), **bm)
     except Exception as e:
         print(f"[warn] blockmat failed for {name}: {e}", flush=True)
 
@@ -235,9 +250,15 @@ def main():
     ap.add_argument("--edges", default=os.path.expanduser("~/edges_t5_dir.npz"))
     ap.add_argument("--out", default=os.path.expanduser("~/nested_results"))
     ap.add_argument("--jobs", type=int, default=3, help="parallel cells (each pinned to 1 thread)")
+    ap.add_argument("--models", default=",".join(DEFAULT_MODELS),
+                    help="comma-separated; any of " + ",".join(WEIGHT_MODELS))
     ap.add_argument("--seeds", default="0", help="comma-separated, e.g. 0,1,2")
     ap.add_argument("--seed", type=int, default=0, help="internal (subprocess)")
     ap.add_argument("--cell", help="internal (subprocess): model,dc,directed,name")
+    ap.add_argument("--timeout", type=float, default=12.0,
+                    help="hours per fit before it is killed (0 = no timeout)")
+    ap.add_argument("--max-retries", type=int, default=2,
+                    help="extra attempts with a FRESH seed after a timeout/crash, then give up")
     ap.add_argument("--verify", action="store_true",
                     help="check the weight likelihood actually reaches the nested fit, then exit")
     a = ap.parse_args()
@@ -260,40 +281,84 @@ def main():
     # seed is the OUTER loop: seed 0 completes the whole grid before seed 1 starts, so an
     # interrupted run still leaves a complete table rather than a ragged one.
     seeds = [int(s) for s in a.seeds.split(",")]
+    models = [m.strip() for m in a.models.split(",") if m.strip()]
+    bad = [m for m in models if m not in WEIGHT_MODELS]
+    if bad:
+        sys.exit(f"unknown model(s): {bad}; available: {list(WEIGHT_MODELS)}")
     cells = [(m, dc, di, f"{m}_{'dc' if dc else 'ndc'}_{'dir' if di else 'und'}_s{sd}", sd)
-             for sd in seeds for m in PRIORITY for dc in (True, False) for di in (True, False)]
+             for sd in seeds for m in models for dc in (True, False) for di in (True, False)]
     todo = [c for c in cells if not os.path.exists(os.path.join(a.out, c[3] + ".json"))]
-    print(f"[nested] {len(cells)} cells ({len(seeds)} seeds x 16) | {len(cells)-len(todo)} cached "
+    print(f"[nested] {len(cells)} cells ({len(models)} models x 2 dc x 2 dir x {len(seeds)} seeds) "
+          f"| {len(cells)-len(todo)} cached "
           f"| {len(todo)} to run | {a.jobs} parallel", flush=True)
     print(f"[nested] edges={a.edges}\n[nested] out={a.out}\n", flush=True)
 
-    t0, running = time.time(), []
+    # Per-fit wall-clock cap + retry-with-a-fresh-seed. Historical full-brain nested fits took
+    # 3.7-4.8 h, so the default 12 h is ~2.5x headroom: a legitimately slow fit is never killed,
+    # but a stuck one (as lognormal does) frees its worker slot instead of blocking the queue.
+    cap = a.timeout * 3600 if a.timeout > 0 else float("inf")
+    t0, running, tally = time.time(), [], {"done": 0, "failed": 0, "retried": 0}
+
+    def launch(c, attempt):
+        """attempt 0 = original seed/name; retries get a fresh seed and a _retryN name."""
+        seed = c[4] if attempt == 0 else c[4] + 1000 * attempt
+        name = c[3] if attempt == 0 else f"{c[3]}_retry{attempt}"
+        spec = f"{c[0]},{int(c[1])},{int(c[2])},{name}"
+        env = dict(os.environ, OMP_NUM_THREADS="1")
+        pr = subprocess.Popen([sys.executable, __file__, "--edges", a.edges, "--out", a.out,
+                               "--seed", str(seed), "--cell", spec], env=env)
+        running.append(dict(pr=pr, cell=c, attempt=attempt, name=name,
+                            seed=seed, start=time.time()))
+        tag = "" if attempt == 0 else f"  [retry {attempt}/{a.max_retries}, seed {seed}]"
+        print(f"[start] {name}  (+{(time.time()-t0)/60:.0f} min){tag}", flush=True)
+
+    def requeue_or_give_up(j, why):
+        """Retry with a new seed, or record permanent failure and move on."""
+        if j["attempt"] < a.max_retries:
+            tally["retried"] += 1
+            print(f"[{why:6}] {j['name']}  -> retrying with a fresh seed", flush=True)
+            launch(j["cell"], j["attempt"] + 1)
+        else:
+            tally["failed"] += 1
+            print(f"[GIVEUP] {j['cell'][3]}  after {a.max_retries + 1} attempts ({why})", flush=True)
+            with open(os.path.join(a.out, j["cell"][3] + ".json"), "w") as fh:
+                json.dump(dict(model=j["cell"][0], deg_corr=j["cell"][1], directed=j["cell"][2],
+                               seed=j["cell"][4], nested=True, status="FAILED", reason=why,
+                               attempts=a.max_retries + 1), fh, indent=2)
+
     while todo or running:
         while todo and len(running) < a.jobs:
-            c = todo.pop(0)
-            spec = f"{c[0]},{int(c[1])},{int(c[2])},{c[3]}"
-            env = dict(os.environ, OMP_NUM_THREADS="1")
-            pr = subprocess.Popen([sys.executable, __file__, "--edges", a.edges, "--out", a.out,
-                                   "--seed", str(c[4]), "--cell", spec], env=env)
-            running.append((pr, c))
-            print(f"[start] {c[3]}  (+{(time.time()-t0)/60:.0f} min)", flush=True)
+            launch(todo.pop(0), 0)
         time.sleep(10)
-        for pr, c in list(running):
-            if pr.poll() is None:
+        for j in list(running):
+            elapsed = time.time() - j["start"]
+            if j["pr"].poll() is None:
+                if elapsed > cap:                       # hung: kill and free the slot
+                    j["pr"].kill()
+                    running.remove(j)
+                    print(f"[TIMEOUT] {j['name']} after {elapsed/3600:.1f} h", flush=True)
+                    requeue_or_give_up(j, "TIMEOUT")
                 continue
-            running.remove((pr, c))
-            path = os.path.join(a.out, c[3] + ".json")
+            running.remove(j)
+            path = os.path.join(a.out, j["name"] + ".json")
             if not os.path.exists(path):
-                print(f"[CRASH] {c[3]}  rc={pr.returncode}"
-                      f"{' (SEGFAULT)' if pr.returncode in (-11, 139) else ''}", flush=True)
+                rc = j["pr"].returncode
+                print(f"[CRASH ] {j['name']}  rc={rc}"
+                      f"{' (SEGFAULT)' if rc in (-11, 139) else ''}", flush=True)
+                requeue_or_give_up(j, "CRASH")
                 continue
             r = json.load(open(path))
             if r.get("entropy") is None:
-                print(f"[FAIL ] {c[3]}  {r.get('error')}", flush=True)
+                print(f"[FAIL  ] {j['name']}  {r.get('error')}", flush=True)
+                requeue_or_give_up(j, "ERROR")
             else:
-                print(f"[done ] {c[3]}  entropy={r['entropy']:.1f}  blocks={r['n_blocks']}  "
-                      f"levels={r['levels'][:6]}  {r['elapsed_s']/60:.0f} min", flush=True)
+                tally["done"] += 1
+                print(f"[done  ] {j['name']}  entropy={r['entropy']:.1f}  blocks={r['n_blocks']}  "
+                      f"levels={r['levels'][:6]}  {r['elapsed_s']/60:.0f} min  "
+                      f"[{tally['done']}/{len(cells)}]", flush=True)
     print(f"\n[nested] finished in {(time.time()-t0)/3600:.2f} h -> {a.out}")
+    print(f"[nested] {tally['done']} ok, {tally['failed']} failed, "
+          f"{tally['retried']} retries used", flush=True)
 
 
 if __name__ == "__main__":
