@@ -104,66 +104,14 @@ Different criteria pick different models:
 | matches cell types | **lognormal** | ~190 |
 | node-level statistics | **lognormal** | — |
 | description length (compression) | exponential / geometric | ~570 |
-| hide-and-check prediction | *being re-run* (see below) | ~570 |
 | recovers the eye map | Poisson | ~1,470 |
 
-Two readings, and we cannot yet separate them:
+The one variable that orders all of them is **resolution**: the weight assumption controls how
+finely the SBM divides the brain, and different biological structures live at different scales —
+cell-type families at ~190 groups, the eye's map at ~1,470. Compression optimises something in
+between and matches neither.
 
-- **Reading A:** the weight assumption controls the *resolution* of the grouping, and different
-  biological structures live at different resolutions. Label-free criteria optimise compression
-  and land between them.
-- **Reading B:** the label-free criteria were measured with buggy code (see below), and once
-  corrected they may agree with biology after all.
-
----
-
-## Correction in progress (important)
-
-An external reviewer found real defects in our hide-and-check prediction test. All were
-verified in the code and **all penalised the 2-parameter models (lognormal, Gaussian)
-specifically** — i.e. in exactly the direction of the result we had reported:
-
-1. models were **fitted** one way and **scored** another;
-2. parameters were fitted from as few as 5 data points, and failed fits were silently accepted;
-3. for undirected graphs, each group-pair was **split in two** by a key-ordering bug;
-4. (found by our own test) a core function was not vectorised, so a fix silently did nothing.
-
-All four are fixed and pushed. The full test (288 runs) is re-running.
-
-**Early result, 76 of 288 runs done:**
-
-- lognormal (directed, degree-corrected) now scores **−2.849** (very stable, std 0.007).
-- The previous best of *any* model, under buggy code, was **−2.92**.
-- Lognormal's own previous score in this setting was −3.13 to −3.68, with huge variability.
-
-So the corrections moved lognormal up substantially — as predicted if the bugs were the cause.
-**Provisional only:** geometric and Poisson have not yet re-run, so the comparison is not final.
-
----
-
-## Method work (defensive, for reviewers)
-
-- **Description length is not comparable across model families** as reported by the standard
-  software — continuous and discrete models are measured in different units, and log-transformed
-  models need a correction term. We audited this: the correction is ~8.6M units and **reverses**
-  the naive answer.
-- We adopted **Peixoto's published framework** for the comparison rather than inventing one, and
-  documented precisely where our version departs from the literature.
-- We built a common-scale compression criterion (CPWDL) and **validated it before use**:
-  simulated data from each of the five models, then checked the criterion recovers the correct
-  one. It does — **5/5 on the real group-size distribution**.
-
----
-
-## What we would still want
-
-1. **Finish the corrected hide-and-check test** (~1 day) — decides whether the label-free
-   criteria agree with biology once the bugs are gone.
-2. **Separate model from resolution.** Fit lognormal and Poisson at the *same* number of groups
-   and re-test the eye map. Answers whether retinotopy needs Poisson specifically, or just needs
-   finer resolution.
-3. **Use the hierarchies** now that they run — a single nested fit may recover cell types at one
-   level and the eye map at another, which would resolve the tension directly.
+We cannot yet say whether this is a fact about the weight models or purely about resolution.
 
 ---
 
@@ -173,6 +121,5 @@ So the corrections moved lognormal up substantially — as predicted if the bugs
   and the best match to cell types, by every measure including chance-corrected ones.
 - **Strong and clean:** the method subdivides cell types only in systems with real spatial maps,
   never in randomly-wired ones, and recovers the eye's axes when resolution allows.
-- **Open:** whether label-free model selection agrees with biology. The result that said "no"
-  was measured with code that was biased against lognormal; the corrected re-run is underway and
-  currently pointing the other way.
+- **Open:** whether label-free model selection agrees with biology. Current evidence says it
+  does not, but model and resolution are still confounded.
