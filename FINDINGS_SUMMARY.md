@@ -1,125 +1,108 @@
-# Findings so far — connectome SBM project
+# All findings so far
 
-*Status document for discussion, 2026-07-30. Not a final write-up. Solid findings and open
-problems are marked separately.*
-
----
-
-## The question
-
-We fit a Stochastic Block Model (SBM) to the fly connectome (FlyWire v783: 138,584 neurons,
-3.7M connections, ≥5 synapses). The SBM groups neurons by who they connect to, **without ever
-seeing biological labels**.
-
-We can choose different assumptions about how connection *strengths* are distributed —
-lognormal, Gaussian, Poisson, geometric, exponential. Two questions follow:
-
-1. Which assumption best describes the connectome, judged **without labels**?
-2. Does that same model best recover **biology** (cell types, spatial maps)?
+*Fly connectome (FlyWire v783): 138,584 neurons, 3.7M connections of ≥5 synapses.
+We group neurons by who they connect to, without ever showing the method any biological labels,
+then ask what it recovered.*
 
 ---
 
-## Solid findings
+## A. Which distribution describes the connectome?
 
-### 1. Node-level statistics: lognormal wins clearly
+- **Lognormal fits the neuron-level data best, by a wide margin.** Fitting distributions directly
+  to each neuron's total synapses and number of partners (no grouping involved), lognormal is
+  ~3× better than anything else.
+- **It beats the power-law decisively** (0.037 vs 0.414 — lower is better). The connectome is not
+  "scale-free". This replicates Piazza et al. on our own data.
+- **Poisson is the worst of all** (0.739). The data are far too spread out for it.
+- **We tested extra candidates** — Weibull, gamma, negative binomial — and none competes. So
+  there is no reason to widen the model set.
+- **The connections are extremely uneven**: variance is 5,105× the mean for synapse totals. This
+  is why simple models fail.
 
-Fitting distributions directly to each neuron's total synapses and number of partners
-(no SBM involved), ranked by goodness of fit (lower = better):
+## B. What do the groups the method finds actually correspond to?
 
-| rank | node strength | | node degree | |
-|---|---|---|---|---|
-| 1 | **lognormal** | **0.037** | **lognormal** | **0.054** |
-| 2 | Weibull | 0.104 | Weibull | 0.078 |
-| 3 | gamma | 0.135 | geometric | 0.087 |
-| … | | | | |
-| 7 | power-law | 0.414 | power-law | 0.367 |
-| 9 | Poisson | 0.739 | Poisson | 0.576 |
+- **Lognormal's groups match biological cell types better than any other model** — 1st out of 20
+  variants, on every measure, at all four levels of the biological hierarchy.
+- **This is not just because it makes fewer groups.** On measures that correct for chance, its
+  lead *grows*: 0.556 vs Poisson's 0.300 (85% better), where the naive measure showed only 3%.
+- **The groups are families of cell types, not subdivisions of them.** A typical cell type sits
+  **97% inside a single group**, and each group holds **~75 different types**.
+- So connectivity defines something **coarser** than the cell-type catalogue: bundles of types
+  that wire alike.
 
-- Lognormal is **~3× better** than the runner-up.
-- This **replicates Piazza et al. on our own data**, including their key claim that the
-  connectome is lognormal rather than scale-free (power-law).
-- We also tested extra candidates (Weibull, gamma, negative binomial) — none competes, so
-  there is no reason to expand the model set.
+## C. Where does the method split a cell type in two?
 
-### 2. Lognormal SBM matches biology best — on every measure
+- **Only in systems that have a spatial map.** Every subdivided type belongs to vision, hearing
+  (Johnston's organ), smell (olfactory receptors), or the navigation centre.
+- **Kenyon cells are never subdivided.** These are the textbook case of random, map-free wiring —
+  each subtype stays ≥95% in one group. The method correctly leaves them alone.
+- **Brain-wide, no non-visual cell type passes our splitting threshold at all.**
+- Together this is a clean control pair: it splits exactly where a map exists, and not otherwise.
 
-Comparing the SBM's groups against FlyWire's cell-type labels, across 20 model variants:
+## D. The eye map (retinotopy)
 
-- **lognormal (directed, degree-corrected) ranks 1st of 20 on every biological measure** —
-  at all four label levels (super-class, class, sub-class, cell type).
-- Importantly, its lead **grows** on the measures that correct for chance:
-  - simple score: lognormal 0.773 vs Poisson 0.751 (only 3% better)
-  - chance-corrected: lognormal **0.556** vs Poisson **0.300** (85% better)
-- This rules out the obvious objection that lognormal only looks good because it makes fewer,
-  bigger groups. Coarseness earns nothing once you correct for chance.
+- **With a fine-grained model (Poisson, ~1,470 groups), 19 of 20 optic cell types split along a
+  real eye axis** — up–down or front–back — at 82–99% accuracy, using FlyWire's own published
+  eye-coordinate map.
+- **With a coarse model (lognormal, ~190 groups), almost none do.**
+- **It is not an artefact of connection counts.** After correcting for that, the axes become
+  *type-specific* — some types split up–down, others front–back — which a single global artefact
+  could not produce.
+- **Most splits under the coarse model are just the edge of the eye.** Neurons at the eye's rim
+  have fewer neighbours to wire with, so they separate out. This is real but uninteresting — it
+  is the boundary, not a functional map.
+- **We checked it is not the "acute zone"** (the eye's high-acuity patch): the split is a ring
+  around the centre, while the acute zone is a one-sided patch.
+- **One type, Tm32, splits along the up–down axis in *both* eyes** (0.86 and 0.77) — the only
+  clean case under the coarse model.
+- **The map is weakly present in the wiring itself.** Using only connectivity, we can predict a
+  neuron's position in the eye ~28% better than chance (after a strict spatial control). Real,
+  but weak.
+- **Published eye coordinates exist only for the right eye.** Mirroring them to the left is
+  noticeably less accurate (27 µm vs 7 µm), so left-eye results are approximate.
 
-### 3. What the groups actually are: families of cell types
+## E. Choosing a model without using biological labels
 
-- A typical cell type sits **97% inside a single group**.
-- Each group contains **~75 different cell types**.
-- So the SBM does **not** cut cell types apart — it **bundles related types together**.
-- Connectivity therefore defines something *coarser* than the cell-type catalogue: "families"
-  of types that wire alike.
+- **The software's built-in score cannot be compared across model families.** Continuous and
+  discrete models are measured in different units, and log-transformed models need a correction.
+- **That correction is large and it reverses the naive answer**: 8.56M units, enough to move
+  lognormal from apparent 1st to 4th.
+- **Under the correct published framework, compression picks exponential**, with geometric close
+  behind — not lognormal.
+- **Compression and biology disagree.** Geometric and exponential, which compress best, are the
+  *worst* match to biology at every level.
+- **Resolution is the variable that orders everything:**
 
-### 4. Splitting happens only where biology has a spatial map
+  | what it recovers | model | groups |
+  |---|---|---|
+  | families of cell types | lognormal | ~190 |
+  | (best compression) | exponential/geometric | ~570 |
+  | the eye's map | Poisson | ~1,470 |
 
-Looking at which cell types the SBM subdivides:
+  Biology lives at two separated scales; compression lands between them and matches neither.
+- **Caveat:** each model produces its own number of groups, so "wrong model" and "wrong
+  resolution" are not yet separated.
 
-- **Every** subdivided type is in a topographically organised system: vision (optic lobe),
-  hearing (Johnston's organ), smell (olfactory receptors), navigation (central complex).
-- **Kenyon cells — the textbook example of random, map-free wiring — are never subdivided**
-  (each subtype stays ≥95% in one group).
-- Brain-wide, **no** non-visual type passes our splitting threshold.
+## F. Practical findings about the method itself
 
-This is a clean positive/negative control pair: the method subdivides exactly where a spatial
-map exists, and leaves random wiring alone.
-
-### 5. Retinotopy: the eye's map is recovered — at fine resolution
-
-Using FlyWire's published eye-coordinate map (each optic neuron's position in the eye):
-
-- With a **fine** model (Poisson, ~1,470 groups), **19 of 20** optic cell types are split along
-  a real eye axis (up–down or front–back), with 82–99% accuracy.
-- With a **coarse** model (lognormal, ~190 groups), almost none are.
-- We controlled for a trivial explanation (connection counts): after correction the axes become
-  **type-specific** — some types split up–down, others front–back — which a single global
-  artefact could not produce.
-
-### 6. Hierarchies now work (new)
-
-The nested/hierarchical SBM previously never completed. It now runs: **80/80 fits, 72 clean**.
-Example hierarchy (Poisson): **4795 → 1320 → 681 → 416 → 118 → 44 → 19** groups.
-
-This matters because a single hierarchical fit spans *both* scales at once — the cell-type-family
-scale and the retinotopic scale.
-
----
-
-## The central tension (honest, unresolved)
-
-Different criteria pick different models:
-
-| criterion | picks | typical #groups |
-|---|---|---|
-| matches cell types | **lognormal** | ~190 |
-| node-level statistics | **lognormal** | — |
-| description length (compression) | exponential / geometric | ~570 |
-| recovers the eye map | Poisson | ~1,470 |
-
-The one variable that orders all of them is **resolution**: the weight assumption controls how
-finely the SBM divides the brain, and different biological structures live at different scales —
-cell-type families at ~190 groups, the eye's map at ~1,470. Compression optimises something in
-between and matches neither.
-
-We cannot yet say whether this is a fact about the weight models or purely about resolution.
+- **Hierarchical (nested) grouping now works** — 80 fits, 72 clean. Example hierarchy:
+  4,795 → 1,320 → 681 → 416 → 118 → 44 → 19 groups. A single hierarchical fit therefore spans
+  *both* biological scales at once.
+- **Except with lognormal**, which never converges on the full brain (a week without finishing).
+  It works on smaller pieces, so this is a scale limit, not a bug.
+- **The "≥1 synapse" dataset does not exist** in the standard release — it is pre-filtered at ≥5.
+  Sub-5 connections are considered unreliable by the data producers, so ≥5 is the honest setting.
+- **Newer versions of the grouping software cannot run on the lab server** (they require a newer
+  Linux). This is why hierarchies had to be run the way they were.
 
 ---
 
-## Bottom line for discussion
+## Bottom line
 
-- **Strong and stable:** lognormal is the best description of the connectome's node statistics
-  and the best match to cell types, by every measure including chance-corrected ones.
-- **Strong and clean:** the method subdivides cell types only in systems with real spatial maps,
-  never in randomly-wired ones, and recovers the eye's axes when resolution allows.
-- **Open:** whether label-free model selection agrees with biology. Current evidence says it
-  does not, but model and resolution are still confounded.
+- **Lognormal is the best description of the connectome's neuron-level statistics, and the best
+  match to biological cell types — including under chance-corrected measures.**
+- **The method subdivides cell types only where biology has a spatial map, and never in
+  randomly-wired neurons.**
+- **The eye's map is recoverable from wiring alone, but only at fine resolution.**
+- **Label-free compression does not select the model that matches biology.** It prefers a
+  resolution between the two scales where biology actually lives.
