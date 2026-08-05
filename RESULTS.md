@@ -529,3 +529,167 @@ untested candidate: the families differ only in how spread scales with the mean 
 var=mean, geometric locks the ratio, gaussian wants constant absolute spread, lognormal leaves
 the ratio free), so measuring spread-vs-mean across cell-type-pair bundles would discriminate.
 Nothing in the results above depends on it.
+
+---
+
+## 2026-08-05 (evening) — Five follow-ups from the original brief
+
+Run in parallel, each with a required permutation null (every measure here is inflated by block
+count, and the models differ ~8x in it). Scripts: `src/t9_nested_hierarchy.py`,
+`src/t10_block_conditioned.py`, `src/t11_conditional_mi.py`, `src/t12_mirror_symmetry.py`,
+`src/t13_recovery_by_size.py`.
+
+### T11 — Factorization, not refinement (CORE RESULT)
+
+Conditional MI I(block ; position | cell type), published hex coordinates pooled into 6x6
+super-columns, null = 50 within-type block shuffles (preserves block sizes, type composition,
+position marginals). 31 types per hemisphere with >=20 columned neurons.
+
+| model | CMI obs | CMI null | excess | excess / H(pos\|type) | types with excess>0.05 |
+|---|---|---|---|---|---|
+| exponential | 2.008 | 0.459 | **1.549** | 0.475 | 31/31 |
+| geometric | 1.998 | 0.455 | **1.543** | 0.474 | 31/31 |
+| gaussian | 1.481 | 0.178 | 1.303 | 0.400 | 31/31 |
+| poisson | 1.289 | 0.197 | 1.091 | 0.335 | 31/31 |
+| lognormal | 0.035 | 0.025 | **0.009** | 0.003 | 1/31 L, 0/31 R |
+
+**Within a single cell type**, geometric blocks resolve ~47% of the remaining positional
+entropy, 3.4x above their own null, in every type and both hemispheres. Lognormal: 0.3%.
+Ordering invariant at lattice resolutions d=2/4/6/8/12.
+
+Enabling fact: **I(type; position) = 0.006 nats** (H(pos)=3.264, H(pos|type)=3.258) — every
+columnar type tiles the whole eye, so identity carries no position information and conditioning
+costs the spatial models nothing (CMI/MI = 1.014 for geometric).
+
+DEGENERACY FOUND: raw `column_id` is unique per (hemisphere, primary_type, column) — 45,528 of
+45,528 — so I(B;C|T) = H(B|T) for ANY partition and the null equals it exactly. Must pool the
+hex lattice into super-columns; the raw-column row is an audit artefact, not a result.
+
+### T12 — The recovered map respects mirror symmetry (CORE RESULT)
+
+Block centroids in (p,q) per hemisphere, Hungarian matching, 8 candidate transforms, null =
+20+ within-hemisphere block-id shuffles.
+
+**Coordinate convention established independently of the SBM** by regressing FlyWire 3D
+centroids on (p,q) per hemisphere: mirror-invariant axes agree (dY/dp left -4615 vs right -4559;
+dZ/dq left +4445 vs right +4320) while the medio-lateral axis flips (dX/dq left -3787 vs right
++4128). Implied right->left map ||A-I|| = 0.117 vs ||A-S|| = 1.97. **The published file is
+already in a mirrored, eye-centric frame — homologous columns carry the SAME (p,q), so identity
+is the anatomically correct correspondence, and its winning is expected rather than trivial.**
+
+| model | winning transform | obs residual | null | obs/null |
+|---|---|---|---|---|
+| geometric | identity 4/5 seeds | **1.750** | 8.985 | 0.195 |
+| exponential | identity 4/5 | 1.803 | 9.047 | 0.199 |
+| poisson | swapneg 3/5 (tie with identity) | 2.002 | 8.070 | 0.25 |
+| gaussian | identity 3/5 | 2.537 | 8.852 | 0.29 |
+| lognormal | none consistent | 1.105 | 1.243 | **0.89 (chance)** |
+
+Null sd 0.05-0.15, so the four spatial models sit 60-130 sd below their nulls, all 25 draws,
+every seed. Geometric is the only model where identity wins on BOTH statistics in 5/5 seeds.
+
+Caveat: the four DV-preserving transforms all score 1.75-2.0 and the four DV<->AP-swapping ones
+5.1-5.4, but most of that gap is cloud SHAPE ((p,q) is elongated along p=q). Within the
+shape-preserving four, identity leads only modestly.
+
+Lognormal's blocks are mostly bilateral (19-29 of ~30 span both hemispheres) so its centroids
+collapse to the field centre — which is exactly why the null is mandatory here.
+
+### T10 — Why lognormal wins: the free dispersion ratio
+
+Bundles = ordered block pairs with >=30 weights (4,627 bundles / 3.69M edges on the lognormal
+partition; 15,139 / 3.45M on the geometric one). All families scored as distributions on
+integers >=5 via `[F(k+.5)-F(k-.5)]/(1-F(4.5))`, MLE on that same likelihood, KS against that
+step CDF — so every family sits on identical footing and the usual discrete-vs-smooth KS
+objection does not apply. (Verified: the discretised exponential IS the truncated geometric,
+max |dKS| = 2e-8.)
+
+Absolute adequacy — % of bundles REJECTED at KS > 1.36/sqrt(n), unweighted / size-weighted:
+
+| family | rejected |
+|---|---|
+| weibull | 4.5 / 1.3 |
+| **lognormal** | **10.1 / 4.3** |
+| gamma | 25.1 / 12.1 |
+| geometric = exponential | 45.6 / 32.9 |
+| poisson | 76.8 / 78.6 |
+
+**The mechanism.** The truncated geometric locks var = (m-4)(m-5) exactly. Observed
+var_obs/var_geom at n>=1000: median 1.165, 5-95% [0.454, 3.901] — an 8.6x spread, only 26.4%
+within [0.8, 1.25]. Fitted per-bundle sigma median 0.771, 5-95% [0.391, 1.688], i.e. implied
+CV 0.41-4.04. **The dispersion ratio is genuinely free, not sampling noise.** That is why
+Poisson (var locked to mean) and geometric (ratio locked to 1) fail structurally, and why
+Poisson fragments into ~1,470 blocks: splitting is its only way to fake dispersion it cannot
+express.
+
+Free dispersion is NECESSARY BUT NOT SUFFICIENT: gaussian has a fully free ratio and still
+loses decisively (held-out 6/6 splits, cell-type AMI 0.594 vs 0.736), and gamma is rejected
+2.5x more often. The log scale does real work on top of the free ratio.
+
+The log(var)~log(mean) slope is NOT usable as a discriminator: unstable across the weight floor
+(3.938 all bundles, 2.575 at mean>=10, 1.488 at mean>=20) and straddles the geometric null. It
+excludes Poisson and gaussian but does not separate lognormal from geometric. Use the locked-
+ratio test above instead.
+
+SCOPE: weibull is fit POST-HOC to bundles from another model's partition; it is not available as
+a graph-tool weight likelihood and never produced a partition. The defensible claim is
+"best-fitting among the weight models the SBM can use", with a testable prediction that a
+gamma/weibull weight SBM would land in the same region.
+
+### T13 — Recovery vs cell-type size (scope limit on the cell-type claim)
+
+Per-type Dice against best-matching block, bins declared in advance {2-3, 4-7, 8-15, 16-31,
+32+} neurons per hemisphere, null = 20 block-label shuffles preserving block sizes. Types per
+bin per hemisphere: 2651 / 680 / 181 / 120 / 205.
+
+Null-corrected excess (obs - null) / ratio (obs / null):
+
+| bin | lognormal | gaussian | geometric | exponential | poisson |
+|---|---|---|---|---|---|
+| 2-3 | .012 / 2.4 | .021 / 2.2 | .024 / 2.4 | .025 / 2.4 | .090 / 2.6 |
+| 4-7 | .022 / 2.7 | .042 / 2.7 | .047 / 2.9 | .049 / 2.9 | .095 / 2.2 |
+| 8-15 | .056 / 4.2 | .118 / 4.7 | .105 / 4.3 | .108 / 4.3 | .179 / 3.2 |
+| 16-31 | .103 / 6.0 | .147 / 5.4 | .118 / 4.5 | .126 / 4.7 | .224 / 4.4 |
+| 32+ | **.365 / 19.6** | .241 / 11.3 | .190 / 9.2 | .187 / 9.1 | .354 / 13.4 |
+
+**Below 8 neurons/hemisphere all five models are statistically indistinguishable** (2.2-2.9x
+chance). Lognormal is the WORST model below 16 and only dominates from 32+ (spread there is
+8-16x the seed/side SD). Poisson's raw edge at small sizes is its 1,470 blocks: its excess is
+higher but its ratio is not, so no claim survives both corrections.
+
+**The failure mode is MERGING, not fragmentation**: recall stays .85-.91 while purity is
+.01-.05, i.e. small types sit intact inside a much larger block. So "a 190-block model shreds
+cell types" is wrong; it absorbs them.
+
+Honest framing for the paper: the cell-type signal is real and model-dependent only for types
+with >=32 neurons per hemisphere.
+
+### T9 — SBM hierarchy levels vs biological levels (adjacent, not evidence for the thesis)
+
+Nested fits, AMI vs each label level (per-hemisphere label counts: super_class 10, class 29,
+sub_class 115, primary_type ~8,640). Winner by block count across all 18 runs x levels:
+>300 blocks -> primary_type 31/31; 100-300 -> sub_class 14 / primary 8; 30-100 -> sub_class 16 /
+class 11; 10-30 -> class 12 / super_class 8; 3-10 -> class 15 / super_class 7.
+
+**Every model walks the same ladder monotonically: primary_type -> sub_class -> class as you
+climb.** Homogeneity vs primary_type falls (.62 -> .13) while completeness rises (.64 -> .92),
+which is what a real hierarchy looks like — coarse levels MERGE types rather than shred them.
+This defuses "your ~190 blocks are not cell types": that scale is one rung, not the answer.
+
+NOT evidence for the weight-model thesis — all four models behave identically, so this is about
+RESOLUTION, not about the likelihood. Discussion-section material.
+
+Limits: peak AMI per level is only .44-.66 (the claim is the ORDERING, not tight agreement);
+super_class never wins cleanly; poisson has 3/5 seeds; and **no lognormal nested run exists**, so
+the headline model is untested here.
+
+### TWO INTEGRITY ISSUES FOUND
+
+1. **The saved `level_*` arrays in `nested_results/` are CORRUPT.** Block counts contradict the
+   JSON `levels`, the arrays are not nested, and AMI(level_0, true level 0) ~ 0 in 17/18 runs.
+   T9 rebuilt every level from the raw `bs_*` tree and verified counts against the JSON plus
+   strict nesting in all 18. **Any analysis using `level_*` directly is invalid.** No committed
+   analysis used them (all prior work used flat partitions), but `nested_sweep.py` needs fixing
+   before those runs are reused.
+2. Nested coverage is incomplete: exponential / gaussian / geometric / poisson only, `dc_dir`
+   only, and poisson lost seeds s0 and s2.
