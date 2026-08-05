@@ -26,6 +26,9 @@ position. A geometric likelihood recovers retinotopic position — including its
 from identity and its mirror symmetry — and is markedly worse on identity. This is not a
 resolution effect; it survives matching the models at equal block count.
 
+**The paper has exactly two claims: §2 and §3.** §4 is a mechanism note supporting them, not a
+third claim; §7 is a relation to prior work, not a claim.
+
 Setting throughout: FlyWire codex v783, w>=5, directed, degree-corrected, 5 seeds, per
 hemisphere. `t5_dir_dc` in the file naming.
 
@@ -174,13 +177,19 @@ The four spatial models sit 60-130 sd below their nulls, in every seed and every
 
 ---
 
-## 4. Claim 3 — why: the dispersion ratio must be free
+## 4. Mechanism note (supporting §2-§3, NOT a third claim)
 
 `src/t10_block_conditioned.py`
 
-Everything above is about partitions. This is about the likelihood itself, and it is the audit
-the original brief asked for first: the relevant object is not the pooled weight histogram but
-**the weight distribution conditional on a block pair**.
+**Standing of this section.** The paper has two claims: §2 and §3. What follows is a single
+analysis, run late, that offers a partial explanation for *why* the losing likelihoods lose. It
+does not identify lognormal uniquely (see the scope note below) and it is not independently
+established the way §2 and §3 are. It belongs in a discussion paragraph, at most a short
+subsection. **Do not present it as a result of equal standing, and do not let it into the
+abstract.**
+
+It is included because it is the audit the original brief asked for first: the relevant object
+is not the pooled weight histogram but **the weight distribution conditional on a block pair**.
 
 All families scored as distributions on integers >=5 on identical footing (same truncated
 discretised likelihood, MLE on it, KS against that step CDF), so the usual discrete-vs-continuous
