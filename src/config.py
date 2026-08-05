@@ -25,6 +25,10 @@ REPO_DIR = Path(__file__).resolve().parent.parent          # code + PLAN.md + RE
 # machine and monitored from another, since /var/tmp is per-machine.
 import os
 WORK_DIR = Path(os.environ.get("CSBM_WORK", "/var/tmp/csbm_work"))
+# Downloaded/derived intermediates for the analysis scripts (hex coordinates, annotation
+# dumps, per-neuron rho). Small; kept out of the repo and out of WORK_DIR so a stale one
+# can be deleted without touching fitted states.
+SCRATCH_DIR = Path(os.environ.get("CSBM_SCRATCH", WORK_DIR / "scratch"))
 
 # --- label hierarchy (coarse -> fine), evaluation-only, withheld from fitting ---
 LABEL_LEVELS = ["super_class", "class", "sub_class", "primary_type"]
@@ -36,3 +40,4 @@ DEFAULT_DIRECTED = True
 SEEDS = [0, 1, 2, 3, 4, 5, 6, 7]
 
 WORK_DIR.mkdir(parents=True, exist_ok=True)
+SCRATCH_DIR.mkdir(parents=True, exist_ok=True)

@@ -371,3 +371,161 @@ lognormal natural (191) / forced fine (1200-1700); poisson forced coarse (150-25
 (1470); outcome = number of optic types with strong DV/AP alignment. Note the coarse-lognormal
 DV/AP figure currently on record came from the OLD pilot partition, so that cell needs
 re-scanning on the batch partition for the 2x2 to be internally consistent.
+
+---
+
+## 2026-08-05 — Which structure does each weight model recover?
+
+All runs below: threshold >=5, directed, degree-corrected, 5 seeds, per hemisphere.
+Scripts: `src/spatial_vs_identity.py`, `src/t7_which_structure.py`,
+`src/t7b_hemilineage_threshold.py`, `src/t8_symmetry_labelfree.py`.
+
+### Retinotopy, on PUBLISHED coordinates (not skeleton centroids)
+
+FlyWire column assignment (Matsliah et al. 2024) downloaded from
+`storage.googleapis.com/flywire-data/codex/data/fafb/783/column_assignment.csv.gz`
+— 45,528 neurons, **100% root-id overlap with our graph** (version-consistent).
+
+`spatial_vs_identity.py --coords hex`, both ratios divided by a permutation null that preserves
+block sizes exactly, so neither can be faked by block count:
+
+| model | blocks | spatial (1=chance) | identity (1=chance) |
+|---|---|---|---|
+| geometric | 112 | **0.297** | **0.273** |
+| gaussian | 103 | 0.427 | 0.143 |
+| poisson | 222 | 0.505 | 0.152 |
+| lognormal | 40 | **0.999** | 0.170 |
+
+Geometric blocks are the tightest in space AND the most type-mixed: several cell types at one
+eye position, i.e. columns. Lognormal is exactly at chance on position.
+
+**Matched-resolution control:** gaussian 103 blocks vs geometric 112 — same resolution, yet
+geometric is far more spatial (0.297 vs 0.427). The effect is the weight distribution, not B.
+
+### Every labeling vs every model (AMI, chance-corrected)
+
+| labeling | lognormal | gaussian | geometric | exponential | poisson | winner |
+|---|---|---|---|---|---|---|
+| cell type | **0.736** | 0.594 | 0.462 | 0.462 | 0.662 | lognormal |
+| neuropil | **0.541** | 0.468 | 0.448 | 0.448 | 0.395 | lognormal |
+| neurotransmitter | **0.188** | 0.134 | 0.102 | 0.102 | 0.132 | lognormal |
+| hemilineage (ito-lee) | 0.502 | 0.514 | 0.509 | 0.508 | 0.380 | tie |
+| hemilineage (hartenstein) | 0.481 | 0.495 | 0.493 | 0.492 | 0.355 | tie |
+| retinotopic column | **-0.076** | 0.153 | 0.318 | **0.319** | 0.047 | geometric/exponential |
+
+Lognormal is **below chance** on retinotopy (-0.076) — not merely worse, anti-correlated.
+Geometric and exponential agree to 3 decimals throughout (consistency check: same distribution,
+discrete vs continuous).
+
+**No third structure exists in this data.** Neuropil / neurotransmitter / hemilineage all go to
+lognormal because none of them VARIES WITHIN A CELL TYPE — they are coarsenings of cell type,
+not independent axes. Retinotopy is the only labeling that varies within a type (every Mi1 sits
+at a different column), which is exactly why it dissociates. Hemilineage stays a 4-way tie at
+every minimum-class-size threshold (1..100, margins 0.001-0.006); restricted to the 10 largest
+lineages lognormal wins by 0.023 in BOTH annotation schemes, i.e. it is identity-like too.
+
+### Bilateral symmetry, label-free (only `side`, no cell types)
+
+13.1% of edges cross the midline, so splitting the brain by hemisphere is cheap but not free.
+
+| model | blocks | AMI(block, side) | neurons in two-sided blocks | minority share |
+|---|---|---|---|---|
+| **lognormal** | 191 | **0.053** | **80%** | 0.38 |
+| poisson | 1470 | 0.141 | 20% | 0.09 |
+| gaussian | 561 | 0.164 | 17% | 0.09 |
+| exponential | 578 | 0.164 | 14% | 0.08 |
+| geometric | 563 | 0.165 | 14% | 0.08 |
+
+Lognormal merges homologous groups across the midline; every other model splits down it.
+**This is not a third leg** — homologs are the same cell type, so this is the cell-type result
+established WITHOUT the annotation, which answers the circularity objection.
+
+Not run: separate per-hemisphere fits (PLAN RQ-C / E3). Not needed for the comparative claim
+above (all models saw identical data); would upgrade it to independent replication.
+
+---
+
+## 2026-08-05 — Held-out prediction, final (E2b complete)
+
+282/288 cells scored. Full method + caveats: `docs_heldout_prediction.md` (written for external
+review; four rounds of corrections folded in).
+
+Canonical (directed + DC), **unit = the 6 unique held-out splits**, seeds averaged within a
+split first (seeds are re-inferences of the same split, not replicates):
+
+| family | nats/held-out edge | spread across splits |
+|---|---|---|
+| **lognormal** | **-2.849** | 0.003 |
+| gaussian | -2.932 | 0.005 |
+| geometric | -3.015 | 0.004 |
+| poisson | -6.134 | 0.073 |
+
+Paired on identical held-out edges: lognormal beats gaussian by +0.083 and geometric by +0.166,
+in 6/6 splits. SD/SEM are DESCRIPTIVE — the six splits resample one graph and any two training
+sets share ~90% of edges, so no significance is implied.
+
+Lognormal wins the two DEGREE-CORRECTED combinations only; **gaussian wins both non-DC ones**
+(dir+ndc -2.889, und+ndc -3.044). Undirected rows are computed on the 5 splits every family
+completed.
+
+**Fitted weight parameters** (`d x locally-fitted pairs + d`; fallback pairs share ONE global
+fit, so counting occupied pairs overstates by up to 14x):
+
+| family | blocks | occupied pairs | locally fitted | fitted params |
+|---|---|---|---|---|
+| **lognormal** | 182 | 11,799 | 5,905 | **11,811** |
+| geometric | 533 | 48,968 | 23,694 | 23,695 |
+| gaussian | 610 | 53,315 | 18,992 | 37,985 |
+| poisson | 1,531 | 590,963 | 41,421 | 41,422 |
+
+Lognormal predicts best while fitting 2-3.5x fewer weight parameters.
+
+**6 failed cells are non-random**: all gaussian / undirected / random / fold 2, every seed, both
+DC settings, deterministic across retries. Those two gaussian numbers are optimistic.
+
+## 2026-08-05 — Piazza et al. (bioRxiv 2025.02.27.640551) re-analysis
+
+Scripts: `src/t1_mixture_test.py`, `src/t4_closure_test.py`, `src/t5_regime_split.py`,
+`src/t6_edge_level.py`.
+
+**T6 (edge level).** Their procedure — MLE fit, ranked by KS — run on edge weights instead of
+node strength/degree. Lognormal ranks **1st in every regime** (all edges 0.155; map 0.139;
+non-optic 0.146; optic-rest 0.165); geometric is near-worst (0.259-0.393). Rescaling collapse
+0.172 on the log scale vs 0.249 raw. So their criterion and our held-out criterion AGREE on edge
+weights — two independent justifications for lognormal.
+DATA BUG FOUND: `connections_princeton` has ONE ROW PER (pre, post, NEUROPIL). Rows go down to
+1 synapse; EDGES do not. Summing over neuropils gives 3,732,460 edges, all w>=5, confirming
+PLAN's >=5 floor. The first T6 run treated 5.34M rows as edges and gave the opposite answer.
+
+**T1 (is lognormality a mixture effect?).** At MATCHED n — each group vs a random pooled
+subsample of identical size, so both carry the same KS noise floor — conditioning makes the fit
+WORSE: strength S by type 0.109 vs 0.069 pooled (group worse in 80% of 236 types); by block
+0.100 vs 0.055 (83%); degree k by type 0.123 vs 0.071 (88%); by block 0.111 vs 0.058 (80%).
+Pooled data is closer to lognormal than homogeneous groups are. Their Galton-Watson derivation
+acts per neuron and should survive conditioning; it does not.
+Note: the naive KS RATIO suggests the opposite (21.8 pooled -> 2.2 by type) but it grows like
+sqrt(n) for fixed shape deviation — corr(log n, ratio) = +0.5..+0.8. Only matched-n is valid.
+
+**T4 (do their closure identities hold within groups?).** rho measured INDEPENDENTLY from
+synapse positions (102.7M synapses scanned, 10um radius, their SI 3.2) for 59,010 neurons —
+defining rho := S/L would make the identities vacuous.
+
+| level | corr(log S, log rho + log L) | sigma predicted / observed |
+|---|---|---|
+| pooled | 0.904 | 1.014 |
+| by cell type (330) | 0.897 | 1.023 |
+| by SBM block (152) | 0.905 | 1.015 |
+
+Their PHYSICAL law (Eq. 1 and the Eq. 4 variance closure) holds within every group. Eq. 3 as
+literally written cannot be tested — S ~ rho*L is a proportionality and L is in nm, so the
+`mu_err ~ 12.58` offset is the unit constant (near-identical at all three levels).
+
+**Net:** their physical constraint is solid and local; the lognormal SHAPE is an aggregate
+property. T5 (splitting neurons into map / optic-rest / non-optic regimes) found no two-law
+story — lognormal wins strength and degree in every regime.
+
+**OPEN — no validated mechanism** for WHY a lognormal weight model recovers cell type. The one
+untested candidate: the families differ only in how spread scales with the mean (Poisson locks
+var=mean, geometric locks the ratio, gaussian wants constant absolute spread, lognormal leaves
+the ratio free), so measuring spread-vs-mean across cell-type-pair bundles would discriminate.
+Nothing in the results above depends on it.
